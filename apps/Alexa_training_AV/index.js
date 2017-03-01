@@ -43,6 +43,24 @@ app.intent('wirless',
 );
 
 
+app.intent("name", {
+    "slots": {
+      "NAME": "AMAZON.US_FIRST_NAME",
+      
+    },
+    "utterances": [
+      "my name is {NAME} "
+    ]
+  },
+  function(request, response) {
+  	var nameToRepeat= request.slot('NAME')
+  	response.say(' Hello  '+nameToRepeat+ " do you want to be my freind")
+
+
+   }
+);
+
+
 
 
 
