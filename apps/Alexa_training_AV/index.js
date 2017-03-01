@@ -45,15 +45,15 @@ app.intent('wirless',
 
 app.intent("name", {
     "slots": {
-      "NAME": "AMAZON.US_FIRST_NAME",
+      "NAMED": "AMAZON.US_FIRST_NAME",
       
     },
     "utterances": [
-      "my name is {NAME} "
+      "my name is {NAMED} "
     ]
   },
   function(request, response) {
-  	var nameToRepeat= request.slot('NAME')
+  	var nameToRepeat= request.slot('NAMED')
   	console.log('na',nameToRepeat)
   	response.say("Hello  "+nameToRepeat+ " do you want to be my freind")
 
