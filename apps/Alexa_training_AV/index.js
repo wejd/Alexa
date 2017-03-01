@@ -6,7 +6,7 @@ var app = new alexa.app( 'Alexa_training_AV' );
 
 
 app.launch( function( request, response ) {
-	response.say( 'Welcome to your test skill' ).reprompt( 'Way to go. You got it to run. Bad ass.' ).shouldEndSession( false );
+	response.say( 'Welcome to your test skill' ).reprompt( 'Wejd.' ).shouldEndSession( false );
 } );
 
 
@@ -20,13 +20,25 @@ app.error = function( exception, request, response ) {
 
 app.intent('avempace',
   {"utterances":[ 
-		"bob",
-		"where is bob"]
+		"start recording",
+		]
 		
   },
   function(request,response) {
     
-    response.say("You sill working !!! ");
+    response.say("recording started!!! ");
+  }
+);
+
+app.intent('wirless',
+  {"utterances":[ 
+		"stop recording",
+		]
+		
+  },
+  function(request,response) {
+    
+    response.say("recording stopped!!! ");
   }
 );
 
