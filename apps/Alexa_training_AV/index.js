@@ -4,10 +4,10 @@ module.change_code = 1;
 var alexa = require( 'alexa-app' );
 var app = new alexa.app( 'Alexa_training_AV' );
 
-/*
+
 app.launch( function( request, response ) {
-	response.say( 'Welcome to your test skill' ).reprompt( 'Wejd.' ).shouldEndSession( false );
-} );*/
+	response.say( 'Welcome to avempace test skill' ).shouldEndSession( false );
+} );
 
 
 app.error = function( exception, request, response ) {
