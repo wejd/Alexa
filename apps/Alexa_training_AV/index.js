@@ -54,7 +54,8 @@ app.intent("name", {
   },
   function(request, response) {
   	var nameToRepeat= request.slot('NAME')
-  	response.say(' Hello  '+nameToRepeat+ " do you want to be my freind")
+  	console.log('na',nameToRepeat)
+  	response.say("Hello  "+nameToRepeat+ " do you want to be my freind")
 
 
    }
