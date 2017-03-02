@@ -57,22 +57,95 @@ app.intent("name", {
   },
   function(request, response) {
   	var nameToRepeat= request.slot('NAMED')
+    
   	
   
     val=0
-        
 
-    req.post({url:'http://localhost:5000', form:{key:nameToRepeat}},
+
+   myfnToCallWebServic(nameToRepeat,function(){
+         console.log(val)
+        
+         return val
+
+   
+
+     })
+      
+       say2(response,nameToRepeat,function(r){
+        
+        console.log('inside say function found')
+     
+        
+     
+    })  
+  
+
+   
+
+
+
+});
+
+function say2(response,nameToRepeat,callback){
+response.say('i am know looking for your device in the cloud')
+  response.say('Please wait')
+  console.log("*******",val)
+  if (val ==1){
+     callback( response.say(nameToRepeat+ " Speaker linked"));
+      }
+      else  {
+        callback(response.say(nameToRepeat+ " Speaker Not Found please check if the Speaker is connected"));
+    
+    }
+   
+
+}
+
+function say(response,nameToRepeat,callback){
+
+  req.post({url:'http://localhost:5000', form:{key:nameToRepeat}},
    function(error, res, body) {
    if (!error && res.statusCode == 200) {
-    
+      console.log(body)
     if (body=='found'){
-      val=1
+      console.log('found')
+     
+     callback("found");
+      
       
  
        
     }else {
-        val =0
+      console.log('not found')
+      
+      callback('not found')
+
+     
+    }
+    
+  }
+          
+          });
+
+}
+
+function myfnToCallWebServic(nameToRepeat,callback){
+
+    req.post({url:'http://localhost:5000', form:{key:nameToRepeat}},
+   function(error, res, body) {
+   if (!error && res.statusCode == 200) {
+      console.log(body)
+    if (body=='found'){
+      console.log('found')
+     
+      callback(val=1)
+      
+ 
+       
+    }else {
+      console.log('not found')
+        callback(val =0)
       
 
 
@@ -83,22 +156,7 @@ app.intent("name", {
           
           });
 
-
-
- 
-
-if (val =1){
-  response.say(nameToRepeat+ " Speaker linked");}
-  else  {
-   response.say(nameToRepeat+ " Speaker Not Found please check if the Speaker is connected");
-  }
-
-
-
-
-
-
-});
+}
 
 
 
