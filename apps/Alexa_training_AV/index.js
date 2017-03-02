@@ -39,8 +39,8 @@ app.intent('wirless',
   },
   function(request,response) {
     
-    //response.say("recording stopped!!! ");
-    response.audioPlayerPlayStream('http://radio.mosaiquefm.net:8000/mosalive')
+    response.say("recording stopped!!! ");
+    //response.audioPlayerPlayStream('http://radio.mosaiquefm.net:8000/mosalive')
   }
 );
 
