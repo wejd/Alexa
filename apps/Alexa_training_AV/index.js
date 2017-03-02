@@ -3,6 +3,7 @@ module.change_code = 1;
 
 var alexa = require( 'alexa-app' );
 var app = new alexa.app( 'Alexa_training_AV' );
+var req= require('request')
 
 
 app.launch( function( request, response ) {
@@ -57,7 +58,39 @@ app.intent("name", {
   function(request, response) {
   	var nameToRepeat= request.slot('NAMED')
   	console.log('na',nameToRepeat)
-    response.say("Hello  "+nameToRepeat+ " do you want to be my freind")
+
+/*
+    req({
+  uri: "http://localhost:5000/",
+  method: "GET",
+  timeout: 10000,
+  followRedirect: true,
+  maxRedirects: 10,
+
+}, function(error, res, body) {
+   if (!error && res.statusCode == 200) {
+    console.log(body) // Show the HTML for the Google homepage. 
+  }
+          
+          });*/
+
+    req.post({url:'vps341573.ovh.net:5050', form:{key:nameToRepeat}},
+   function(error, res, body) {
+   if (!error && res.statusCode == 200) {
+    if (body=='found'){
+       response.say(nameToRepeat+ " Speaker linked")
+    }else {
+
+      response.say(nameToRepeat+ " Speaker Not Found please check if the Speaker is connected")
+    }
+    
+  }
+          
+          });
+
+
+
+   
   	
 
 
