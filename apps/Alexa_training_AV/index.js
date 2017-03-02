@@ -6,6 +6,7 @@ var app = new alexa.app( 'Alexa_training_AV' );
 
 
 app.launch( function( request, response ) {
+  console.log('this is the request', request.data.session.user)
 	response.say( 'Welcome to avempace test skill please tell me what should i do' ).reprompt('sorry repeat again !').shouldEndSession( false );
 } );
 
@@ -38,7 +39,8 @@ app.intent('wirless',
   },
   function(request,response) {
     
-    response.say("recording stopped!!! ");
+    //response.say("recording stopped!!! ");
+    response.audioPlayerPlayStream('http://radio.mosaiquefm.net:8000/mosalive')
   }
 );
 
@@ -55,7 +57,8 @@ app.intent("name", {
   function(request, response) {
   	var nameToRepeat= request.slot('NAMED')
   	console.log('na',nameToRepeat)
-  	response.say("Hello  "+nameToRepeat+ " do you want to be my freind")
+    response.say("Hello  "+nameToRepeat+ " do you want to be my freind")
+  	
 
 
    }
