@@ -52,36 +52,31 @@ app.intent("name", {
       
     },
     "utterances": [
-      "my name is {NAMED} "
+      "link to Speaker {NAMED} "
     ]
   },
   function(request, response) {
   	var nameToRepeat= request.slot('NAMED')
-  	console.log('na',nameToRepeat)
+  	
+  
+    val=0
+        
 
-/*
-    req({
-  uri: "http://localhost:5000/",
-  method: "GET",
-  timeout: 10000,
-  followRedirect: true,
-  maxRedirects: 10,
-
-}, function(error, res, body) {
-   if (!error && res.statusCode == 200) {
-    console.log(body) // Show the HTML for the Google homepage. 
-  }
-          
-          });*/
-
-    req.post({url:'vps341573.ovh.net:5050', form:{key:nameToRepeat}},
+    req.post({url:'http://localhost:5000', form:{key:nameToRepeat}},
    function(error, res, body) {
    if (!error && res.statusCode == 200) {
+    
     if (body=='found'){
-       response.say(nameToRepeat+ " Speaker linked")
+      val=1
+      
+ 
+       
     }else {
+        val =0
+      
 
-      response.say(nameToRepeat+ " Speaker Not Found please check if the Speaker is connected")
+
+     
     }
     
   }
@@ -90,12 +85,20 @@ app.intent("name", {
 
 
 
-   
-  	
+ 
+
+if (val =1){
+  response.say(nameToRepeat+ " Speaker linked");}
+  else  {
+   response.say(nameToRepeat+ " Speaker Not Found please check if the Speaker is connected");
+  }
 
 
-   }
-);
+
+
+
+
+});
 
 
 
