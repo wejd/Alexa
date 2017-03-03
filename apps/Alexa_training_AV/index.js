@@ -63,7 +63,7 @@ app.intent("name", {
     
 
 
-req.post({url:'vps341573.ovh.net:5050', form:{key:nameToRepeat}},
+req.post({url:'http://vps341573.ovh.net:5050', form:{key:nameToRepeat}},
    function(error, res, body) {
    if (!error && res.statusCode == 200) {
       console.log(body)
@@ -71,6 +71,7 @@ req.post({url:'vps341573.ovh.net:5050', form:{key:nameToRepeat}},
       console.log('found')
      
       response.say('founded')
+      response.send()
       
       
  
@@ -78,6 +79,7 @@ req.post({url:'vps341573.ovh.net:5050', form:{key:nameToRepeat}},
     }else {
       console.log('not found')
           response.say('Not founded')
+          response.send()
      
       
       
