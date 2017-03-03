@@ -51,7 +51,7 @@ app.intent('wirless',
 
 app.intent("name", {
     "slots": {
-      "NAMED": "AMAZON.US_FIRST_NAME",
+      "NAMED": "AMAZON.LITERAL",
       
     },
     "utterances": [
@@ -72,19 +72,11 @@ req.post({url:'http://vps341573.ovh.net:5050', form:{key:nameToRepeat}},
      
       response.say('Speaker '+nameToRepeat+' linked you can know play musique')
       response.send()
-      
-      
- 
        
     }else {
       console.log('not found')
           response.say(name+ '  Not found please check if your speaker is correctly connected')
           response.send()
-     
-      
-      
-
-
      
     }
     
