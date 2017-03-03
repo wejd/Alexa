@@ -3,7 +3,10 @@ module.change_code = 1;
 
 var alexa = require( 'alexa-app' );
 var app = new alexa.app( 'Alexa_training_AV' );
-var req= require('request')
+var req= require('request-promise')
+var http=require('http')
+var asyncronus=require('async')
+
 
 
 app.launch( function( request, response ) {
@@ -46,6 +49,7 @@ app.intent('wirless',
 );
 
 
+
 app.intent("name", {
     "slots": {
       "NAMED": "AMAZON.US_FIRST_NAME",
@@ -58,8 +62,45 @@ app.intent("name", {
   function(request, response) {
   	var nameToRepeat= request.slot('NAMED')
     
-  	
-  
+   /* http.get("http://localhost:5000", function(res) {
+      console.log('called')
+        // This is async and will run after the http call returns
+        response.say("hello");
+        // Must call send to end the original request
+        response.send();
+    });*/
+
+
+req.post({url:'http://localhost:5000', form:{key:nameToRepeat}},
+   function(error, res, body) {
+   if (!error && res.statusCode == 200) {
+      console.log(body)
+    if (body=='found'){
+      console.log('found')
+     
+      response.say('founded')
+      response.send()
+      
+ 
+       
+    }else {
+      console.log('not found')
+          response.say('Not founded')
+      response.send()
+      
+      
+
+
+     
+    }
+    
+  }
+          
+          });
+
+
+  return false
+  /*
     val=0
 
 
@@ -70,16 +111,31 @@ app.intent("name", {
 
    
 
-     })
+     }).then(function() {
+      response.say('hello')
+      
+    });
+   
+   setTimeout(function(){console.log('delai taime')
+     say2(response,nameToRepeat,function(r){
+        
+        console.log('inside say function found')
+     
+       async response.send('hello')
+     
+    })  
+
+ },4000)
+   
       
        say2(response,nameToRepeat,function(r){
         
         console.log('inside say function found')
      
-        
+       
      
     })  
-  
+   */
 
    
 
