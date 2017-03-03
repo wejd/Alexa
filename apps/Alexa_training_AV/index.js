@@ -70,7 +70,7 @@ req.post({url:'http://vps341573.ovh.net:5050', form:{key:nameToRepeat}},
     if (body=='found'){
       console.log('found')
      
-      response.say('founded')
+      response.say('Speaker '+nameToRepeat+' linked you can know play musique')
       response.send()
       
       
@@ -78,7 +78,7 @@ req.post({url:'http://vps341573.ovh.net:5050', form:{key:nameToRepeat}},
        
     }else {
       console.log('not found')
-          response.say('Not founded')
+          response.say(name+ '  Not found please check if your speaker is correctly connected')
           response.send()
      
       
