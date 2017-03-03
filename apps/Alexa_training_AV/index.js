@@ -63,7 +63,7 @@ app.intent("name", {
     
 
 
-req.post({url:'http://localhost:5000', form:{key:nameToRepeat}},
+req.post({url:'vps341573.ovh.net:5050', form:{key:nameToRepeat}},
    function(error, res, body) {
    if (!error && res.statusCode == 200) {
       console.log(body)
