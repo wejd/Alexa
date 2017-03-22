@@ -52,7 +52,7 @@ app.intent('wirless',
       console.log(session.get('name'))
       var val=session.get('name')
     }
-    req.post({url:'http://vps341573.ovh.net:5050/playNext', form:{key:val}},
+    req.post({url:'http://vps341573.ovh.net:5050/playnext', form:{key:val}},
    function(error, res, body) {
     response.say("ok !!! "+val);
     response.send();
