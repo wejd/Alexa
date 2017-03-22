@@ -9,8 +9,13 @@ var req= require('request-promise')
 
 
 app.launch( function( request, response ) {
-  console.log('this is the request', request.data.session.user)
-	response.say( 'Welcome to avempace test skill please tell me what should i do' ).reprompt('sorry repeat again !').shouldEndSession( false );
+    req.get({url:'http://vps341573.ovh.net:5050',json:true}).then(function(result){
+      console.log(result)
+      response.say('the list of speaker are '+result.list +' please choose one ').reprompt('sorry repeat again !').shouldEndSession( false );
+      response.send()
+    })
+    return false
+	//response.say( 'Welcome to avempace test skill please tell me what should i do' ).reprompt('sorry repeat again !').shouldEndSession( false );
 } );
 
 
@@ -29,21 +34,31 @@ app.intent('avempace',
 		
   },
   function(request,response) {
-    
+    var session = request.getSession()
+    session.set('name', 'arpegio')
     response.say("recording started!!! ");
   }
 );
 
 app.intent('wirless',
   {"utterances":[ 
-		"stop recording",
+		"play next",
 		]
 		
   },
   function(request,response) {
-    
-    response.say("recording stopped!!! ");
-    //response.audioPlayerPlayStream('http://radio.mosaiquefm.net:8000/mosalive')
+    if(request.hasSession()){
+      var session = request.getSession()
+      console.log(session.get('name'))
+      var val=session.get('name')
+    }
+    req.post({url:'http://vps341573.ovh.net:5050', form:{key:val}},
+   function(error, res, body) {
+    response.say("ok !!! "+val);
+    response.send();
+
+      })
+  return false;  
   }
 );
 
@@ -60,7 +75,8 @@ app.intent("name", {
   },
   function(request, response) {
   	var nameToRepeat= request.slot('NAMED')
-    
+     var session = request.getSession()
+    session.set('name', nameToRepeat)
 
 
 req.post({url:'http://vps341573.ovh.net:5050', form:{key:nameToRepeat}},
@@ -70,12 +86,12 @@ req.post({url:'http://vps341573.ovh.net:5050', form:{key:nameToRepeat}},
     if (body=='found'){
       console.log('found')
      
-      response.say('Speaker '+nameToRepeat+' linked you can know play musique')
+      response.say('Speaker '+nameToRepeat+' linked you can know play musique. what do you want to do ?').shouldEndSession( false );
       response.send()
        
     }else {
       console.log('not found')
-          response.say(name+ '  Not found please check if your speaker is correctly connected')
+          response.say(name+ '  Player not found')
           response.send()
      
     }
