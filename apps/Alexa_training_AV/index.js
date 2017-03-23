@@ -9,13 +9,8 @@ var req= require('request-promise')
 
 
 app.launch( function( request, response ) {
-    req.get({url:'http://vps341573.ovh.net:5050',json:true}).then(function(result){
-      console.log(result)
-      response.say('the list of speaker are '+result.list +' please choose one ').reprompt('sorry repeat again !').shouldEndSession( false );
-      response.send()
-    })
-    return false
-	//response.say( 'Welcome to avempace test skill please tell me what should i do' ).reprompt('sorry repeat again !').shouldEndSession( false );
+    
+	response.say( 'Welcome to avempace  skill please tell me what should i do ?' ).reprompt('sorry repeat again !').shouldEndSession( false );
 } );
 
 
@@ -29,14 +24,17 @@ app.error = function( exception, request, response ) {
 
 app.intent('avempace',
   {"utterances":[ 
-		"start recording",
+		"search speakers",
 		]
 		
   },
   function(request,response) {
-    var session = request.getSession()
-    session.set('name', 'arpegio')
-    response.say("recording started!!! ");
+     req.get({url:'http://vps341573.ovh.net:5050',json:true}).then(function(result){
+          console.log(result)
+          response.say('the list of speaker are '+result.list +' please choose one ').reprompt('sorry repeat again !').shouldEndSession( false );
+          response.send()
+        })
+        return false
   }
 );
 
