@@ -52,7 +52,7 @@ app.intent('wirless',
     }
     req.post({url:'http://vps341573.ovh.net:5050/playnext', form:{key:val}},
    function(error, res, body) {
-    response.say("ok !!! "+val);
+    response.say("ok !!! "+val).shouldEndSession( false );;
     response.send();
 
       })
