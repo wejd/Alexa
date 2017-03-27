@@ -117,18 +117,23 @@ app.intent('play',
 );
 
 app.intent('increase',
-  {"utterances":[ 
-    "increase volume",
+  {
+    "slots": {
+      "number": "AMAZON.NUMBER",
+      
+    },"utterances":[ 
+    "increase volume by  {number}",
     ]
     
   },
   function(request,response) {
+    var valueToIncrease= request.slot('number')
     if(request.hasSession()){
       var session = request.getSession()
       console.log(session.get('name'))
       var val=session.get('name')
     }
-    req.post({url:'http://vps341573.ovh.net:5050/increasevolume', form:{key:val}},
+    req.post({url:'http://vps341573.ovh.net:5050/increasevolume', form:{key:val,nb:valueToIncrease}},
    function(error, res, body) {
     response.say("ok !!! ");
     response.send();
@@ -139,18 +144,23 @@ app.intent('increase',
 );
 
 app.intent('decrease',
-  {"utterances":[ 
-    "decrease volume",
+  {
+    "slots": {
+      "number": "AMAZON.NUMBER",
+      
+    },"utterances":[ 
+    "decrease volume by {number}",
     ]
     
   },
   function(request,response) {
+    var valueToDecrease= request.slot('number')
     if(request.hasSession()){
       var session = request.getSession()
       console.log(session.get('name'))
       var val=session.get('name')
     }
-    req.post({url:'http://vps341573.ovh.net:5050/decreasevolume', form:{key:val}},
+    req.post({url:'http://vps341573.ovh.net:5050/decreasevolume', form:{key:val,nb:valueToDecrease}},
    function(error, res, body) {
     response.say("ok !!! ");
     response.send();
