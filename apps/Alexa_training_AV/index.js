@@ -32,7 +32,7 @@ app.intent('search',
      req.get({url:'http://vps341573.ovh.net:5050',json:true}).then(function(result){
           console.log(result)
           console.log(result.length)
-          if (result.length =0){
+          if (result.length ="undefined"){
 
               response.say('Theire are no speaker connected ! please recheck your configuration ')
               response.send()
