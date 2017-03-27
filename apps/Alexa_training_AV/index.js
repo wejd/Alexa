@@ -151,6 +151,27 @@ app.intent('decrease',
   }
 );
 
+app.intent('pause',
+  {"utterances":[ 
+    "pause",
+    ]
+    
+  },
+  function(request,response) {
+    if(request.hasSession()){
+      var session = request.getSession()
+      console.log(session.get('name'))
+      var val=session.get('name')
+    }
+    req.post({url:'http://vps341573.ovh.net:5050/pause', form:{key:val}},
+   function(error, res, body) {
+    response.say("ok !!! ");
+    response.send();
+
+      })
+  return false;  
+  }
+);
 
 app.intent("link", {
     "slots": {
