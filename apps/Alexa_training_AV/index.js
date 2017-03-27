@@ -31,8 +31,16 @@ app.intent('search',
   function(request,response) {
      req.get({url:'http://vps341573.ovh.net:5050',json:true}).then(function(result){
           console.log(result)
-          response.say('the list of speaker are '+result.list +' please choose one ').reprompt('sorry repeat again !').shouldEndSession( false );
-          response.send()
+          if (result.length==0){
+
+              response.say('Theire are no speaker connected ! please recheck your configuration ')
+              response.send()
+          }else{
+              response.say('the list of speaker are '+result.list +' please choose one ').reprompt('sorry repeat again !').shouldEndSession( false );
+              response.send()
+
+          }
+          
         })
         return false
   }
@@ -195,7 +203,7 @@ req.post({url:'http://vps341573.ovh.net:5050', form:{key:nameToRepeat}},
     if (body=='found'){
       console.log('found')
      
-      response.say('Speaker '+nameToRepeat+' linked you can know play musique. what do you want to do ?').shouldEndSession( false );
+      response.say('Speaker '+nameToRepeat+' linked . what do you want to do ?').shouldEndSession( false );
       response.send()
        
     }else {
