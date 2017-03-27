@@ -10,7 +10,7 @@ var req= require('request-promise')
 
 app.launch( function( request, response ) {
     
-	response.say( 'Welcome to avempace  skill please tell me what should i do ?' ).reprompt('sorry repeat again !').shouldEndSession( false );
+	response.say( 'Welcome to allplay  skill. please tell me what should i do ?' ).reprompt('sorry repeat again !').shouldEndSession( false );
 } );
 
 
