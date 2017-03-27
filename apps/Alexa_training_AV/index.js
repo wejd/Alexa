@@ -22,7 +22,7 @@ app.error = function( exception, request, response ) {
 };
 
 
-app.intent('avempace',
+app.intent('search',
   {"utterances":[ 
 		"search speakers",
 		]
@@ -38,11 +38,14 @@ app.intent('avempace',
   }
 );
 
-app.intent('wirless',
+
+
+
+app.intent('next',
   {"utterances":[ 
-		"play next",
-		]
-		
+    "play next",
+    ]
+    
   },
   function(request,response) {
     if(request.hasSession()){
@@ -60,9 +63,96 @@ app.intent('wirless',
   }
 );
 
+app.intent('prev',
+  {"utterances":[ 
+    "play previous",
+    ]
+    
+  },
+  function(request,response) {
+    if(request.hasSession()){
+      var session = request.getSession()
+      console.log(session.get('name'))
+      var val=session.get('name')
+    }
+    req.post({url:'http://vps341573.ovh.net:5050/playprevious', form:{key:val}},
+   function(error, res, body) {
+    response.say("ok !!! ");
+    response.send();
+
+      })
+  return false;  
+  }
+);
+
+app.intent('play',
+  {"utterances":[ 
+    "play track",
+    ]
+    
+  },
+  function(request,response) {
+    if(request.hasSession()){
+      var session = request.getSession()
+      console.log(session.get('name'))
+      var val=session.get('name')
+    }
+    req.post({url:'http://vps341573.ovh.net:5050/playtrack', form:{key:val}},
+   function(error, res, body) {
+    response.say("ok !!! ");
+    response.send();
+
+      })
+  return false;  
+  }
+);
+
+app.intent('increase',
+  {"utterances":[ 
+    "increase volume",
+    ]
+    
+  },
+  function(request,response) {
+    if(request.hasSession()){
+      var session = request.getSession()
+      console.log(session.get('name'))
+      var val=session.get('name')
+    }
+    req.post({url:'http://vps341573.ovh.net:5050/increasevolume', form:{key:val}},
+   function(error, res, body) {
+    response.say("ok !!! ");
+    response.send();
+
+      })
+  return false;  
+  }
+);
+
+app.intent('decrease',
+  {"utterances":[ 
+    "decrease volume",
+    ]
+    
+  },
+  function(request,response) {
+    if(request.hasSession()){
+      var session = request.getSession()
+      console.log(session.get('name'))
+      var val=session.get('name')
+    }
+    req.post({url:'http://vps341573.ovh.net:5050/decreasevolume', form:{key:val}},
+   function(error, res, body) {
+    response.say("ok !!! ");
+    response.send();
+
+      })
+  return false;  
+  }
+);
 
 
-app.intent("name", {
+app.intent("link", {
     "slots": {
       "NAMED": "AMAZON.LITERAL",
       
