@@ -64,8 +64,14 @@ app.intent('next',
     }
     req.post({url:'http://vps341573.ovh.net:5050/playnext', form:{key:val}},
    function(error, res, body) {
-    response.say("ok !!! ");
-    response.send();
+      var obj =JSON.parse(body);
+      if (obj.status=="no"){
+        response.say("No speaker linked. Please link to speaker! ");
+        response.send();
+      }else {
+        response.say("ok !!! ");
+        response.send();
+      }
 
       })
   return false;  
@@ -119,8 +125,14 @@ app.intent('play',
     }
     req.post({url:'http://vps341573.ovh.net:5050/playtrack', form:{key:val}},
    function(error, res, body) {
-    response.say("ok !!! ");
-    response.send();
+    var obj =JSON.parse(body);
+    if (obj.status=="no"){
+      response.say("No speaker linked. Please link to speaker! ");
+      response.send();
+    }else {
+      response.say("ok !!! ");
+      response.send();
+    }
 
       })
   return false;  
@@ -146,8 +158,14 @@ app.intent('increase',
     }
     req.post({url:'http://vps341573.ovh.net:5050/increasevolume', form:{key:val,nb:valueToIncrease}},
    function(error, res, body) {
-    response.say("ok !!! ");
-    response.send();
+    var obj =JSON.parse(body);
+    if (obj.status=="no"){
+      response.say("No speaker linked. Please link to speaker! ");
+      response.send();
+    }else {
+      response.say("ok !!! ");
+      response.send();
+    }
 
       })
   return false;  
@@ -195,8 +213,14 @@ app.intent('pause',
     }
     req.post({url:'http://vps341573.ovh.net:5050/pause', form:{key:val}},
    function(error, res, body) {
-    response.say("ok !!! ");
-    response.send();
+    var obj =JSON.parse(body);
+    if (obj.status=="no"){
+      response.say("No speaker linked. Please link to speaker! ");
+      response.send();
+    }else {
+      response.say("ok !!! ");
+      response.send();
+    }
 
       })
   return false;  
