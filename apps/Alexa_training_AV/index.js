@@ -86,10 +86,11 @@ app.intent('prev',
     }
     req.post({url:'http://vps341573.ovh.net:5050/playprevious', form:{key:val}},
    function(error, res, body) {
-    console.log('response for playprevious ', res)
+    var obj =JSON.parse(body);
+    console.log('response for playprevious ', obj.status)
     console.log('response for playprevious ', body)
-    console.log('response for playprevious ', res.body)
-    if (body.status=="no"){
+    c
+    if (obj.status=="no"){
       response.say("No speaker linked. Please link to speaker! ");
       response.send();
     }else {
