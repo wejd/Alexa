@@ -219,7 +219,7 @@ req.post({url:'http://vps341573.ovh.net:5050', form:{key:nameToRepeat}},
        
     }else {
       console.log('not found')
-          response.say(name+ '  Player not found')
+          response.say(nameToRepeat+ '  Player not found')
           response.send()
      
     }
