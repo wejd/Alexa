@@ -96,7 +96,7 @@ app.intent('prev',
 
 app.intent('play',
   {"utterances":[ 
-    "play track",
+    "play",
     ]
     
   },
