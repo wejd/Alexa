@@ -89,7 +89,7 @@ app.intent('prev',
     var obj =JSON.parse(body);
     console.log('response for playprevious ', obj.status)
     console.log('response for playprevious ', body)
-    c
+    
     if (obj.status=="no"){
       response.say("No speaker linked. Please link to speaker! ");
       response.send();
