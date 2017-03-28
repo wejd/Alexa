@@ -86,6 +86,7 @@ app.intent('prev',
     }
     req.post({url:'http://vps341573.ovh.net:5050/playprevious', form:{key:val}},
    function(error, res, body) {
+    console.log(res)
     response.say("ok !!! ");
     response.send();
 
