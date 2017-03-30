@@ -140,6 +140,64 @@ app.intent('play',
   }
 );
 
+app.intent('incr',
+  {"utterances":[ 
+    "increase volume ",
+    ]
+    
+  },
+  function(request,response) {
+    if(request.hasSession()){
+      var session = request.getSession()
+      console.log(session.get('name'))
+      var val=session.get('name')
+    }
+    req.post({url:'http://vps341573.ovh.net:5050/incrvolume', form:{key:val}},
+   function(error, res, body) {
+    var obj =JSON.parse(body);
+    if (obj.status=="no"){
+      response.say("No speaker linked. Please link to speaker! ");
+      response.send();
+    }else {
+      response.say("ok !!! ");
+      response.send();
+    }
+
+      })
+  return false;  
+  }
+);
+
+
+app.intent('decr',
+  {"utterances":[ 
+    "decrease volume ",
+    ]
+    
+  },
+  function(request,response) {
+    if(request.hasSession()){
+      var session = request.getSession()
+      console.log(session.get('name'))
+      var val=session.get('name')
+    }
+    req.post({url:'http://vps341573.ovh.net:5050/decrevolume', form:{key:val}},
+   function(error, res, body) {
+    var obj =JSON.parse(body);
+    if (obj.status=="no"){
+      response.say("No speaker linked. Please link to speaker! ");
+      response.send();
+    }else {
+      response.say("ok !!! ");
+      response.send();
+    }
+
+      })
+  return false;  
+  }
+);
+
+
 app.intent('increase',
   {
     "slots": {
