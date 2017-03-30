@@ -21,6 +21,19 @@ app.error = function( exception, request, response ) {
 	response.say( 'Sorry an error occured ' + error.message);
 };
 
+app.intent('nothing',
+  {"utterances":[ 
+    "nothing",
+    ]
+    
+  },
+  
+
+              response.say('')
+              response.send()
+     
+  }
+);
 
 app.intent('search',
   {"utterances":[ 
