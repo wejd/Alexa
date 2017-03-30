@@ -47,6 +47,31 @@ app.intent('search',
   }
 );
 
+app.intent('listspeaker',
+  {"utterances":[ 
+    "list devices",
+    ]
+    
+  },
+  function(request,response) {
+     req.get({url:'http://vps341573.ovh.net:5050',json:true}).then(function(result){
+          console.log(result)
+          console.log(result.list.length)
+          if (result.list.length ==0){
+
+              response.say('Theire are no speaker connected ! please recheck your configuration ')
+              response.send()
+          }else{
+              response.say('the list of speaker are '+result.list +' please choose one ').reprompt('sorry repeat again !').shouldEndSession( false );
+              response.send()
+
+          }
+          
+        })
+        return false
+  }
+);
+
 
 
 
