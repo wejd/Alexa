@@ -51,8 +51,8 @@ app.intent('search',
               response.send()
           }else{
               var speakerListString=''
-              for (i=0;i<result.list.length-1;i++){
-                if (i==result.list.length){
+              for (i=0;i<result.list.length;i++){
+                if (i==result.list.length-1){
                   speakerListString=','+speakerListString +' and '+result.list[i]
 
                 }else {
