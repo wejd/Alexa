@@ -51,7 +51,7 @@ app.intent('search',
               response.send()
           }else{
               var speakerListString=''
-              for (i=0;i<result.list.length;i++){
+              for (i=0;i<result.list.length-1;i++){
                 if (i==result.list.length){
                   speakerListString=','+speakerListString +' and '+result.list[i]
 
@@ -59,6 +59,7 @@ app.intent('search',
                   speakerListString=speakerListString +','+result.list[i]
                 }
               }
+              console.log('speakerListString',speakerListString)
               response.say('the list of speaker are '+speakerListString +' please choose one ').reprompt('sorry repeat again !').shouldEndSession( false );
               response.send()
 
