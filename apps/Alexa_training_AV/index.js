@@ -53,14 +53,19 @@ app.intent('search',
               var speakerListString=''
               for (i=0;i<result.list.length;i++){
                 if (i==result.list.length-1){
-                  speakerListString=','+speakerListString +' and '+result.list[i]
+                  if (i=0){
+                    speakerListString=result.list[i]
+                  }else {
+                    speakerListString=','+speakerListString +' and '+result.list[i]
+                  }
+                  
 
                 }else {
                   speakerListString=speakerListString +','+result.list[i]
                 }
               }
               console.log('speakerListString',speakerListString)
-              response.say('the list of speaker are '+speakerListString +' please choose one ').reprompt('sorry repeat again !').shouldEndSession( false );
+              response.say('the list of speaker are '+speakerListString +' .please choose one ! ').reprompt('sorry repeat again !').shouldEndSession( false );
               response.send()
 
           }
