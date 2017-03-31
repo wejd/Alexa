@@ -10,7 +10,7 @@ var req= require('request-promise')
 
 app.launch( function( request, response ) {
     
-	response.say( 'Welcome to allplay  skill. please tell me what should i do ?' ).reprompt('sorry repeat again !').shouldEndSession( false );
+	response.say( 'Welcome to allplay. With this skill ,you can link allplay products with your echo or echo dot and voice control them.' )
 } );
 
 
@@ -119,7 +119,7 @@ app.intent('search',
           console.log(result.list.length)
           if (result.list.length ==0){
 
-              response.say('Theire are no speaker connected ! please recheck your configuration ')
+              response.say('No devices have been discovered in your network !')
               response.send()
           }else{
               var speakerListString=''
