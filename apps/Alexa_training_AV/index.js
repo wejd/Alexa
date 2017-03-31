@@ -89,7 +89,7 @@ app.intent('anyone',
                    function(error, res, body) {
                    if (!error && res.statusCode == 200) {
                    
-                      response.say('Speaker '+body+' linked . what do you want to do ?').shouldEndSession( false );
+                      response.say('Device '+body+' has been selected.')
                       response.send()
                        
                     
