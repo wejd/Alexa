@@ -62,7 +62,7 @@ app.intent('search',
                       speakerListString=speakerListString +' and '+result.list[i]
                     }
                     else{
-                      =speakerListString +','+result.list[i]
+                      speakerListString=speakerListString +','+result.list[i]
                     }
 
                 }
