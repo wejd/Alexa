@@ -10,7 +10,7 @@ var req= require('request-promise')
 
 app.launch( function( request, response ) {
     
-	response.say( 'Welcome to allplay. With this skill ,you can link allplay products with your AMAZON echo or echo dot and voice control them.' )
+	response.say( 'Welcome to allplay. With this skill ,you can voice control any  allplay device with your AMAZON echo or echo dot. Account linking is required, please refer to your alexa app' )
 } );
 
 
