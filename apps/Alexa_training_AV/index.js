@@ -112,7 +112,7 @@ app.intent('search',
                    var session = request.getSession()
                   session.set('lastCommande', "search")
                   session.set('speaker', result.list[0])
-                  response.say('You have  '+result.list.length  +' allplay device available '+result.list +'. Do you want to link it! ').reprompt('sorry repeat again !').shouldEndSession( false );
+                  response.say('You have  '+result.list.length  +' allplay device available, '+result.list +'. Do you want to link it! ').reprompt('sorry repeat again !').shouldEndSession( false );
                     response.send()
               }
               else{
