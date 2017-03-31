@@ -357,7 +357,9 @@ app.intent('prev',
  
       console.log('response for playprevious ', obj.status)
     if (obj.status=="no"){
-      response.say("No speaker linked. Please link to speaker! ");
+        session.set('lastCommande', "control")
+        
+        response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession( false );;
       response.send();
     }else {
       response.say("ok !!! ");
@@ -387,7 +389,9 @@ app.intent('play',
    function(error, res, body) {
     var obj =JSON.parse(body);
     if (obj.status=="no"){
-      response.say("No speaker linked. Please link to speaker! ");
+        session.set('lastCommande', "control")
+        
+        response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession( false );;
       response.send();
     }else {
       response.say("ok !!! ");
@@ -415,7 +419,9 @@ app.intent('incr',
    function(error, res, body) {
     var obj =JSON.parse(body);
     if (obj.status=="no"){
-      response.say("No speaker linked. Please link to speaker! ");
+        session.set('lastCommande', "control")
+        
+        response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession( false );;
       response.send();
     }else {
       response.say("ok !!! ");
@@ -444,7 +450,9 @@ app.intent('decr',
    function(error, res, body) {
     var obj =JSON.parse(body);
     if (obj.status=="no"){
-      response.say("No speaker linked. Please link to speaker! ");
+        session.set('lastCommande', "control")
+        
+        response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession( false );;
       response.send();
     }else {
       response.say("ok !!! ");
@@ -478,7 +486,9 @@ app.intent('increase',
    function(error, res, body) {
     var obj =JSON.parse(body);
     if (obj.status=="no"){
-      response.say("No speaker linked. Please link to speaker! ");
+        session.set('lastCommande', "control")
+        
+        response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession( false );;
       response.send();
     }else {
       response.say("ok !!! ");
@@ -508,11 +518,19 @@ app.intent('decrease',
       var val=session.get('name')
     }
     req.post({url:'http://vps341573.ovh.net:5050/decreasevolume', form:{key:val,nb:valueToDecrease}},
-   function(error, res, body) {
-    response.say("ok !!! ");
-    response.send();
+     function(error, res, body) {
+      var obj =JSON.parse(body);
+      if (obj.status=="no"){
+          session.set('lastCommande', "control")
+          
+          response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession( false );;
+        response.send();
+      }else {
+        response.say("ok !!! ");
+        response.send();
+      }
 
-      })
+        })
   return false;  
   }
 );
@@ -533,7 +551,9 @@ app.intent('pause',
    function(error, res, body) {
     var obj =JSON.parse(body);
     if (obj.status=="no"){
-      response.say("No speaker linked. Please link to speaker! ");
+        session.set('lastCommande', "control")
+        
+        response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession( false );;
       response.send();
     }else {
       response.say("ok !!! ");
@@ -551,7 +571,7 @@ app.intent("link", {
       
     },
     "utterances": [
-      "link to Speaker {NAMED} "
+      "select {NAMED} "
     ]
     },
    function(request, response) {
@@ -567,12 +587,12 @@ app.intent("link", {
           if (body=='found'){
             console.log('found')
            
-            response.say('Speaker '+nameToRepeat+' linked . what do you want to do ?').shouldEndSession( false );
+            response.say(nameToRepeat+' has been selected ')
             response.send()
              
           }else {
             console.log('not found')
-                response.say(nameToRepeat+ '  Player not found')
+                response.say('I was enable to select '+nameToRepeat+ ' . Please try again later')
                 response.send()
            
           }
