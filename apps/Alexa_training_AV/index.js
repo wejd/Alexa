@@ -93,7 +93,25 @@ app.intent('listspeaker',
               response.say('Theire are no speaker connected ! please recheck your configuration ')
               response.send()
           }else{
-              response.say('the list of speaker are '+result.list +' please choose one ').reprompt('sorry repeat again !').shouldEndSession( false );
+              var speakerListString=''
+              for (i=0;i<result.list.length;i++){
+             
+                if (i==0){
+                  console.log('inside if egale a zero')
+                  speakerListString=result.list[i]
+                }
+                if (i>0){
+                    if(i==result.list.length-1){
+                      speakerListString=speakerListString +' and '+result.list[i]
+                    }
+                    else{
+                      speakerListString=speakerListString +','+result.list[i]
+                    }
+
+                }
+              }
+             
+              response.say('the list of speaker are '+speakerListString +' .please choose one ! ').reprompt('sorry repeat again !').shouldEndSession( false );
               response.send()
 
           }
@@ -102,6 +120,7 @@ app.intent('listspeaker',
         return false
   }
 );
+
 
 
 
