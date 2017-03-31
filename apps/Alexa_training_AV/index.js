@@ -50,7 +50,7 @@ app.intent('search',
               response.say('Theire are no speaker connected ! please recheck your configuration ')
               response.send()
           }else{
-              var speakerListString=''
+     /*         var speakerListString=''
               for (i=0;i<result.list.length;i++){
                 if (i==result.list.length-1){
                   if (i=0){
@@ -64,8 +64,8 @@ app.intent('search',
                   speakerListString=speakerListString +','+result.list[i]
                 }
               }
-              console.log('speakerListString',speakerListString)
-              response.say('the list of speaker are '+speakerListString +' .please choose one ! ').reprompt('sorry repeat again !').shouldEndSession( false );
+              console.log('speakerListString',speakerListString)*/
+              response.say('the list of speaker are '+result.list +' .please choose one ! ').reprompt('sorry repeat again !').shouldEndSession( false );
               response.send()
 
           }
