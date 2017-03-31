@@ -34,6 +34,47 @@ app.intent('nothing',
      
   }
 );
+app.intent('none',
+  {"utterances":[ 
+    "none",
+    ]
+    
+  },
+  
+  function(request,response) {
+              response.say('')
+              response.send()
+     
+  }
+);
+
+app.intent('noone',
+  {"utterances":[ 
+    "no one",
+    ]
+    
+  },
+  
+  function(request,response) {
+              response.say('')
+              response.send()
+     
+  }
+);
+
+app.intent('anyone',
+  {"utterances":[ 
+    "any one",
+    ]
+    
+  },
+  
+  function(request,response) {
+              response.say('')
+              response.send()
+     
+  }
+);
 
 app.intent('search',
   {"utterances":[ 
@@ -67,16 +108,28 @@ app.intent('search',
 
                 }
               }
-             
-              response.say('the list of speaker are '+speakerListString +' .please choose one ! ').reprompt('sorry repeat again !').shouldEndSession( false );
-              response.send()
+              if(result.list.length==1){
+                   var session = request.getSession()
+                  session.set('lastCommande', "search")
+                  session.set('speaker', result.list[0])
+                  response.say('You have  '+result.list.length  +' allplay device available '+result.list +'. Do you want to link it! ').reprompt('sorry repeat again !').shouldEndSession( false );
+                    response.send()
+              }
+              else{
+                   response.say('You have  '+result.list.length  +' allplay devices available '+speakerListString +' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession( false );
+                    response.send()
 
+              }
+           
           }
           
         })
         return false
   }
 );
+
+
+
 
 app.intent('listspeaker',
   {"utterances":[ 
@@ -124,6 +177,51 @@ app.intent('listspeaker',
 
 
 
+app.intent('yes',
+  {"utterances":[ 
+    "play next",
+    ]
+    
+  },
+  function(request,response) {
+    if(request.hasSession()){
+      var session = request.getSession()
+      var lastCommande=session.get('lastCommande')
+      var val=session.get('speaker')
+
+    }
+    if(lastCommande=='search'){
+
+         req.post({url:'http://vps341573.ovh.net:5050', form:{key:val}},
+         function(error, res, body) {
+         if (!error && res.statusCode == 200) {
+            console.log(body)
+          if (body=='found'){
+            console.log('found')
+           
+            response.say('Speaker '+nameToRepeat+' linked . what do you want to do ?').shouldEndSession( false );
+            response.send()
+             
+          }else {
+            console.log('not found')
+                response.say(nameToRepeat+ '  Player not found')
+                response.send()
+           
+          }
+          
+        }
+                
+                });
+
+
+        return false
+    }
+
+  
+
+  
+  }
+);
 
 app.intent('next',
   {"utterances":[ 
