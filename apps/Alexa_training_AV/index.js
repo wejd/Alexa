@@ -70,11 +70,27 @@ app.intent('anyone',
   },
   
   function(request,response) {
-              response.say('')
-              response.send()
+              req.post({url:'http://vps341573.ovh.net:5050/linktoanyone', form:{key:'anyone'}},
+                   function(error, res, body) {
+                   if (!error && res.statusCode == 200) {
+                   
+                      response.say('Speaker '+body+' linked . what do you want to do ?').shouldEndSession( false );
+                      response.send()
+                       
+                    
+                          
+                          };
+
+
+                  return false
+                  
+   
+
+   
      
-  }
-);
+  })
+});
+
 
 app.intent('search',
   {"utterances":[ 
