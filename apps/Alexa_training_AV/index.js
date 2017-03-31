@@ -199,12 +199,12 @@ app.intent('yes',
           if (body=='found'){
             console.log('found')
            
-            response.say('Speaker '+nameToRepeat+' linked . what do you want to do ?').shouldEndSession( false );
+            response.say('Speaker '+val+' linked . what do you want to do ?').shouldEndSession( false );
             response.send()
              
           }else {
             console.log('not found')
-                response.say(nameToRepeat+ '  Player not found')
+                response.say(val+ '  Player not found')
                 response.send()
            
           }
