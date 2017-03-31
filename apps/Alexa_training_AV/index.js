@@ -34,9 +34,24 @@ app.intent('nothing',
      
   }
 );
+
 app.intent('none',
   {"utterances":[ 
     "none",
+    ]
+    
+  },
+  
+  function(request,response) {
+              response.say('')
+              response.send()
+     
+  }
+);
+
+app.intent('no',
+  {"utterances":[ 
+    "no",
     ]
     
   },
@@ -92,7 +107,6 @@ app.intent('anyone',
                return false
 });
 
-
 app.intent('search',
   {"utterances":[ 
 		"search speakers",
@@ -145,9 +159,6 @@ app.intent('search',
   }
 );
 
-
-
-
 app.intent('listspeaker',
   {"utterances":[ 
     "list devices",
@@ -190,8 +201,6 @@ app.intent('listspeaker',
         return false
   }
 );
-
-
 
 
 app.intent('yes',
@@ -484,43 +493,38 @@ app.intent("link", {
     "utterances": [
       "link to Speaker {NAMED} "
     ]
-  },
-  function(request, response) {
+    },
+   function(request, response) {
   	var nameToRepeat= request.slot('NAMED')
      var session = request.getSession()
     session.set('name', nameToRepeat)
 
 
-req.post({url:'http://vps341573.ovh.net:5050', form:{key:nameToRepeat}},
-   function(error, res, body) {
-   if (!error && res.statusCode == 200) {
-      console.log(body)
-    if (body=='found'){
-      console.log('found')
-     
-      response.say('Speaker '+nameToRepeat+' linked . what do you want to do ?').shouldEndSession( false );
-      response.send()
-       
-    }else {
-      console.log('not found')
-          response.say(nameToRepeat+ '  Player not found')
-          response.send()
-     
-    }
-    
-  }
+      req.post({url:'http://vps341573.ovh.net:5050', form:{key:nameToRepeat}},
+         function(error, res, body) {
+         if (!error && res.statusCode == 200) {
+            console.log(body)
+          if (body=='found'){
+            console.log('found')
+           
+            response.say('Speaker '+nameToRepeat+' linked . what do you want to do ?').shouldEndSession( false );
+            response.send()
+             
+          }else {
+            console.log('not found')
+                response.say(nameToRepeat+ '  Player not found')
+                response.send()
+           
+          }
           
-          });
+        }
+                
+                });
 
 
-  return false
+        return false
+        
   
-   
-
-   
-
-
-
 });
 
 
