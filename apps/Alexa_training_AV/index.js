@@ -119,7 +119,7 @@ app.intent('search',
           console.log(result.list.length)
           if (result.list.length ==0){
 
-              response.say('No devices have been discovered in your network !')
+              response.say('No allplay devices have been discovered!')
               response.send()
           }else{
               var speakerListString=''
@@ -166,12 +166,12 @@ app.intent('listspeaker',
     
   },
   function(request,response) {
-     req.get({url:'http://vps341573.ovh.net:5050',json:true}).then(function(result){
+   req.get({url:'http://vps341573.ovh.net:5050',json:true}).then(function(result){
           console.log(result)
           console.log(result.list.length)
           if (result.list.length ==0){
 
-              response.say('Theire are no speaker connected ! please recheck your configuration ')
+              response.say('No allplay devices have been discovered!')
               response.send()
           }else{
               var speakerListString=''
@@ -191,10 +191,19 @@ app.intent('listspeaker',
 
                 }
               }
-             
-              response.say('the list of speaker are '+speakerListString +' .please choose one ! ').reprompt('sorry repeat again !').shouldEndSession( false );
-              response.send()
+              if(result.list.length==1){
+                   var session = request.getSession()
+                  session.set('lastCommande', "search")
+                  session.set('speaker', result.list[0])
+                  response.say('You have  '+result.list.length  +' allplay device available, '+result.list +'. Do you want to link it! ').reprompt('sorry repeat again !').shouldEndSession( false );
+                    response.send()
+              }
+              else{
+                   response.say('You have  '+result.list.length  +' allplay devices available '+speakerListString +' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession( false );
+                    response.send()
 
+              }
+           
           }
           
         })
@@ -243,6 +252,55 @@ app.intent('yes',
         return false
     }
 
+    if(lastCommande =='control'){
+
+      req.get({url:'http://vps341573.ovh.net:5050',json:true}).then(function(result){
+          console.log(result)
+          console.log(result.list.length)
+          if (result.list.length ==0){
+
+              response.say('No allplay devices have been discovered!')
+              response.send()
+          }else{
+              var speakerListString=''
+              for (i=0;i<result.list.length;i++){
+             
+                if (i==0){
+                  console.log('inside if egale a zero')
+                  speakerListString=result.list[i]
+                }
+                if (i>0){
+                    if(i==result.list.length-1){
+                      speakerListString=speakerListString +' and '+result.list[i]
+                    }
+                    else{
+                      speakerListString=speakerListString +','+result.list[i]
+                    }
+
+                }
+              }
+              if(result.list.length==1){
+                   var session = request.getSession()
+                  session.set('lastCommande', "search")
+                  session.set('speaker', result.list[0])
+                  response.say('You have  '+result.list.length  +' allplay device available, '+result.list +'. Do you want to link it! ').reprompt('sorry repeat again !').shouldEndSession( false );
+                    response.send()
+              }
+              else{
+                   response.say('You have  '+result.list.length  +' allplay devices available '+speakerListString +' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession( false );
+                    response.send()
+
+              }
+           
+          }
+          
+        })
+        return false
+
+
+
+
+    }
   
 
   
@@ -265,7 +323,9 @@ app.intent('next',
    function(error, res, body) {
       var obj =JSON.parse(body);
       if (obj.status=="no"){
-        response.say("No speaker linked. Please link to speaker! ");
+         session.set('lastCommande', "control")
+        
+        response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession( false );;
         response.send();
       }else {
         response.say("ok !!! ");
