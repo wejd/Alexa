@@ -592,7 +592,7 @@ app.intent("link", {
              
           }else {
             console.log('not found')
-                response.say('I was enable to select '+nameToRepeat+ ' . Please try again later')
+                response.say('I was unable to select '+nameToRepeat+ ' . Please try again later')
                 response.send()
            
           }
