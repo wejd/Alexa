@@ -219,7 +219,9 @@ app.intent('listspeaker',
     
   },
   function(request,response) {
-   req.get({url:'http://vps341573.ovh.net:5050',json:true}).then(function(result){
+    req.get({url:'http://vps341573.ovh.net:5050/getConnectedDevice',json:true}).then(function(nameSpeakerconnected){
+                                    
+     req.get({url:'http://vps341573.ovh.net:5050',json:true}).then(function(result){
           console.log(result)
           console.log(result.list.length)
           if (result.list.length ==0){
@@ -248,10 +250,17 @@ app.intent('listspeaker',
                    var session = request.getSession()
                   session.set('lastCommande', "search")
                   session.set('speaker', result.list[0])
-                  response.say('You have  '+result.list.length  +' allplay device available, '+result.list +'. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession( false );
+                  if(nameSpeakerconnected){
+                      response.say(' You have  '+result.list.length  +' allplay device available, '+nameSpeakerconnected+' and it is already connected')
                     response.send()
+                  }else {
+                    response.say('You have  '+result.list.length  +' allplay device available, '+result.list +'. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession( false );
+                    response.send()
+                  }
+                  
               }
               else{
+
                    response.say('You have  '+result.list.length  +' allplay devices available '+speakerListString +' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession( false );
                     response.send()
 
@@ -260,6 +269,7 @@ app.intent('listspeaker',
           }
           
         })
+     })
         return false
   }
 );
@@ -284,15 +294,15 @@ app.intent('yes',
          function(error, res, body) {
          if (!error && res.statusCode == 200) {
             console.log(body)
-          if (body=='found'){
+           if (body=='found'){
             console.log('found')
            
-            response.say('Speaker '+val+' linked . what do you want to do ?').shouldEndSession( false );
+            response.say(nameToRepeat+' has been selected ')
             response.send()
              
           }else {
             console.log('not found')
-                response.say(val+ '  Player not found')
+                response.say('I was unable to select '+nameToRepeat+ ' . Please try again later')
                 response.send()
            
           }
