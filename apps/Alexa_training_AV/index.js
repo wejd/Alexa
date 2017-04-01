@@ -37,8 +37,11 @@ app.intent('which',
                        
                     
                           
-                          };
+                          }else{
 
+                                  response.say('No allplay device have been selected!')
+                                    response.send()
+                          }
 
                  
                   
