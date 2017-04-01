@@ -189,7 +189,7 @@ app.intent('search',
                   session.set('lastCommande', "search")
                   session.set('speaker', result.list[0])
                   if(nameSpeakerconnected){
-                      response.say(nameSpeakerconnected +' is already selected ')
+                      response.say(' You have  '+result.list.length  +' allplay device available, '+nameSpeakerconnected+' and it is already connected')
                     response.send()
                   }else {
                     response.say('You have  '+result.list.length  +' allplay device available, '+result.list +'. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession( false );
