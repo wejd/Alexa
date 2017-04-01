@@ -150,6 +150,15 @@ app.intent('search',
 		
   },
   function(request,response) {
+    req.get({url:'http://vps341573.ovh.net:5050/getConnectedDevice',json:true}).then(function(nameSpeakerconnected){
+                   
+                 
+                  
+   
+
+   
+     
+                      
      req.get({url:'http://vps341573.ovh.net:5050',json:true}).then(function(result){
           console.log(result)
           console.log(result.list.length)
@@ -179,10 +188,17 @@ app.intent('search',
                    var session = request.getSession()
                   session.set('lastCommande', "search")
                   session.set('speaker', result.list[0])
-                  response.say('You have  '+result.list.length  +' allplay device available, '+result.list +'. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession( false );
+                  if(nameSpeakerconnected){
+                      response.say(nameSpeakerconnected +' is already selected ')
                     response.send()
+                  }else {
+                    response.say('You have  '+result.list.length  +' allplay device available, '+result.list +'. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession( false );
+                    response.send()
+                  }
+                  
               }
               else{
+
                    response.say('You have  '+result.list.length  +' allplay devices available '+speakerListString +' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession( false );
                     response.send()
 
@@ -191,6 +207,7 @@ app.intent('search',
           }
           
         })
+     })
         return false
   }
 );
