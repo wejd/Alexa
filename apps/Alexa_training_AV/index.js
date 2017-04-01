@@ -21,6 +21,39 @@ app.error = function( exception, request, response ) {
 	response.say( 'Sorry an error occured ' + error.message);
 };
 
+app.intent('which',
+  {"utterances":[ 
+    "which device is connected",
+    ]
+    
+  },
+  
+  function(request,response) {
+            req.get({url:'http://vps341573.ovh.net:5050/getConnectedDevice',json:true}).then(function(result){
+                   if (result) {
+                   
+                      response.say('the Device '+body+' is selected')
+                      response.send()
+                       
+                    
+                          
+                          };
+
+
+                 
+                  
+   
+
+   
+     
+                      })
+               return false
+     
+  }
+);
+
+
+
 app.intent('nothing',
   {"utterances":[ 
     "nothing",
@@ -143,7 +176,7 @@ app.intent('search',
                    var session = request.getSession()
                   session.set('lastCommande', "search")
                   session.set('speaker', result.list[0])
-                  response.say('You have  '+result.list.length  +' allplay device available, '+result.list +'. Do you want to link it! ').reprompt('sorry repeat again !').shouldEndSession( false );
+                  response.say('You have  '+result.list.length  +' allplay device available, '+result.list +'. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession( false );
                     response.send()
               }
               else{
@@ -195,7 +228,7 @@ app.intent('listspeaker',
                    var session = request.getSession()
                   session.set('lastCommande', "search")
                   session.set('speaker', result.list[0])
-                  response.say('You have  '+result.list.length  +' allplay device available, '+result.list +'. Do you want to link it! ').reprompt('sorry repeat again !').shouldEndSession( false );
+                  response.say('You have  '+result.list.length  +' allplay device available, '+result.list +'. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession( false );
                     response.send()
               }
               else{
