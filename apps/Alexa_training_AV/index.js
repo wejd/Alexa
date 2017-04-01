@@ -32,7 +32,7 @@ app.intent('which',
             req.get({url:'http://vps341573.ovh.net:5050/getConnectedDevice',json:true}).then(function(result){
                    if (result) {
                    
-                      response.say('the Device '+body+' is selected')
+                      response.say('the Device '+result+' is selected')
                       response.send()
                        
                     
