@@ -690,6 +690,22 @@ app.intent('help', {
 );
 
 
+app.intent('start', {
+        "utterances": [
+            "start",
+        ]
+
+    },
+
+    function(request, response) {
+        response.say('Welcome to allplay. With this skill ,you can voice control any  allplay device with your AMAZON echo or echo dot . Account linking is required . For instructions, please refer to your alexa app')
+
+        response.send()
+        response.send()
+        response.send()
+
+    }
+);
 
 
 
