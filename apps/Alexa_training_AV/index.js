@@ -31,9 +31,14 @@ app.intent('which', {
 
         return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(result, body) {
             if (result.statusCode == 200) {
+                if (body != false) {
+                    response.say('the Device ' + body + ' is selected')
+                    response.send()
+                } else {
+                    response.say('No allplay device have been selected!')
+                    response.send()
+                }
 
-                response.say('the Device ' + body + ' is selected')
-                response.send()
 
 
 
