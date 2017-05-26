@@ -4,8 +4,8 @@ module.change_code = 1;
 var alexa = require('alexa-app');
 var app = new alexa.app('Alexa_training_AV');
 var req = require('request-promise')
-
-
+    /*var http = require('http')*/
+var http = require('bluebird').promisifyAll(require('request'), { multiArgs: true });
 
 
 app.launch(function(request, response) {
@@ -15,9 +15,7 @@ app.launch(function(request, response) {
 
 
 app.error = function(exception, request, response) {
-    console.log(exception)
-    console.log(request);
-    console.log(response);
+
     response.say('Sorry an error occured ' + error.message);
 };
 
@@ -29,10 +27,12 @@ app.intent('which', {
     },
 
     function(request, response) {
-        req.get({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).then(function(result) {
-            if (result) {
 
-                response.say('the Device ' + result + ' is selected')
+
+        return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(result, body) {
+            if (result.statusCode == 200) {
+
+                response.say('the Device ' + body + ' is selected')
                 response.send()
 
 
@@ -50,12 +50,10 @@ app.intent('which', {
 
 
         })
-        return false
+
 
     }
 );
-
-
 
 app.intent('nothing', {
         "utterances": [
@@ -121,7 +119,7 @@ app.intent('anyone', {
     },
 
     function(request, response) {
-        req.post({ url: 'http://164.132.196.179:5050/linktoanyone', form: { key: 'anyone' } },
+        return http.postAsync({ url: 'http://164.132.196.179:5050/linktoanyone', form: { key: 'anyone' } },
             function(error, res, body) {
                 if (!error && res.statusCode == 200) {
 
@@ -129,18 +127,11 @@ app.intent('anyone', {
                     response.send()
 
 
-
                 };
 
 
-
-
-
-
-
-
             })
-        return false
+
     });
 
 app.intent('search', {
@@ -150,17 +141,17 @@ app.intent('search', {
 
     },
     function(request, response) {
-        req.get({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).then(function(nameSpeakerconnected) {
+        return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
+
+
+
+            console.log('nameSpeakerConnected', nameSpeakerconnected)
 
 
 
 
+            return http.getAsync({ url: 'http://164.132.196.179:5050', json: true }).spread(function(eroorStatusCode, result) {
 
-
-
-
-            req.get({ url: 'http://164.132.196.179:5050', json: true }).then(function(result) {
-                console.log(result)
                 console.log(result.list.length)
                 if (result.list.length == 0) {
 
@@ -171,8 +162,9 @@ app.intent('search', {
                     for (i = 0; i < result.list.length; i++) {
 
                         if (i == 0) {
-                            console.log('inside if egale a zero')
-                            speakerListString = result.list[i]
+
+
+                            speakerListString = result.list[0]
                         }
                         if (i > 0) {
                             if (i == result.list.length - 1) {
@@ -183,15 +175,18 @@ app.intent('search', {
 
                         }
                     }
+
+
                     if (result.list.length == 1) {
                         var session = request.getSession()
                         session.set('lastCommande', "search")
                         session.set('speaker', result.list[0])
-                        if (nameSpeakerconnected) {
+
+                        if (nameSpeakerconnected != false) {
                             response.say(' You have  ' + result.list.length + ' allplay device available, ' + nameSpeakerconnected + ' and it is already connected')
                             response.send()
                         } else {
-                            response.say('You have  ' + result.list.length + ' allplay device available, ' + result.list + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                            response.say('You have  ' + result.list.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
                             response.send()
                         }
 
@@ -206,7 +201,7 @@ app.intent('search', {
 
             })
         })
-        return false
+
     }
 );
 
@@ -217,10 +212,17 @@ app.intent('listspeaker', {
 
     },
     function(request, response) {
-        req.get({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).then(function(nameSpeakerconnected) {
+        return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
 
-            req.get({ url: 'http://164.132.196.179:5050', json: true }).then(function(result) {
-                console.log(result)
+
+
+            console.log('nameSpeakerConnected', nameSpeakerconnected)
+
+
+
+
+            return http.getAsync({ url: 'http://164.132.196.179:5050', json: true }).spread(function(eroorStatusCode, result) {
+
                 console.log(result.list.length)
                 if (result.list.length == 0) {
 
@@ -231,8 +233,9 @@ app.intent('listspeaker', {
                     for (i = 0; i < result.list.length; i++) {
 
                         if (i == 0) {
-                            console.log('inside if egale a zero')
-                            speakerListString = result.list[i]
+
+
+                            speakerListString = result.list[0]
                         }
                         if (i > 0) {
                             if (i == result.list.length - 1) {
@@ -243,15 +246,18 @@ app.intent('listspeaker', {
 
                         }
                     }
+
+
                     if (result.list.length == 1) {
                         var session = request.getSession()
                         session.set('lastCommande', "search")
                         session.set('speaker', result.list[0])
-                        if (nameSpeakerconnected) {
+
+                        if (nameSpeakerconnected != false) {
                             response.say(' You have  ' + result.list.length + ' allplay device available, ' + nameSpeakerconnected + ' and it is already connected')
                             response.send()
                         } else {
-                            response.say('You have  ' + result.list.length + ' allplay device available, ' + result.list + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                            response.say('You have  ' + result.list.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
                             response.send()
                         }
 
@@ -266,10 +272,9 @@ app.intent('listspeaker', {
 
             })
         })
-        return false
+
     }
 );
-
 
 app.intent('yes', {
         "utterances": [
@@ -286,19 +291,19 @@ app.intent('yes', {
         }
         if (lastCommande == 'search') {
 
-            req.post({ url: 'http://164.132.196.179:5050', form: { key: val } },
+            return http.postAsync({ url: 'http://164.132.196.179:5050', form: { key: val } },
                 function(error, res, body) {
                     if (!error && res.statusCode == 200) {
-                        console.log(body)
-                        if (body == 'found') {
-                            console.log('found')
 
-                            response.say(nameToRepeat + ' has been selected ')
+                        if (body == 'found') {
+
+
+                            response.say(val + ' has been selected ')
                             response.send()
 
                         } else {
                             console.log('not found')
-                            response.say('I was unable to select ' + nameToRepeat + ' . Please try again later')
+                            response.say('I was unable to select ' + val + ' . Please try again later')
                             response.send()
 
                         }
@@ -308,12 +313,12 @@ app.intent('yes', {
                 });
 
 
-            return false
+
         }
 
         if (lastCommande == 'control') {
 
-            req.get({ url: 'http://164.132.196.179:5050', json: true }).then(function(result) {
+            return http.getAsync({ url: 'http://164.132.196.179:5050', json: true }).spread(function(statusCode, result) {
                 console.log(result)
                 console.log(result.list.length)
                 if (result.list.length == 0) {
@@ -352,7 +357,7 @@ app.intent('yes', {
                 }
 
             })
-            return false
+
 
 
 
@@ -376,7 +381,7 @@ app.intent('next', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        req.post({ url: 'http://164.132.196.179:5050/playnext', form: { key: val } },
+        return http.postAsync({ url: 'http://164.132.196.179:5050/playnext', form: { key: val } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -385,12 +390,12 @@ app.intent('next', {
                     response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                     response.send();
                 } else {
-                    response.say("ok !!! ");
+                    response.say("ok , play next! ");
                     response.send();
                 }
 
             })
-        return false;
+
     }
 );
 
@@ -406,27 +411,27 @@ app.intent('prev', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        req.post({ url: 'http://164.132.196.179:5050/playprevious', form: { key: val } },
+        return http.postAsync({ url: 'http://164.132.196.179:5050/playprevious', form: { key: val } },
             function(error, res, body) {
 
-                console.log('response for playprevious ', body)
+
                 var obj = JSON.parse(body);
 
-                console.log('response for playprevious ', obj.status)
+
                 if (obj.status == "no") {
                     session.set('lastCommande', "control")
 
                     response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                     response.send();
                 } else {
-                    response.say("ok !!! ");
+                    response.say("ok play previous! ");
                     response.send();
                 }
 
 
 
             })
-        return false;
+
     }
 );
 
@@ -442,7 +447,7 @@ app.intent('play', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        req.post({ url: 'http://164.132.196.179:5050/playtrack', form: { key: val } },
+        return http.postAsync({ url: 'http://164.132.196.179:5050/playtrack', form: { key: val } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -451,12 +456,12 @@ app.intent('play', {
                     response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                     response.send();
                 } else {
-                    response.say("ok !!! ");
+                    response.say("ok , play!!! ");
                     response.send();
                 }
 
             })
-        return false;
+
     }
 );
 
@@ -472,7 +477,7 @@ app.intent('incr', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        req.post({ url: 'http://164.132.196.179:5050/incrvolume', form: { key: val } },
+        return http.postAsync({ url: 'http://164.132.196.179:5050/incrvolume', form: { key: val } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -481,12 +486,12 @@ app.intent('incr', {
                     response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                     response.send();
                 } else {
-                    response.say("ok !!! ");
+                    response.say("ok , increase!!! ");
                     response.send();
                 }
 
             })
-        return false;
+
     }
 );
 
@@ -503,7 +508,7 @@ app.intent('decr', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        req.post({ url: 'http://164.132.196.179:5050/decrevolume', form: { key: val } },
+        return http.postAsync({ url: 'http://164.132.196.179:5050/decrevolume', form: { key: val } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -512,12 +517,12 @@ app.intent('decr', {
                     response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                     response.send();
                 } else {
-                    response.say("ok !!! ");
+                    response.say("ok , decrease !!! ");
                     response.send();
                 }
 
             })
-        return false;
+
     }
 );
 
@@ -539,7 +544,7 @@ app.intent('increase', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        req.post({ url: 'http://164.132.196.179:5050/increasevolume', form: { key: val, nb: valueToIncrease } },
+        return http.postAsync({ url: 'http://164.132.196.179:5050/increasevolume', form: { key: val, nb: valueToIncrease } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -548,12 +553,12 @@ app.intent('increase', {
                     response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                     response.send();
                 } else {
-                    response.say("ok !!! ");
+                    response.say("ok , increase by  " + valueToIncrease);
                     response.send();
                 }
 
             })
-        return false;
+
     }
 );
 
@@ -574,7 +579,7 @@ app.intent('decrease', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        req.post({ url: 'http://164.132.196.179:5050/decreasevolume', form: { key: val, nb: valueToDecrease } },
+        return http.postAsync({ url: 'http://164.132.196.179:5050/decreasevolume', form: { key: val, nb: valueToDecrease } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -583,12 +588,12 @@ app.intent('decrease', {
                     response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                     response.send();
                 } else {
-                    response.say("ok !!! ");
+                    response.say("ok , decrease by " + valueToDecrease);
                     response.send();
                 }
 
             })
-        return false;
+
     }
 );
 
@@ -604,7 +609,7 @@ app.intent('pause', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        req.post({ url: 'http://164.132.196.179:5050/pause', form: { key: val } },
+        return http.postAsync({ url: 'http://164.132.196.179:5050/pause', form: { key: val } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -613,12 +618,12 @@ app.intent('pause', {
                     response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                     response.send();
                 } else {
-                    response.say("ok !!! ");
+                    response.say("ok, pause! ");
                     response.send();
                 }
 
             })
-        return false;
+
     }
 );
 
@@ -635,34 +640,54 @@ app.intent("link", {
         var nameToRepeat = request.slot('NAMED')
         var session = request.getSession()
         session.set('name', nameToRepeat)
+        return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
+            if (nameSpeakerconnected != false) {
+                response.say(nameSpeakerconnected + ' is already connected')
+                response.send()
+            } else {
+                return http.postAsync({ url: 'http://164.132.196.179:5050', form: { key: nameToRepeat } },
+                    function(error, res, body) {
+                        if (!error && res.statusCode == 200) {
+
+                            if (body == 'found') {
+                                console.log('found')
+
+                                response.say(nameToRepeat + ' has been selected ')
+                                response.send()
+
+                            } else {
+                                console.log('not found')
+                                response.say('I was unable to select ' + nameToRepeat + ' . Please try again later')
+                                response.send()
+
+                            }
+
+                        }
+
+                    });
+            }
 
 
-        req.post({ url: 'http://164.132.196.179:5050', form: { key: nameToRepeat } },
-            function(error, res, body) {
-                if (!error && res.statusCode == 200) {
-                    console.log(body)
-                    if (body == 'found') {
-                        console.log('found')
 
-                        response.say(nameToRepeat + ' has been selected ')
-                        response.send()
-
-                    } else {
-                        console.log('not found')
-                        response.say('I was unable to select ' + nameToRepeat + ' . Please try again later')
-                        response.send()
-
-                    }
-
-                }
-
-            });
-
-
-        return false
+        });
 
 
     });
+
+
+app.intent('help', {
+        "utterances": [
+            "help",
+        ]
+
+    },
+
+    function(request, response) {
+        response.say(' you can start by asking . Alexa ask allplay to list devices! to search device connected . and then select the device by saying . Alexa link to device you want to select. once selected you can voice control your device')
+        response.send()
+
+    }
+);
 
 
 

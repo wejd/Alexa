@@ -4,6 +4,8 @@
   "description": "A simple node app alexa",
   "author": "Wejd daghfous",
   "dependencies": {
-    "alexa-app-server": "^2.2.4"
+    "alexa-app-server": "^2.2.4",
+    "bluebird": "^3.5.0",
+    "http": "0.0.0"
   }
 }
