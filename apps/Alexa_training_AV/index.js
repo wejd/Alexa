@@ -655,7 +655,7 @@ app.intent("link", {
             } else {
 
                 /*return http.postAsync({ url: 'http://164.132.196.179:5050/', json: true, form: { key: nameToRepeat } },*/
-                return http.postAsync({ url: 'http://192.168.1.7:5050/', json: true, form: { key: nameToRepeat } },
+                return http.postAsync({ url: 'http://192.168.1.7:5050', json: true, form: { key: nameToRepeat } },
                     function(error, res, body) {
 
                         if (!error && res.statusCode == 200) {
