@@ -647,15 +647,15 @@ app.intent("link", {
         var nameToRepeat = request.slot('NAMED')
         var session = request.getSession()
         session.set('name', nameToRepeat)
-            /* return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {*/
-        return http.getAsync({ url: 'http://192.168.1.7:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
+        return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
+
             if (nameSpeakerconnected != false) {
                 response.say(nameSpeakerconnected + ' is already connected')
                 response.send()
             } else {
 
-                /*return http.postAsync({ url: 'http://164.132.196.179:5050/', json: true, form: { key: nameToRepeat } },*/
-                return http.postAsync({ url: 'http://192.168.1.7:5050', json: true, form: { key: nameToRepeat } },
+                return http.postAsync({ url: 'http://164.132.196.179:5050/', json: true, form: { key: nameToRepeat } },
+
                     function(error, res, body) {
 
                         if (!error && res.statusCode == 200) {
