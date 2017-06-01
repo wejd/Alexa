@@ -728,6 +728,7 @@ app.intent("link", {
         var session = request.getSession()
         var numSerie = session.get('speaker_numSerie')
         session.set('name', nameToRepeat)
+        console.log('name speaker is ' + nameToRepeat + ' and numSeire is ' + numSerie)
         return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
 
             if (nameSpeakerconnected != false) {
