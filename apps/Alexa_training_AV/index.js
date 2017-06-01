@@ -735,6 +735,7 @@ app.intent("link", {
             console.log('nameSpeakerConnected', nameSpeakerconnected)
             i = 0
             nameSpeakerconnected.forEach(function(speaker) {
+                console.log('speaker ', speaker)
                 if (speaker.name == namespeakerfromalexa) {
                     i++;
                     return http.postAsync({ url: 'http://164.132.196.179:5050/', json: true, form: { key: speaker.num_serie } },
