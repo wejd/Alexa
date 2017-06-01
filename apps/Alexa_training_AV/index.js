@@ -150,7 +150,7 @@ app.intent('search', {
         console.log('accessToken  ', accessToken)
         reqheader = 'Bearer ' + accessToken;
 
-        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: reqheader, json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
 
 
 
