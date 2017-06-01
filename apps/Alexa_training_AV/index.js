@@ -727,14 +727,13 @@ app.intent("link", {
 
 
         console.log('**-*-*-*', request.slot('NAMED'));
-        console.log('**-*-*-*', request.sessionDetails.accessToken)
+        console.log('**-*-*-*', request.sessionDetails)
         var namespeakerfromalexa = request.slot('NAMED');
         session.set('name', namespeakerfromalexa);
 
         accessToken = request.sessionDetails.accessToken;
-        console.log('accessToken  ', accessToken)
         reqheader = 'Bearer ' + accessToken;
-        console.log(reqheader);
+        console.log('------------------------------', reqheader);
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
             console.log('nameSpeakerConnected', listspeakerConnected)
             i = 0
