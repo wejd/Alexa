@@ -724,48 +724,57 @@ app.intent("link", {
         ]
     },
     function(request, response) {
-
-        if (request.hasSession()) {
-
-            var session = request.getSession()
-
-        }
-        var nameToRepeat = request.slot('NAMED')
+        console.log('**-*-*-*')
 
 
-        session.set('name', nameToRepeat)
+        var namespeakerfromalexa = request.slot('NAMED')
+        session.set('name', namespeakerfromalexa)
 
-        return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
 
-            if (nameSpeakerconnected != false) {
-                response.say(nameSpeakerconnected + ' is already connected')
-                response.send()
-            } else {
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            console.log('nameSpeakerConnected', nameSpeakerconnected)
+            i = 0
+            nameSpeakerconnected.forEach(function(speaker) {
+                if (speaker.name == namespeakerfromalexa) {
+                    i++;
+                    return http.postAsync({ url: 'http://164.132.196.179:5050/', json: true, form: { key: speaker.num_serie } },
 
-                return http.postAsync({ url: 'http://164.132.196.179:5050/', json: true, form: { key: numSerie } },
+                        function(error, res, body) {
 
-                    function(error, res, body) {
+                            if (!error && res.statusCode == 200) {
 
-                        if (!error && res.statusCode == 200) {
+                                if (body == 'found') {
+                                    console.log('found')
 
-                            if (body == 'found') {
-                                console.log('found')
+                                    response.say(nameToRepeat + ' has been selected ')
+                                    response.send()
 
-                                response.say(nameToRepeat + ' has been selected ')
-                                response.send()
+                                } else {
 
-                            } else {
+                                    console.log('not found')
+                                    response.say('I was unable to select ' + nameToRepeat + ' . Please try again later')
+                                    response.send()
 
-                                console.log('not found')
-                                response.say('I was unable to select ' + nameToRepeat + ' . Please try again later')
-                                response.send()
+                                }
 
                             }
 
-                        }
+                        });
 
-                    });
+                }
+            })
+
+            if (i == 0) {
+                console.log('not found')
+                response.say('I was unable to select ' + nameToRepeat + ' . Please try again later')
+                response.send()
+
+
             }
+
+
+
+
 
 
 
