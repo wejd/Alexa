@@ -726,19 +726,18 @@ app.intent("link", {
     function(request, response) {
 
 
-        console.log('**-*-*-*', request.slot('NAMED'));
-        console.log('**-*-*-*', request.sessionDetails.accessToken)
+
         var namespeakerfromalexa = request.slot('NAMED');
 
 
         accessToken = request.sessionDetails.accessToken;
         reqheader = 'Bearer ' + accessToken;
-        console.log('------------------------------', reqheader);
+
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
-            console.log('nameSpeakerConnected', listspeakerConnected)
+
             i = 0
             listspeakerConnected.forEach(function(speaker) {
-                console.log('speaker ', speaker)
+
                 if (speaker.name == namespeakerfromalexa) {
                     i++;
                     return http.postAsync({ url: 'http://164.132.196.179:5050/', json: true, form: { key: speaker.num_serie } },
@@ -750,13 +749,13 @@ app.intent("link", {
                                 if (body == 'found') {
                                     console.log('found')
 
-                                    response.say(namespeakerfromalexa + ' has been selected ')
+                                    response.say(speaker.name + ' has been selected ')
                                     response.send()
 
                                 } else {
 
-                                    console.log('not found i equal one', response)
-                                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                                    console.log('not found i equal one');
+                                    response.say('I was unable to select ' + speaker.name + ' . Please try again later');
                                     response.send()
 
                                 }
@@ -766,7 +765,9 @@ app.intent("link", {
                         });
 
                 }
+
             })
+
 
             if (i == 0) {
                 console.log('not found and i equal zeo')
@@ -775,7 +776,6 @@ app.intent("link", {
 
 
             }
-
 
 
 
