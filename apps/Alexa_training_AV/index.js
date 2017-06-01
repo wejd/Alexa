@@ -770,8 +770,8 @@ app.intent("link", {
 
             if (i == 0) {
                 console.log('not found')
-                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                response.send()
+                return response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                    //response.send()
 
 
             }
