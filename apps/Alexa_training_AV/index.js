@@ -373,12 +373,12 @@ app.intent('yes', {
             var session = request.getSession()
             var lastCommande = session.get('lastCommande')
             var val = session.get('speaker')
-
+            var numSerie = session.get('speaker_numSerie')
         }
         if (lastCommande == 'search') {
 
 
-            return http.postAsync({ url: 'http://164.132.196.179:5050', form: { key: val } },
+            return http.postAsync({ url: 'http://164.132.196.179:5050', form: { key: numSerie } },
                 function(error, res, body) {
                     if (!error && res.statusCode == 200) {
 
@@ -389,7 +389,7 @@ app.intent('yes', {
                             response.send()
 
                         } else {
-                            console.log('not found')
+                            console.log('not found', numSerie)
                             response.say('I was unable to select ' + val + ' . Please try again later')
                             response.send()
 
@@ -724,18 +724,17 @@ app.intent("link", {
         ]
     },
     function(request, response) {
-        console.log(request)
+
         if (request.hasSession()) {
-            console.log('request has session')
+
             var session = request.getSession()
-            var numSerie = session.get('speaker_numSerie')
+
         }
         var nameToRepeat = request.slot('NAMED')
 
 
         session.set('name', nameToRepeat)
-        console.log('name speaker is ', nameToRepeat)
-        console.log('numSeire is ', numSerie)
+
         return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
 
             if (nameSpeakerconnected != false) {
