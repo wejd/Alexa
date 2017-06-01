@@ -734,7 +734,7 @@ app.intent("link", {
         accessToken = request.sessionDetails.accessToken;
         console.log('accessToken  ', accessToken)
         reqheader = 'Bearer ' + accessToken;
-        console.log(reqheader) s
+        console.log(reqheader);
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
             console.log('nameSpeakerConnected', listspeakerConnected)
             i = 0
