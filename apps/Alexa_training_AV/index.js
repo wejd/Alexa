@@ -732,9 +732,9 @@ app.intent("link", {
 
 
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
-            console.log('nameSpeakerConnected', nameSpeakerconnected)
+            console.log('nameSpeakerConnected', listspeakerConnected)
             i = 0
-            nameSpeakerconnected.forEach(function(speaker) {
+            listspeakerConnected.forEach(function(speaker) {
                 console.log('speaker ', speaker)
                 if (speaker.name == namespeakerfromalexa) {
                     i++;
