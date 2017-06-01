@@ -726,7 +726,7 @@ app.intent("link", {
     function(request, response) {
 
 
-
+        console.log(req)
         var namespeakerfromalexa = request.slot('NAMED')
         session.set('name', namespeakerfromalexa)
         console.log('**-*-*-*', namespeakerfromalexa)
