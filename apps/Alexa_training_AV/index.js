@@ -750,13 +750,13 @@ app.intent("link", {
                                 if (body == 'found') {
                                     console.log('found')
 
-                                    response.say(nameToRepeat + ' has been selected ')
+                                    response.say(namespeakerfromalexa + ' has been selected ')
                                     response.send()
 
                                 } else {
 
                                     console.log('not found')
-                                    response.say('I was unable to select ' + nameToRepeat + ' . Please try again later')
+                                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
                                     response.send()
 
                                 }
@@ -770,7 +770,7 @@ app.intent("link", {
 
             if (i == 0) {
                 console.log('not found')
-                response.say('I was unable to select ' + nameToRepeat + ' . Please try again later')
+                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
                 response.send()
 
 
