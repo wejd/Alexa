@@ -724,13 +724,15 @@ app.intent("link", {
         ]
     },
     function(request, response) {
-        console.log('**-*-*-*')
+
 
 
         var namespeakerfromalexa = request.slot('NAMED')
         session.set('name', namespeakerfromalexa)
-
-
+        console.log('**-*-*-*', namespeakerfromalexa)
+        accessToken = request.sessionDetails.accessToken;
+        console.log('accessToken  ', accessToken)
+        reqheader = 'Bearer ' + accessToken;
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
             console.log('nameSpeakerConnected', listspeakerConnected)
             i = 0
@@ -781,8 +783,8 @@ app.intent("link", {
 
         });
 
-
-    });
+    }
+);
 
 
 app.intent('help', {
