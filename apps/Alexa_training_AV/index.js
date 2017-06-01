@@ -158,38 +158,26 @@ app.intent('search', {
             console.log('nameSpeakerConnected', nameSpeakerconnected)
             var listspeaker = ''
             var i = 0
-            nameSpeakerconnected.forEach(function(speaker) {
-                return http.postAsync({ url: 'http://164.132.196.179:5050/checkifConnected', form: { key: speaker.num_serie } },
-                    function(error, res, body) {
+
+            var speakerListString = ''
+            for (i = 0; i < nameSpeakerconnected.length; i++) {
+
+                if (i == 0) {
 
 
+                    speakerListString = nameSpeakerconnected[0]
+                }
+                if (i > 0) {
+                    if (i == nameSpeakerconnected.length - 1) {
+                        speakerListString = speakerListString + ' and ' + nameSpeakerconnected[i]
+                    } else {
+                        speakerListString = speakerListString + ',' + nameSpeakerconnected[i]
+                    }
 
+                }
+            }
 
-
-                        if (body == true) {
-                            speaker.connected = true
-                            i++
-                            if (listspeaker == '') {
-                                listspeaker = speaker.name
-                            } else {
-                                listspeaker = listspeaker + ',' + speaker.name
-                            }
-                        } else {
-                            speaker.connected = false
-                        }
-
-
-
-                    })
-
-
-
-
-
-
-            })
-
-            response.say(' You have  ' + i + ' allplay device available, ' + listspeaker + ' and it is already connected')
+            response.say(' You have  ' + nameSpeakerconnected.length + ' allplay device available, ' + listspeaker)
             response.send()
 
         });
