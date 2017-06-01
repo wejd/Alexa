@@ -732,19 +732,19 @@ app.intent("link", {
 
         accessToken = request.sessionDetails.accessToken;
         reqheader = 'Bearer ' + accessToken;
-
+        i = 0
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
 
-            i = 0
+
             listspeakerConnected.forEach(function(speaker) {
 
                 if (speaker.name == namespeakerfromalexa) {
                     i++;
                     return http.postAsync({ url: 'http://164.132.196.179:5050/', json: true, form: { key: speaker.num_serie } },
 
-                        function(error, res, body) {
+                        function(error, resul, body) {
 
-                            if (!error && res.statusCode == 200) {
+                            if (!error && resul.statusCode == 200) {
 
                                 if (body == 'found') {
                                     console.log('found')
