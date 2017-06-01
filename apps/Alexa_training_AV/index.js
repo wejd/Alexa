@@ -190,6 +190,7 @@ app.intent('search', {
                 var session = request.getSession()
                 session.set('lastCommande', "search")
                 session.set('speaker', listspeakerConnected[0].name)
+                session.set('speaker_numSerie', listspeakerConnected[0].nume_serie)
 
                 if (listspeakerConnected[0].linked == true) {
                     response.say(' You have  ' + listspeakerConnected.length + ' allplay device available, ' + listspeakerConnected[0].name + ' and it is already connected')
@@ -725,6 +726,7 @@ app.intent("link", {
     function(request, response) {
         var nameToRepeat = request.slot('NAMED')
         var session = request.getSession()
+        var numSerie = session.get('speaker_numSerie')
         session.set('name', nameToRepeat)
         return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
 
@@ -733,7 +735,7 @@ app.intent("link", {
                 response.send()
             } else {
 
-                return http.postAsync({ url: 'http://164.132.196.179:5050/', json: true, form: { key: nameToRepeat } },
+                return http.postAsync({ url: 'http://164.132.196.179:5050/', json: true, form: { key: numSerie } },
 
                     function(error, res, body) {
 
