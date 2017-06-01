@@ -140,614 +140,643 @@ app.intent('anyone', {
     });
 
 app.intent('search', {
-        "utterances": [
-            "search speakers",
-        ]
+            "utterances": [
+                "search speakers",
+            ]
 
-    },
-    function(request, response) {
-        accessToken = request.sessionDetails.accessToken;
-        console.log('accessToken  ', accessToken)
-        reqheader = 'Bearer ' + accessToken;
+        },
+        function(request, response) {
+            accessToken = request.sessionDetails.accessToken;
+            console.log('accessToken  ', accessToken)
+            reqheader = 'Bearer ' + accessToken;
 
-        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
-
-
-
-
-            console.log('nameSpeakerConnected', nameSpeakerconnected)
+            return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
 
 
 
 
-        })
-
-    }
-);
-
-
-
-/*
-app.intent('search', {
-        "utterances": [
-            "search speakers",
-        ]
-
-    },
-    function(request, response) {
-        return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
+                console.log('nameSpeakerConnected', nameSpeakerconnected)
+                var listspeaker = ''
+                var i = 0
+                nameSpeakerconnected.forEach(function(speaker) {
+                    return http.postAsync({ url: 'http://164.132.196.179:5050/checkifConnected', form: { key: speaker.num_serie } },
+                        function(error, res, body) {
 
 
 
 
-            console.log('nameSpeakerConnected', nameSpeakerconnected)
 
-
-
-
-            return http.getAsync({ url: 'http://164.132.196.179:5050', json: true }).spread(function(eroorStatusCode, result) {
-
-                console.log(result.list.length)
-                if (result.list.length == 0) {
-
-                    response.say('No allplay devices have been discovered!')
-                    response.send()
-                } else {
-                    var speakerListString = ''
-                    for (i = 0; i < result.list.length; i++) {
-
-                        if (i == 0) {
-
-
-                            speakerListString = result.list[0]
-                        }
-                        if (i > 0) {
-                            if (i == result.list.length - 1) {
-                                speakerListString = speakerListString + ' and ' + result.list[i]
+                            if (body == true) {
+                                speaker.connected = true
+                                i++
+                                if (listspeaker == '') {
+                                    listspeaker = speaker.name
+                                } else {
+                                    listspeaker = listspeaker + ',' + speaker.name
+                                }
                             } else {
-                                speakerListString = speakerListString + ',' + result.list[i]
+                                speaker.connected = false
                             }
 
-                        }
-                    }
 
 
-                    if (result.list.length == 1) {
-                        var session = request.getSession()
-                        session.set('lastCommande', "search")
-                        session.set('speaker', result.list[0])
-
-                        if (nameSpeakerconnected != false) {
-                            response.say(' You have  ' + result.list.length + ' allplay device available, ' + nameSpeakerconnected + ' and it is already connected')
-                            response.send()
-                        } else {
-                            response.say('You have  ' + result.list.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
-                            response.send()
-                        }
-
-                    } else {
-
-                        response.say('You have  ' + result.list.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
-                        response.send()
-
-                    }
-
-                }
-
-            })
-        })
-
-    }
-);
-*/
-
-
-app.intent('listspeaker', {
-        "utterances": [
-            "list devices",
-        ]
-
-    },
-    function(request, response) {
-        return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
-
-
-
-            console.log('nameSpeakerConnected', nameSpeakerconnected)
+                        })
 
 
 
 
-            return http.getAsync({ url: 'http://164.132.196.179:5050', json: true }).spread(function(eroorStatusCode, result) {
-
-                console.log(result.list.length)
-                if (result.list.length == 0) {
-
-                    response.say('No allplay devices have been discovered!')
-                    response.send()
-                } else {
-                    var speakerListString = ''
-                    for (i = 0; i < result.list.length; i++) {
-
-                        if (i == 0) {
 
 
-                            speakerListString = result.list[0]
-                        }
-                        if (i > 0) {
-                            if (i == result.list.length - 1) {
-                                speakerListString = speakerListString + ' and ' + result.list[i]
+                })
+
+                response.say(' You have  ' + i + ' allplay device available, ' + listspeaker + ' and it is already connected')
+                response.send()
+
+            });
+
+
+
+            /*
+            app.intent('search', {
+                    "utterances": [
+                        "search speakers",
+                    ]
+
+                },
+                function(request, response) {
+                    return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
+
+
+
+
+                        console.log('nameSpeakerConnected', nameSpeakerconnected)
+
+
+
+
+                        return http.getAsync({ url: 'http://164.132.196.179:5050', json: true }).spread(function(eroorStatusCode, result) {
+
+                            console.log(result.list.length)
+                            if (result.list.length == 0) {
+
+                                response.say('No allplay devices have been discovered!')
+                                response.send()
                             } else {
-                                speakerListString = speakerListString + ',' + result.list[i]
+                                var speakerListString = ''
+                                for (i = 0; i < result.list.length; i++) {
+
+                                    if (i == 0) {
+
+
+                                        speakerListString = result.list[0]
+                                    }
+                                    if (i > 0) {
+                                        if (i == result.list.length - 1) {
+                                            speakerListString = speakerListString + ' and ' + result.list[i]
+                                        } else {
+                                            speakerListString = speakerListString + ',' + result.list[i]
+                                        }
+
+                                    }
+                                }
+
+
+                                if (result.list.length == 1) {
+                                    var session = request.getSession()
+                                    session.set('lastCommande', "search")
+                                    session.set('speaker', result.list[0])
+
+                                    if (nameSpeakerconnected != false) {
+                                        response.say(' You have  ' + result.list.length + ' allplay device available, ' + nameSpeakerconnected + ' and it is already connected')
+                                        response.send()
+                                    } else {
+                                        response.say('You have  ' + result.list.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                                        response.send()
+                                    }
+
+                                } else {
+
+                                    response.say('You have  ' + result.list.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                                    response.send()
+
+                                }
+
                             }
 
-                        }
-                    }
-
-
-                    if (result.list.length == 1) {
-                        var session = request.getSession()
-                        session.set('lastCommande', "search")
-                        session.set('speaker', result.list[0])
-
-                        if (nameSpeakerconnected != false) {
-                            response.say(' You have  ' + result.list.length + ' allplay device available, ' + nameSpeakerconnected + ' and it is already connected')
-                            response.send()
-                        } else {
-                            response.say('You have  ' + result.list.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
-                            response.send()
-                        }
-
-                    } else {
-
-                        response.say('You have  ' + result.list.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
-                        response.send()
-
-                    }
+                        })
+                    })
 
                 }
-
-            })
-        })
-
-    }
-);
-
-app.intent('yes', {
-        "utterances": [
-            "play next",
-        ]
-
-    },
-    function(request, response) {
-        if (request.hasSession()) {
-            var session = request.getSession()
-            var lastCommande = session.get('lastCommande')
-            var val = session.get('speaker')
-
-        }
-        if (lastCommande == 'search') {
+            );
+            */
 
 
-            return http.postAsync({ url: 'http://164.132.196.179:5050', form: { key: val } },
-                function(error, res, body) {
-                    if (!error && res.statusCode == 200) {
+            app.intent('listspeaker', {
+                    "utterances": [
+                        "list devices",
+                    ]
 
-                        if (body == 'found') {
+                },
+                function(request, response) {
+                    return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
 
 
-                            response.say(val + ' has been selected ')
-                            response.send()
 
-                        } else {
-                            console.log('not found')
-                            response.say('I was unable to select ' + val + ' . Please try again later')
-                            response.send()
+                        console.log('nameSpeakerConnected', nameSpeakerconnected)
 
-                        }
+
+
+
+                        return http.getAsync({ url: 'http://164.132.196.179:5050', json: true }).spread(function(eroorStatusCode, result) {
+
+                            console.log(result.list.length)
+                            if (result.list.length == 0) {
+
+                                response.say('No allplay devices have been discovered!')
+                                response.send()
+                            } else {
+                                var speakerListString = ''
+                                for (i = 0; i < result.list.length; i++) {
+
+                                    if (i == 0) {
+
+
+                                        speakerListString = result.list[0]
+                                    }
+                                    if (i > 0) {
+                                        if (i == result.list.length - 1) {
+                                            speakerListString = speakerListString + ' and ' + result.list[i]
+                                        } else {
+                                            speakerListString = speakerListString + ',' + result.list[i]
+                                        }
+
+                                    }
+                                }
+
+
+                                if (result.list.length == 1) {
+                                    var session = request.getSession()
+                                    session.set('lastCommande', "search")
+                                    session.set('speaker', result.list[0])
+
+                                    if (nameSpeakerconnected != false) {
+                                        response.say(' You have  ' + result.list.length + ' allplay device available, ' + nameSpeakerconnected + ' and it is already connected')
+                                        response.send()
+                                    } else {
+                                        response.say('You have  ' + result.list.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                                        response.send()
+                                    }
+
+                                } else {
+
+                                    response.say('You have  ' + result.list.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                                    response.send()
+
+                                }
+
+                            }
+
+                        })
+                    })
+
+                }
+            );
+
+            app.intent('yes', {
+                    "utterances": [
+                        "play next",
+                    ]
+
+                },
+                function(request, response) {
+                    if (request.hasSession()) {
+                        var session = request.getSession()
+                        var lastCommande = session.get('lastCommande')
+                        var val = session.get('speaker')
 
                     }
+                    if (lastCommande == 'search') {
+
+
+                        return http.postAsync({ url: 'http://164.132.196.179:5050', form: { key: val } },
+                            function(error, res, body) {
+                                if (!error && res.statusCode == 200) {
+
+                                    if (body == 'found') {
+
+
+                                        response.say(val + ' has been selected ')
+                                        response.send()
+
+                                    } else {
+                                        console.log('not found')
+                                        response.say('I was unable to select ' + val + ' . Please try again later')
+                                        response.send()
+
+                                    }
+
+                                }
+
+                            });
+
+
+
+                    }
+
+                    if (lastCommande == 'control') {
+
+                        return http.getAsync({ url: 'http://164.132.196.179:5050', json: true }).spread(function(statusCode, result) {
+                            console.log(result)
+                            console.log(result.list.length)
+                            if (result.list.length == 0) {
+
+                                response.say('No allplay devices have been discovered!')
+                                response.send()
+                            } else {
+                                var speakerListString = ''
+                                for (i = 0; i < result.list.length; i++) {
+
+                                    if (i == 0) {
+                                        console.log('inside if egale a zero')
+                                        speakerListString = result.list[i]
+                                    }
+                                    if (i > 0) {
+                                        if (i == result.list.length - 1) {
+                                            speakerListString = speakerListString + ' and ' + result.list[i]
+                                        } else {
+                                            speakerListString = speakerListString + ',' + result.list[i]
+                                        }
+
+                                    }
+                                }
+                                if (result.list.length == 1) {
+                                    var session = request.getSession()
+                                    session.set('lastCommande', "search")
+                                    session.set('speaker', result.list[0])
+                                    response.say('You have  ' + result.list.length + ' allplay device available, ' + result.list + '. Do you want to link it! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                                    response.send()
+                                } else {
+                                    response.say('You have  ' + result.list.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                                    response.send()
+
+                                }
+
+                            }
+
+                        })
+
+
+
+
+
+                    }
+
+
+
+                }
+            );
+
+            app.intent('next', {
+                    "utterances": [
+                        "play next",
+                    ]
+
+                },
+                function(request, response) {
+                    if (request.hasSession()) {
+                        var session = request.getSession()
+                        console.log(session.get('name'))
+                        var val = session.get('name')
+                    }
+                    return http.postAsync({ url: 'http://164.132.196.179:5050/playnext', form: { key: val } },
+                        function(error, res, body) {
+                            var obj = JSON.parse(body);
+                            if (obj.status == "no") {
+                                session.set('lastCommande', "control")
+
+                                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                                response.send();
+                            } else {
+                                response.say("ok , play next! ");
+                                response.send();
+                            }
+
+                        })
+
+                }
+            );
+
+            app.intent('prev', {
+                    "utterances": [
+                        "play previous",
+                    ]
+
+                },
+                function(request, response) {
+                    if (request.hasSession()) {
+                        var session = request.getSession()
+                        console.log(session.get('name'))
+                        var val = session.get('name')
+                    }
+                    return http.postAsync({ url: 'http://164.132.196.179:5050/playprevious', form: { key: val } },
+                        function(error, res, body) {
+
+
+                            var obj = JSON.parse(body);
+
+
+                            if (obj.status == "no") {
+                                session.set('lastCommande', "control")
+
+                                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                                response.send();
+                            } else {
+                                response.say("ok play previous! ");
+                                response.send();
+                            }
+
+
+
+                        })
+
+                }
+            );
+
+            app.intent('play', {
+                    "utterances": [
+                        "play",
+                    ]
+
+                },
+                function(request, response) {
+                    if (request.hasSession()) {
+                        var session = request.getSession()
+                        console.log(session.get('name'))
+                        var val = session.get('name')
+                    }
+                    return http.postAsync({ url: 'http://164.132.196.179:5050/playtrack', form: { key: val } },
+                        function(error, res, body) {
+                            var obj = JSON.parse(body);
+                            if (obj.status == "no") {
+                                session.set('lastCommande', "control")
+
+                                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                                response.send();
+                            } else {
+                                response.say("ok , play!!! ");
+                                response.send();
+                            }
+
+                        })
+
+                }
+            );
+
+            app.intent('incr', {
+                    "utterances": [
+                        "increase volume ",
+                    ]
+
+                },
+                function(request, response) {
+                    if (request.hasSession()) {
+                        var session = request.getSession()
+                        console.log(session.get('name'))
+                        var val = session.get('name')
+                    }
+                    return http.postAsync({ url: 'http://164.132.196.179:5050/incrvolume', form: { key: val } },
+                        function(error, res, body) {
+                            var obj = JSON.parse(body);
+                            if (obj.status == "no") {
+                                session.set('lastCommande', "control")
+
+                                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                                response.send();
+                            } else {
+                                response.say("ok , increase!!! ");
+                                response.send();
+                            }
+
+                        })
+
+                }
+            );
+
+
+            app.intent('decr', {
+                    "utterances": [
+                        "decrease volume ",
+                    ]
+
+                },
+                function(request, response) {
+                    if (request.hasSession()) {
+                        var session = request.getSession()
+                        console.log(session.get('name'))
+                        var val = session.get('name')
+                    }
+                    return http.postAsync({ url: 'http://164.132.196.179:5050/decrevolume', form: { key: val } },
+                        function(error, res, body) {
+                            var obj = JSON.parse(body);
+                            if (obj.status == "no") {
+                                session.set('lastCommande', "control")
+
+                                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                                response.send();
+                            } else {
+                                response.say("ok , decrease !!! ");
+                                response.send();
+                            }
+
+                        })
+
+                }
+            );
+
+
+            app.intent('increase', {
+                    "slots": {
+                        "number": "AMAZON.NUMBER",
+
+                    },
+                    "utterances": [
+                        "increase volume by  {number}",
+                    ]
+
+                },
+                function(request, response) {
+                    var valueToIncrease = request.slot('number')
+                    if (request.hasSession()) {
+                        var session = request.getSession()
+                        console.log(session.get('name'))
+                        var val = session.get('name')
+                    }
+                    return http.postAsync({ url: 'http://164.132.196.179:5050/increasevolume', form: { key: val, nb: valueToIncrease } },
+                        function(error, res, body) {
+                            var obj = JSON.parse(body);
+                            if (obj.status == "no") {
+                                session.set('lastCommande', "control")
+
+                                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                                response.send();
+                            } else {
+                                response.say("ok , increase by  " + valueToIncrease);
+                                response.send();
+                            }
+
+                        })
+
+                }
+            );
+
+            app.intent('decrease', {
+                    "slots": {
+                        "number": "AMAZON.NUMBER",
+
+                    },
+                    "utterances": [
+                        "decrease volume by {number}",
+                    ]
+
+                },
+                function(request, response) {
+                    var valueToDecrease = request.slot('number')
+                    if (request.hasSession()) {
+                        var session = request.getSession()
+                        console.log(session.get('name'))
+                        var val = session.get('name')
+                    }
+                    return http.postAsync({ url: 'http://164.132.196.179:5050/decreasevolume', form: { key: val, nb: valueToDecrease } },
+                        function(error, res, body) {
+                            var obj = JSON.parse(body);
+                            if (obj.status == "no") {
+                                session.set('lastCommande', "control")
+
+                                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                                response.send();
+                            } else {
+                                response.say("ok , decrease by " + valueToDecrease);
+                                response.send();
+                            }
+
+                        })
+
+                }
+            );
+
+            app.intent('pause', {
+                    "utterances": [
+                        "pause",
+                    ]
+
+                },
+                function(request, response) {
+                    if (request.hasSession()) {
+                        var session = request.getSession()
+                        console.log(session.get('name'))
+                        var val = session.get('name')
+                    }
+                    return http.postAsync({ url: 'http://164.132.196.179:5050/pause', form: { key: val } },
+                        function(error, res, body) {
+                            var obj = JSON.parse(body);
+                            if (obj.status == "no") {
+                                session.set('lastCommande', "control")
+
+                                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                                response.send();
+                            } else {
+                                response.say("ok, pause! ");
+                                response.send();
+                            }
+
+                        })
+
+                }
+            );
+
+            app.intent("link", {
+                    "slots": {
+                        "NAMED": "AMAZON.LITERAL",
+
+                    },
+                    "utterances": [
+                        "select {NAMED} "
+                    ]
+                },
+                function(request, response) {
+                    var nameToRepeat = request.slot('NAMED')
+                    var session = request.getSession()
+                    session.set('name', nameToRepeat)
+                    return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
+
+                        if (nameSpeakerconnected != false) {
+                            response.say(nameSpeakerconnected + ' is already connected')
+                            response.send()
+                        } else {
+
+                            return http.postAsync({ url: 'http://164.132.196.179:5050/', json: true, form: { key: nameToRepeat } },
+
+                                function(error, res, body) {
+
+                                    if (!error && res.statusCode == 200) {
+
+                                        if (body == 'found') {
+                                            console.log('found')
+
+                                            response.say(nameToRepeat + ' has been selected ')
+                                            response.send()
+
+                                        } else {
+                                            console.log('not found')
+                                            response.say('I was unable to select ' + nameToRepeat + ' . Please try again later')
+                                            response.send()
+
+                                        }
+
+                                    }
+
+                                });
+                        }
+
+
+
+                    });
+
 
                 });
 
 
+            app.intent('help', {
+                    "utterances": [
+                        "help",
+                    ]
 
-        }
+                },
 
-        if (lastCommande == 'control') {
-
-            return http.getAsync({ url: 'http://164.132.196.179:5050', json: true }).spread(function(statusCode, result) {
-                console.log(result)
-                console.log(result.list.length)
-                if (result.list.length == 0) {
-
-                    response.say('No allplay devices have been discovered!')
+                function(request, response) {
+                    response.say(' you can start by asking . Alexa ask allplay to list devices! to search device connected . and then select the device by saying . Alexa link to device you want to select. once selected you can voice control your device')
                     response.send()
-                } else {
-                    var speakerListString = ''
-                    for (i = 0; i < result.list.length; i++) {
-
-                        if (i == 0) {
-                            console.log('inside if egale a zero')
-                            speakerListString = result.list[i]
-                        }
-                        if (i > 0) {
-                            if (i == result.list.length - 1) {
-                                speakerListString = speakerListString + ' and ' + result.list[i]
-                            } else {
-                                speakerListString = speakerListString + ',' + result.list[i]
-                            }
-
-                        }
-                    }
-                    if (result.list.length == 1) {
-                        var session = request.getSession()
-                        session.set('lastCommande', "search")
-                        session.set('speaker', result.list[0])
-                        response.say('You have  ' + result.list.length + ' allplay device available, ' + result.list + '. Do you want to link it! ').reprompt('sorry repeat again !').shouldEndSession(false);
-                        response.send()
-                    } else {
-                        response.say('You have  ' + result.list.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
-                        response.send()
-
-                    }
 
                 }
-
-            })
-
+            );
 
 
+            app.intent('start', {
+                    "utterances": [
+                        "start",
+                    ]
+
+                },
+
+                function(request, response) {
+                    response.say('Welcome to allplay. With this skill ,you can voice control any  allplay device with your AMAZON echo or echo dot . Account linking is required . For instructions, please refer to your alexa app')
+
+                    response.send()
 
 
-        }
-
-
-
-    }
-);
-
-app.intent('next', {
-        "utterances": [
-            "play next",
-        ]
-
-    },
-    function(request, response) {
-        if (request.hasSession()) {
-            var session = request.getSession()
-            console.log(session.get('name'))
-            var val = session.get('name')
-        }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/playnext', form: { key: val } },
-            function(error, res, body) {
-                var obj = JSON.parse(body);
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
-
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok , play next! ");
-                    response.send();
                 }
+            );
 
-            })
 
-    }
-);
 
-app.intent('prev', {
-        "utterances": [
-            "play previous",
-        ]
-
-    },
-    function(request, response) {
-        if (request.hasSession()) {
-            var session = request.getSession()
-            console.log(session.get('name'))
-            var val = session.get('name')
-        }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/playprevious', form: { key: val } },
-            function(error, res, body) {
-
-
-                var obj = JSON.parse(body);
-
-
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
-
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok play previous! ");
-                    response.send();
-                }
-
-
-
-            })
-
-    }
-);
-
-app.intent('play', {
-        "utterances": [
-            "play",
-        ]
-
-    },
-    function(request, response) {
-        if (request.hasSession()) {
-            var session = request.getSession()
-            console.log(session.get('name'))
-            var val = session.get('name')
-        }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/playtrack', form: { key: val } },
-            function(error, res, body) {
-                var obj = JSON.parse(body);
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
-
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok , play!!! ");
-                    response.send();
-                }
-
-            })
-
-    }
-);
-
-app.intent('incr', {
-        "utterances": [
-            "increase volume ",
-        ]
-
-    },
-    function(request, response) {
-        if (request.hasSession()) {
-            var session = request.getSession()
-            console.log(session.get('name'))
-            var val = session.get('name')
-        }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/incrvolume', form: { key: val } },
-            function(error, res, body) {
-                var obj = JSON.parse(body);
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
-
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok , increase!!! ");
-                    response.send();
-                }
-
-            })
-
-    }
-);
-
-
-app.intent('decr', {
-        "utterances": [
-            "decrease volume ",
-        ]
-
-    },
-    function(request, response) {
-        if (request.hasSession()) {
-            var session = request.getSession()
-            console.log(session.get('name'))
-            var val = session.get('name')
-        }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/decrevolume', form: { key: val } },
-            function(error, res, body) {
-                var obj = JSON.parse(body);
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
-
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok , decrease !!! ");
-                    response.send();
-                }
-
-            })
-
-    }
-);
-
-
-app.intent('increase', {
-        "slots": {
-            "number": "AMAZON.NUMBER",
-
-        },
-        "utterances": [
-            "increase volume by  {number}",
-        ]
-
-    },
-    function(request, response) {
-        var valueToIncrease = request.slot('number')
-        if (request.hasSession()) {
-            var session = request.getSession()
-            console.log(session.get('name'))
-            var val = session.get('name')
-        }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/increasevolume', form: { key: val, nb: valueToIncrease } },
-            function(error, res, body) {
-                var obj = JSON.parse(body);
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
-
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok , increase by  " + valueToIncrease);
-                    response.send();
-                }
-
-            })
-
-    }
-);
-
-app.intent('decrease', {
-        "slots": {
-            "number": "AMAZON.NUMBER",
-
-        },
-        "utterances": [
-            "decrease volume by {number}",
-        ]
-
-    },
-    function(request, response) {
-        var valueToDecrease = request.slot('number')
-        if (request.hasSession()) {
-            var session = request.getSession()
-            console.log(session.get('name'))
-            var val = session.get('name')
-        }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/decreasevolume', form: { key: val, nb: valueToDecrease } },
-            function(error, res, body) {
-                var obj = JSON.parse(body);
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
-
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok , decrease by " + valueToDecrease);
-                    response.send();
-                }
-
-            })
-
-    }
-);
-
-app.intent('pause', {
-        "utterances": [
-            "pause",
-        ]
-
-    },
-    function(request, response) {
-        if (request.hasSession()) {
-            var session = request.getSession()
-            console.log(session.get('name'))
-            var val = session.get('name')
-        }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/pause', form: { key: val } },
-            function(error, res, body) {
-                var obj = JSON.parse(body);
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
-
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok, pause! ");
-                    response.send();
-                }
-
-            })
-
-    }
-);
-
-app.intent("link", {
-        "slots": {
-            "NAMED": "AMAZON.LITERAL",
-
-        },
-        "utterances": [
-            "select {NAMED} "
-        ]
-    },
-    function(request, response) {
-        var nameToRepeat = request.slot('NAMED')
-        var session = request.getSession()
-        session.set('name', nameToRepeat)
-        return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
-
-            if (nameSpeakerconnected != false) {
-                response.say(nameSpeakerconnected + ' is already connected')
-                response.send()
-            } else {
-
-                return http.postAsync({ url: 'http://164.132.196.179:5050/', json: true, form: { key: nameToRepeat } },
-
-                    function(error, res, body) {
-
-                        if (!error && res.statusCode == 200) {
-
-                            if (body == 'found') {
-                                console.log('found')
-
-                                response.say(nameToRepeat + ' has been selected ')
-                                response.send()
-
-                            } else {
-                                console.log('not found')
-                                response.say('I was unable to select ' + nameToRepeat + ' . Please try again later')
-                                response.send()
-
-                            }
-
-                        }
-
-                    });
-            }
-
-
-
-        });
-
-
-    });
-
-
-app.intent('help', {
-        "utterances": [
-            "help",
-        ]
-
-    },
-
-    function(request, response) {
-        response.say(' you can start by asking . Alexa ask allplay to list devices! to search device connected . and then select the device by saying . Alexa link to device you want to select. once selected you can voice control your device')
-        response.send()
-
-    }
-);
-
-
-app.intent('start', {
-        "utterances": [
-            "start",
-        ]
-
-    },
-
-    function(request, response) {
-        response.say('Welcome to allplay. With this skill ,you can voice control any  allplay device with your AMAZON echo or echo dot . Account linking is required . For instructions, please refer to your alexa app')
-
-        response.send()
-
-
-    }
-);
-
-
-
-module.exports = app;
+            module.exports = app;
