@@ -176,9 +176,31 @@ app.intent('search', {
 
                 }
             }
+
             console.log('list device ', speakerListString)
-            response.say(' You have  ' + nameSpeakerconnected.length + ' allplay device available, ' + speakerListString)
-            response.send()
+            if (nameSpeakerconnected.length == 1) {
+                var session = request.getSession()
+                session.set('lastCommande', "search")
+                session.set('speaker', nameSpeakerconnected[0].name)
+
+                if (nameSpeakerconnected != false) {
+                    response.say(' You have  ' + nameSpeakerconnected.length + ' allplay device available, ' + nameSpeakerconnected[0].name + ' and it is already connected')
+                    response.send()
+                } else {
+                    response.say('You have  ' + nameSpeakerconnected.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                    response.send()
+                }
+
+            } else {
+
+                response.say('You have  ' + nameSpeakerconnected.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                response.send()
+
+            }
+
+
+
+
 
         });
     })
