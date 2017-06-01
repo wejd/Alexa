@@ -749,6 +749,7 @@ app.intent("link", {
                                 response.send()
 
                             } else {
+                                console.log('name speaker is ' + nameToRepeat + ' and numSeire is ' + numSerie)
                                 console.log('not found')
                                 response.say('I was unable to select ' + nameToRepeat + ' . Please try again later')
                                 response.send()
