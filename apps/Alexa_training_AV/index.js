@@ -158,7 +158,7 @@ app.intent('search', {
         console.log('accessToken  ', accessToken)
         reqheader = 'Bearer ' + accessToken;
 
-        getlistspeakerperuser(request, response, function(listspeakerConnected) {
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
 
 
 
@@ -187,7 +187,6 @@ app.intent('search', {
 
             console.log('list device ', speakerListString)
             if (listspeakerConnected.length == 1) {
-                console.log('inside leng th list == 1')
                 var session = request.getSession()
                 session.set('lastCommande', "search")
                 session.set('speaker', listspeakerConnected[0].name)
