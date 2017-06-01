@@ -183,7 +183,7 @@ app.intent('search', {
                 session.set('lastCommande', "search")
                 session.set('speaker', nameSpeakerconnected[0].name)
 
-                if (nameSpeakerconnected != false) {
+                if (nameSpeakerconnected[0].linked == true) {
                     response.say(' You have  ' + nameSpeakerconnected.length + ' allplay device available, ' + nameSpeakerconnected[0].name + ' and it is already connected')
                     response.send()
                 } else {
