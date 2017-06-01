@@ -156,7 +156,7 @@ app.intent('search', {
 
 
             console.log('nameSpeakerConnected', nameSpeakerconnected)
-            var listspeaker = ''
+
             var i = 0
 
             var speakerListString = ''
@@ -177,7 +177,7 @@ app.intent('search', {
                 }
             }
             console.log('list device ', speakerListString)
-            response.say(' You have  ' + nameSpeakerconnected.length + ' allplay device available, ' + listspeaker)
+            response.say(' You have  ' + nameSpeakerconnected.length + ' allplay device available, ' + speakerListString)
             response.send()
 
         });
