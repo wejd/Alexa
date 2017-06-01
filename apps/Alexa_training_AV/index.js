@@ -9,7 +9,7 @@ var http = require('bluebird').promisifyAll(require('request'), { multiArgs: tru
 
 
 app.launch(function(request, response) {
-
+    console.log(request)
     response.say('Welcome to allplay. With this skill ,you can voice control any  allplay device with your AMAZON echo or echo dot . Account linking is required . For instructions, please refer to your alexa app')
 });
 
