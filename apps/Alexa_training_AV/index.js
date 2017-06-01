@@ -187,6 +187,7 @@ app.intent('search', {
 
             console.log('list device ', speakerListString)
             if (listspeakerConnected.length == 1) {
+                console.log('inside leng th list == 1')
                 var session = request.getSession()
                 session.set('lastCommande', "search")
                 session.set('speaker', listspeakerConnected[0].name)
