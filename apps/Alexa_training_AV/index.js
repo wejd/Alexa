@@ -724,9 +724,15 @@ app.intent("link", {
         ]
     },
     function(request, response) {
+        console.log(request)
+        if (request.hasSession()) {
+            console.log('request has session')
+            var session = request.getSession()
+            var numSerie = session.get('speaker_numSerie')
+        }
         var nameToRepeat = request.slot('NAMED')
-        var session = request.getSession()
-        var numSerie = session.get('speaker_numSerie')
+
+
         session.set('name', nameToRepeat)
         console.log('name speaker is ', nameToRepeat)
         console.log('numSeire is ', numSerie)
