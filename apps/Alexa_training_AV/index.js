@@ -6,7 +6,12 @@ var app = new alexa.app('Alexa_training_AV');
 var req = require('request-promise')
     /*var http = require('http')*/
 var http = require('bluebird').promisifyAll(require('request'), { multiArgs: true });
+var getlistspeakerperuser = function(req, res, callback) {
+    return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+        callback(listspeakerConnected)
+    })
 
+}
 
 app.launch(function(request, response) {
     console.log(request)
@@ -139,6 +144,9 @@ app.intent('anyone', {
 
     });
 
+
+
+
 app.intent('search', {
         "utterances": [
             "search speakers",
@@ -150,50 +158,50 @@ app.intent('search', {
         console.log('accessToken  ', accessToken)
         reqheader = 'Bearer ' + accessToken;
 
-        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
+        getlistspeakerperuser(request, response, function(listspeakerConnected) {
 
 
 
 
-            console.log('nameSpeakerConnected', nameSpeakerconnected)
+            console.log('listspeakerConnected', listspeakerConnected)
 
             var i = 0
 
             var speakerListString = ''
-            for (i = 0; i < nameSpeakerconnected.length; i++) {
+            for (i = 0; i < listspeakerConnected.length; i++) {
 
                 if (i == 0) {
 
 
-                    speakerListString = nameSpeakerconnected[0].name
+                    speakerListString = listspeakerConnected[0].name
                 }
                 if (i > 0) {
-                    if (i == nameSpeakerconnected.length - 1) {
-                        speakerListString = speakerListString + ' and ' + nameSpeakerconnected[i].name
+                    if (i == listspeakerConnected.length - 1) {
+                        speakerListString = speakerListString + ' and ' + listspeakerConnected[i].name
                     } else {
-                        speakerListString = speakerListString + ',' + nameSpeakerconnected[i].name
+                        speakerListString = speakerListString + ',' + listspeakerConnected[i].name
                     }
 
                 }
             }
 
             console.log('list device ', speakerListString)
-            if (nameSpeakerconnected.length == 1) {
+            if (listspeakerConnected.length == 1) {
                 var session = request.getSession()
                 session.set('lastCommande', "search")
-                session.set('speaker', nameSpeakerconnected[0].name)
+                session.set('speaker', listspeakerConnected[0].name)
 
-                if (nameSpeakerconnected[0].linked == true) {
-                    response.say(' You have  ' + nameSpeakerconnected.length + ' allplay device available, ' + nameSpeakerconnected[0].name + ' and it is already connected')
+                if (listspeakerConnected[0].linked == true) {
+                    response.say(' You have  ' + listspeakerConnected.length + ' allplay device available, ' + listspeakerConnected[0].name + ' and it is already connected')
                     response.send()
                 } else {
-                    response.say('You have  ' + nameSpeakerconnected.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                    response.say('You have  ' + listspeakerConnected.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
                     response.send()
                 }
 
             } else {
 
-                response.say('You have  ' + nameSpeakerconnected.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                response.say('You have  ' + listspeakerConnected.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
                 response.send()
 
             }
