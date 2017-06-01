@@ -165,18 +165,18 @@ app.intent('search', {
                 if (i == 0) {
 
 
-                    speakerListString = nameSpeakerconnected[0]
+                    speakerListString = nameSpeakerconnected[0].name
                 }
                 if (i > 0) {
                     if (i == nameSpeakerconnected.length - 1) {
-                        speakerListString = speakerListString + ' and ' + nameSpeakerconnected[i]
+                        speakerListString = speakerListString + ' and ' + nameSpeakerconnected[i].name
                     } else {
-                        speakerListString = speakerListString + ',' + nameSpeakerconnected[i]
+                        speakerListString = speakerListString + ',' + nameSpeakerconnected[i].name
                     }
 
                 }
             }
-
+            console.log('list device ', speakerListString)
             response.say(' You have  ' + nameSpeakerconnected.length + ' allplay device available, ' + listspeaker)
             response.send()
 
