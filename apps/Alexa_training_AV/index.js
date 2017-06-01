@@ -769,9 +769,9 @@ app.intent("link", {
             })
 
             if (i == 0) {
-                console.log('not found')
-                return response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                    //response.send()
+                console.log('not found and i equal zeo')
+                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                response.send()
 
 
             }
