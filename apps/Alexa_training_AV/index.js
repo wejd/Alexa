@@ -146,6 +146,35 @@ app.intent('search', {
 
     },
     function(request, response) {
+        accessToken = request.sessionDetails.accessToken;
+        console.log('accessToken  ', accessToken)
+        reqheader = 'Bearer ' + accessToken;
+
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: reqheader, json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
+
+
+
+
+            console.log('nameSpeakerConnected', nameSpeakerconnected)
+
+
+
+
+        })
+
+    }
+);
+
+
+
+/*
+app.intent('search', {
+        "utterances": [
+            "search speakers",
+        ]
+
+    },
+    function(request, response) {
         return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
 
 
@@ -210,6 +239,8 @@ app.intent('search', {
 
     }
 );
+*/
+
 
 app.intent('listspeaker', {
         "utterances": [
