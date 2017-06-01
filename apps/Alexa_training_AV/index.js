@@ -726,10 +726,10 @@ app.intent("link", {
     function(request, response) {
 
 
-        console.log(req)
-        var namespeakerfromalexa = request.slot('NAMED')
-        session.set('name', namespeakerfromalexa)
-        console.log('**-*-*-*', namespeakerfromalexa)
+        console.log('**-*-*-*', request.slot('NAMED'));
+        var namespeakerfromalexa = request.slot('NAMED');
+        session.set('name', namespeakerfromalexa);
+
         accessToken = request.sessionDetails.accessToken;
         console.log('accessToken  ', accessToken)
         reqheader = 'Bearer ' + accessToken;
