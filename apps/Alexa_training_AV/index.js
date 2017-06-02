@@ -41,6 +41,8 @@ app.intent('which', {
             i = 0
             listspeakerConnected.forEach(function(speaker) {
                 if (speaker.linked == true) {
+
+                    i++
                     response.say('the Device ' + speaker.name + ' is selected')
                     response.send()
                 }
