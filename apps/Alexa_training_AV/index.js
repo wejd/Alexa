@@ -32,94 +32,29 @@ app.intent('which', {
     },
 
     function(request, response) {
+        accessToken = request.sessionDetails.accessToken;
+        console.log('accessToken  ', accessToken)
+        reqheader = 'Bearer ' + accessToken;
 
-
-        return http.getAsync({ url: 'http://vps341573.ovh.net:5050/getConnectedDevice', json: true }).spread(function(result, body) {
-            if (result.statusCode == 200) {
-                if (body != false) {
-                    response.say('the Device ' + body + ' is selected')
-                    response.send()
-                } else {
-                    response.say('No allplay device have been selected!')
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            console.log(listspeakerConnected)
+            i = 0
+            listspeakerConnected.forEach(function(speaker) {
+                if (speaker.linked == true) {
+                    response.say('the Device ' + speaker.name + ' is selected')
                     response.send()
                 }
 
-
-
-
-            } else {
-
+            })
+            if (i == 0) {
                 response.say('No allplay device have been selected!')
                 response.send()
             }
 
-
-
-
-
-
-
         })
 
+    })
 
-    }
-);
-
-app.intent('nothing', {
-        "utterances": [
-            "nothing",
-        ]
-
-    },
-
-    function(request, response) {
-        response.say('')
-        response.send()
-
-    }
-);
-
-app.intent('none', {
-        "utterances": [
-            "none",
-        ]
-
-    },
-
-    function(request, response) {
-        response.say('')
-        response.send()
-
-    }
-);
-
-app.intent('no', {
-        "utterances": [
-            "no",
-        ]
-
-    },
-
-    function(request, response) {
-        response.say('')
-        response.send()
-
-    }
-);
-
-app.intent('noone', {
-        "utterances": [
-            "no one",
-        ]
-
-    },
-
-    function(request, response) {
-        response.say('')
-        response.send()
-
-    }
-);
 
 app.intent('anyone', {
         "utterances": [
@@ -216,79 +151,6 @@ app.intent('search', {
 
 
 
-/*
-app.intent('search', {
-        "utterances": [
-            "search speakers",
-        ]
-
-    },
-    function(request, response) {
-        return http.getAsync({ url: 'http://vps341573.ovh.net:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
-
-
-
-
-            console.log('nameSpeakerConnected', nameSpeakerconnected)
-
-
-
-
-            return http.getAsync({ url: 'http://vps341573.ovh.net:5050', json: true }).spread(function(eroorStatusCode, result) {
-
-                console.log(result.list.length)
-                if (result.list.length == 0) {
-
-                    response.say('No allplay devices have been discovered!')
-                    response.send()
-                } else {
-                    var speakerListString = ''
-                    for (i = 0; i < result.list.length; i++) {
-
-                        if (i == 0) {
-
-
-                            speakerListString = result.list[0]
-                        }
-                        if (i > 0) {
-                            if (i == result.list.length - 1) {
-                                speakerListString = speakerListString + ' and ' + result.list[i]
-                            } else {
-                                speakerListString = speakerListString + ',' + result.list[i]
-                            }
-
-                        }
-                    }
-
-
-                    if (result.list.length == 1) {
-                        var session = request.getSession()
-                        session.set('lastCommande', "search")
-                        session.set('speaker', result.list[0])
-
-                        if (nameSpeakerconnected != false) {
-                            response.say(' You have  ' + result.list.length + ' allplay device available, ' + nameSpeakerconnected + ' and it is already connected')
-                            response.send()
-                        } else {
-                            response.say('You have  ' + result.list.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
-                            response.send()
-                        }
-
-                    } else {
-
-                        response.say('You have  ' + result.list.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
-                        response.send()
-
-                    }
-
-                }
-
-            })
-        })
-
-    }
-);
-*/
 
 
 app.intent('listspeaker', {
@@ -298,68 +160,67 @@ app.intent('listspeaker', {
 
     },
     function(request, response) {
-        return http.getAsync({ url: 'http://vps341573.ovh.net:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
+        accessToken = request.sessionDetails.accessToken;
+        console.log('accessToken  ', accessToken)
+        reqheader = 'Bearer ' + accessToken;
+
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
 
 
 
-            console.log('nameSpeakerConnected', nameSpeakerconnected)
+
+            console.log('listspeakerConnected', listspeakerConnected)
+
+            var i = 0
+
+            var speakerListString = ''
+            for (i = 0; i < listspeakerConnected.length; i++) {
+
+                if (i == 0) {
 
 
-
-
-            return http.getAsync({ url: 'http://vps341573.ovh.net:5050', json: true }).spread(function(eroorStatusCode, result) {
-
-                console.log(result.list.length)
-                if (result.list.length == 0) {
-
-                    response.say('No allplay devices have been discovered!')
-                    response.send()
-                } else {
-                    var speakerListString = ''
-                    for (i = 0; i < result.list.length; i++) {
-
-                        if (i == 0) {
-
-
-                            speakerListString = result.list[0]
-                        }
-                        if (i > 0) {
-                            if (i == result.list.length - 1) {
-                                speakerListString = speakerListString + ' and ' + result.list[i]
-                            } else {
-                                speakerListString = speakerListString + ',' + result.list[i]
-                            }
-
-                        }
-                    }
-
-
-                    if (result.list.length == 1) {
-                        var session = request.getSession()
-                        session.set('lastCommande', "search")
-                        session.set('speaker', result.list[0])
-
-                        if (nameSpeakerconnected != false) {
-                            response.say(' You have  ' + result.list.length + ' allplay device available, ' + nameSpeakerconnected + ' and it is already connected')
-                            response.send()
-                        } else {
-                            response.say('You have  ' + result.list.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
-                            response.send()
-                        }
-
+                    speakerListString = listspeakerConnected[0].name
+                }
+                if (i > 0) {
+                    if (i == listspeakerConnected.length - 1) {
+                        speakerListString = speakerListString + ' and ' + listspeakerConnected[i].name
                     } else {
-
-                        response.say('You have  ' + result.list.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
-                        response.send()
-
+                        speakerListString = speakerListString + ',' + listspeakerConnected[i].name
                     }
 
                 }
+            }
 
-            })
-        })
+            console.log('list device ', speakerListString)
+            if (listspeakerConnected.length == 1) {
+                var session = request.getSession()
+                session.set('lastCommande', "search")
+                session.set('speaker', listspeakerConnected[0].name)
+                session.set('speaker_numSerie', listspeakerConnected[0].num_serie)
 
+                if (listspeakerConnected[0].linked == true) {
+                    response.say(' You have  ' + listspeakerConnected.length + ' allplay device available, ' + listspeakerConnected[0].name + ' and it is already connected')
+                    response.send()
+                } else {
+                    response.say('You have  ' + listspeakerConnected.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                    response.send()
+                }
+
+            } else {
+
+                response.say('You have  ' + listspeakerConnected.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                response.send()
+
+            }
+
+
+
+
+
+        });
     }
+
+
 );
 
 app.intent('yes', {
@@ -818,6 +679,64 @@ app.intent('start', {
 
     }
 );
+
+
+app.intent('nothing', {
+        "utterances": [
+            "nothing",
+        ]
+
+    },
+
+    function(request, response) {
+        response.say('')
+        response.send()
+
+    }
+);
+
+app.intent('none', {
+        "utterances": [
+            "none",
+        ]
+
+    },
+
+    function(request, response) {
+        response.say('')
+        response.send()
+
+    }
+);
+
+app.intent('no', {
+        "utterances": [
+            "no",
+        ]
+
+    },
+
+    function(request, response) {
+        response.say('')
+        response.send()
+
+    }
+);
+
+app.intent('noone', {
+        "utterances": [
+            "no one",
+        ]
+
+    },
+
+    function(request, response) {
+        response.say('')
+        response.send()
+
+    }
+);
+
 
 
 
