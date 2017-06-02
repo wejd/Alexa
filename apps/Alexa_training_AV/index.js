@@ -34,7 +34,7 @@ app.intent('which', {
     function(request, response) {
 
 
-        return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(result, body) {
+        return http.getAsync({ url: 'http://vps341573.ovh.net:5050/getConnectedDevice', json: true }).spread(function(result, body) {
             if (result.statusCode == 200) {
                 if (body != false) {
                     response.say('the Device ' + body + ' is selected')
@@ -129,7 +129,7 @@ app.intent('anyone', {
     },
 
     function(request, response) {
-        return http.postAsync({ url: 'http://164.132.196.179:5050/linktoanyone', form: { key: 'anyone' } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/linktoanyone', form: { key: 'anyone' } },
             function(error, res, body) {
                 if (!error && res.statusCode == 200) {
 
@@ -224,7 +224,7 @@ app.intent('search', {
 
     },
     function(request, response) {
-        return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
+        return http.getAsync({ url: 'http://vps341573.ovh.net:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
 
 
 
@@ -234,7 +234,7 @@ app.intent('search', {
 
 
 
-            return http.getAsync({ url: 'http://164.132.196.179:5050', json: true }).spread(function(eroorStatusCode, result) {
+            return http.getAsync({ url: 'http://vps341573.ovh.net:5050', json: true }).spread(function(eroorStatusCode, result) {
 
                 console.log(result.list.length)
                 if (result.list.length == 0) {
@@ -298,7 +298,7 @@ app.intent('listspeaker', {
 
     },
     function(request, response) {
-        return http.getAsync({ url: 'http://164.132.196.179:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
+        return http.getAsync({ url: 'http://vps341573.ovh.net:5050/getConnectedDevice', json: true }).spread(function(statusCodesError, nameSpeakerconnected) {
 
 
 
@@ -307,7 +307,7 @@ app.intent('listspeaker', {
 
 
 
-            return http.getAsync({ url: 'http://164.132.196.179:5050', json: true }).spread(function(eroorStatusCode, result) {
+            return http.getAsync({ url: 'http://vps341573.ovh.net:5050', json: true }).spread(function(eroorStatusCode, result) {
 
                 console.log(result.list.length)
                 if (result.list.length == 0) {
@@ -378,7 +378,7 @@ app.intent('yes', {
         if (lastCommande == 'search') {
 
 
-            return http.postAsync({ url: 'http://164.132.196.179:5050', form: { key: numSerie } },
+            return http.postAsync({ url: 'http://vps341573.ovh.net:5050', form: { key: numSerie } },
                 function(error, res, body) {
                     if (!error && res.statusCode == 200) {
 
@@ -405,7 +405,7 @@ app.intent('yes', {
 
         if (lastCommande == 'control') {
 
-            return http.getAsync({ url: 'http://164.132.196.179:5050', json: true }).spread(function(statusCode, result) {
+            return http.getAsync({ url: 'http://vps341573.ovh.net:5050', json: true }).spread(function(statusCode, result) {
                 console.log(result)
                 console.log(result.list.length)
                 if (result.list.length == 0) {
@@ -468,7 +468,7 @@ app.intent('next', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/playnext', form: { key: val } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/playnext', form: { key: val } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -498,7 +498,7 @@ app.intent('prev', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/playprevious', form: { key: val } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/playprevious', form: { key: val } },
             function(error, res, body) {
 
 
@@ -534,7 +534,7 @@ app.intent('play', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/playtrack', form: { key: val } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/playtrack', form: { key: val } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -564,7 +564,7 @@ app.intent('incr', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/incrvolume', form: { key: val } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/incrvolume', form: { key: val } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -595,7 +595,7 @@ app.intent('decr', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/decrevolume', form: { key: val } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/decrevolume', form: { key: val } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -631,7 +631,7 @@ app.intent('increase', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/increasevolume', form: { key: val, nb: valueToIncrease } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/increasevolume', form: { key: val, nb: valueToIncrease } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -666,7 +666,7 @@ app.intent('decrease', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/decreasevolume', form: { key: val, nb: valueToDecrease } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/decreasevolume', form: { key: val, nb: valueToDecrease } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -696,7 +696,7 @@ app.intent('pause', {
             console.log(session.get('name'))
             var val = session.get('name')
         }
-        return http.postAsync({ url: 'http://164.132.196.179:5050/pause', form: { key: val } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/pause', form: { key: val } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -740,7 +740,7 @@ app.intent("link", {
 
                 if (speaker.name == namespeakerfromalexa) {
                     i++;
-                    return http.postAsync({ url: 'http://164.132.196.179:5050/', json: true, form: { key: speaker.num_serie } },
+                    return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
 
                         function(error, resul, body) {
 
