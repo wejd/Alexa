@@ -789,11 +789,11 @@ app.intent("link", {
             } else {
 
                 if (str = 'found') {
-                    response.say(speakerName + ' has been selected ')
+                    response.say(namespeakerfromalexa + ' has been selected ')
                     response.send()
 
                 } else {
-                    response.say('I was unable to select ' + speakerName + ' . Please try again later');
+                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later');
                     response.send()
                 }
             }
