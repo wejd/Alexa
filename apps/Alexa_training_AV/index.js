@@ -24,66 +24,6 @@ app.error = function(exception, request, response) {
     response.say('Sorry an error occured ' + error.message);
 };
 
-app.intent('which', {
-        "utterances": [
-            "which device is connected",
-        ]
-
-    },
-
-    function(request, response) {
-        accessToken = request.sessionDetails.accessToken;
-        console.log('accessToken  ', accessToken)
-        reqheader = 'Bearer ' + accessToken;
-
-        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
-            console.log(listspeakerConnected)
-            i = 0
-            listspeakerConnected.forEach(function(speaker) {
-                if (speaker.linked == true) {
-
-                    i++
-                    response.say('the Device ' + speaker.name + ' is selected')
-                    response.send()
-                }
-
-            })
-            if (i == 0) {
-                response.say('No allplay device have been selected!')
-                response.send()
-            }
-
-        })
-
-    })
-
-
-app.intent('anyone', {
-        "utterances": [
-            "any one",
-        ]
-
-    },
-
-    function(request, response) {
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/linktoanyone', form: { key: 'anyone' } },
-            function(error, res, body) {
-                if (!error && res.statusCode == 200) {
-
-                    response.say('Device ' + body + ' has been selected.')
-                    response.send()
-
-
-                };
-
-
-            })
-
-    });
-
-
-
-
 app.intent('search', {
         "utterances": [
             "search speakers",
@@ -224,6 +164,99 @@ app.intent('listspeaker', {
 
 
 );
+app.intent('which', {
+        "utterances": [
+            "which device is connected",
+        ]
+
+    },
+
+    function(request, response) {
+        accessToken = request.sessionDetails.accessToken;
+        console.log('accessToken  ', accessToken)
+        reqheader = 'Bearer ' + accessToken;
+
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            console.log(listspeakerConnected)
+            i = 0
+            listspeakerConnected.forEach(function(speaker) {
+                if (speaker.linked == true) {
+
+                    i++
+                    response.say('the Device ' + speaker.name + ' is selected')
+                    response.send()
+                }
+
+            })
+            if (i == 0) {
+                response.say('No allplay device have been selected!')
+                response.send()
+            }
+
+        })
+
+    })
+
+
+app.intent('anyone', {
+        "utterances": [
+            "any one",
+        ]
+
+    },
+
+    function(request, response) {
+        accessToken = request.sessionDetails.accessToken;
+        console.log('accessToken  ', accessToken)
+        reqheader = 'Bearer ' + accessToken;
+
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            console.log(listspeakerConnected)
+            if (listspeakerConnected[0].linked) {
+                response.say('device ' + listspeakerConnected[0].name + ' is already selected')
+            } else {
+                return http.postAsync({ url: 'http://vps341573.ovh.net:5050', form: { key: listspeakerConnected[0].num_serie } },
+                    function(error, res, body) {
+                        if (!error && res.statusCode == 200) {
+
+                            if (body == 'found') {
+
+                                session.set('speaker_numSerie', listspeakerConnected[0].num_serie)
+                                response.say(val + ' has been selected ')
+                                response.send()
+
+                            } else {
+                                console.log('not found', numSerie)
+                                response.say('I was unable to select ' + val + ' . Please try again later')
+                                response.send()
+
+                            }
+
+                        }
+
+                    });
+            }
+
+
+        })
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/linktoanyone', form: { key: 'anyone' } },
+            function(error, res, body) {
+                if (!error && res.statusCode == 200) {
+
+                    response.say('Device ' + body + ' has been selected.')
+                    response.send()
+
+
+                };
+
+
+            })
+
+    });
+
+
+
+
 
 app.intent('yes', {
         "utterances": [
@@ -247,7 +280,7 @@ app.intent('yes', {
 
                         if (body == 'found') {
 
-
+                            session.set('speaker_numSerie', numSerie)
                             response.say(val + ' has been selected ')
                             response.send()
 
@@ -268,45 +301,60 @@ app.intent('yes', {
 
         if (lastCommande == 'control') {
 
-            return http.getAsync({ url: 'http://vps341573.ovh.net:5050', json: true }).spread(function(statusCode, result) {
-                console.log(result)
-                console.log(result.list.length)
-                if (result.list.length == 0) {
+            return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
 
-                    response.say('No allplay devices have been discovered!')
-                    response.send()
-                } else {
-                    var speakerListString = ''
-                    for (i = 0; i < result.list.length; i++) {
 
-                        if (i == 0) {
-                            console.log('inside if egale a zero')
-                            speakerListString = result.list[i]
-                        }
-                        if (i > 0) {
-                            if (i == result.list.length - 1) {
-                                speakerListString = speakerListString + ' and ' + result.list[i]
-                            } else {
-                                speakerListString = speakerListString + ',' + result.list[i]
-                            }
 
-                        }
+
+                console.log('listspeakerConnected', listspeakerConnected)
+
+                var i = 0
+
+                var speakerListString = ''
+                for (i = 0; i < listspeakerConnected.length; i++) {
+
+                    if (i == 0) {
+
+
+                        speakerListString = listspeakerConnected[0].name
                     }
-                    if (result.list.length == 1) {
-                        var session = request.getSession()
-                        session.set('lastCommande', "search")
-                        session.set('speaker', result.list[0])
-                        response.say('You have  ' + result.list.length + ' allplay device available, ' + result.list + '. Do you want to link it! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                    if (i > 0) {
+                        if (i == listspeakerConnected.length - 1) {
+                            speakerListString = speakerListString + ' and ' + listspeakerConnected[i].name
+                        } else {
+                            speakerListString = speakerListString + ',' + listspeakerConnected[i].name
+                        }
+
+                    }
+                }
+
+                console.log('list device ', speakerListString)
+                if (listspeakerConnected.length == 1) {
+                    var session = request.getSession()
+                    session.set('lastCommande', "search")
+                    session.set('speaker', listspeakerConnected[0].name)
+                    session.set('speaker_numSerie', listspeakerConnected[0].num_serie)
+
+                    if (listspeakerConnected[0].linked == true) {
+                        response.say(' You have  ' + listspeakerConnected.length + ' allplay device available, ' + listspeakerConnected[0].name + ' and it is already connected')
                         response.send()
                     } else {
-                        response.say('You have  ' + result.list.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                        response.say('You have  ' + listspeakerConnected.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
                         response.send()
-
                     }
+
+                } else {
+
+                    response.say('You have  ' + listspeakerConnected.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                    response.send()
 
                 }
 
-            })
+
+
+
+
+            });
 
 
 
@@ -330,8 +378,9 @@ app.intent('next', {
             var session = request.getSession()
             console.log(session.get('name'))
             var val = session.get('name')
+            var numSerie = session.get('speaker_numSerie')
         }
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/playnext', form: { key: val } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/playnext', form: { key: numSerie } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -360,8 +409,9 @@ app.intent('prev', {
             var session = request.getSession()
             console.log(session.get('name'))
             var val = session.get('name')
+            var numSerie = session.get('speaker_numSerie')
         }
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/playprevious', form: { key: val } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/playprevious', form: { key: numSerie } },
             function(error, res, body) {
 
 
@@ -396,8 +446,9 @@ app.intent('play', {
             var session = request.getSession()
             console.log(session.get('name'))
             var val = session.get('name')
+            var numSerie = session.get('speaker_numSerie')
         }
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/playtrack', form: { key: val } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/playtrack', form: { key: numSerie } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -426,8 +477,9 @@ app.intent('incr', {
             var session = request.getSession()
             console.log(session.get('name'))
             var val = session.get('name')
+            var numSerie = session.get('speaker_numSerie')
         }
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/incrvolume', form: { key: val } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/incrvolume', form: { key: numSerie } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -457,8 +509,9 @@ app.intent('decr', {
             var session = request.getSession()
             console.log(session.get('name'))
             var val = session.get('name')
+            var numSerie = session.get('speaker_numSerie')
         }
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/decrevolume', form: { key: val } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/decrevolume', form: { key: numSerie } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -493,8 +546,9 @@ app.intent('increase', {
             var session = request.getSession()
             console.log(session.get('name'))
             var val = session.get('name')
+            var numSerie = session.get('speaker_numSerie')
         }
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/increasevolume', form: { key: val, nb: valueToIncrease } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/increasevolume', form: { key: numSerie, nb: valueToIncrease } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -528,8 +582,9 @@ app.intent('decrease', {
             var session = request.getSession()
             console.log(session.get('name'))
             var val = session.get('name')
+            var numSerie = session.get('speaker_numSerie')
         }
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/decreasevolume', form: { key: val, nb: valueToDecrease } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/decreasevolume', form: { key: numSerie, nb: valueToDecrease } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -558,8 +613,9 @@ app.intent('pause', {
             var session = request.getSession()
             console.log(session.get('name'))
             var val = session.get('name')
+            var numSerie = session.get('speaker_numSerie')
         }
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/pause', form: { key: val } },
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/pause', form: { key: numSerie } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
                 if (obj.status == "no") {
@@ -577,78 +633,6 @@ app.intent('pause', {
     }
 );
 
-app.intent("link", {
-        "slots": {
-            "NAMED": "AMAZON.LITERAL",
-
-        },
-        "utterances": [
-            "select {NAMED} "
-        ]
-    },
-    function(request, response) {
-
-
-
-        var namespeakerfromalexa = request.slot('NAMED');
-
-
-        accessToken = request.sessionDetails.accessToken;
-        reqheader = 'Bearer ' + accessToken;
-        i = 0
-        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
-
-
-            listspeakerConnected.forEach(function(speaker) {
-
-                if (speaker.name == namespeakerfromalexa) {
-                    i++;
-                    return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
-
-                        function(error, resul, body) {
-
-                            if (!error && resul.statusCode == 200) {
-
-                                if (body == 'found') {
-                                    console.log('found')
-
-                                    response.say(speaker.name + ' has been selected ')
-                                    response.send()
-
-                                } else {
-
-                                    console.log('not found i equal one');
-                                    response.say('I was unable to select ' + speaker.name + ' . Please try again later');
-                                    response.send()
-
-                                }
-
-                            }
-
-                        });
-
-                }
-
-            })
-
-
-            if (i == 0) {
-                console.log('not found and i equal zeo')
-                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                response.send()
-
-
-            }
-
-
-
-
-
-
-        });
-
-    }
-);
 
 
 app.intent('help', {
@@ -735,6 +719,91 @@ app.intent('noone', {
     function(request, response) {
         response.say('')
         response.send()
+
+    }
+);
+
+
+app.intent("link", {
+        "slots": {
+            "NAMED": "AMAZON.LITERAL",
+
+        },
+        "utterances": [
+            "select {NAMED} "
+        ]
+    },
+    function(request, response) {
+
+
+
+        var namespeakerfromalexa = request.slot('NAMED');
+
+
+        accessToken = request.sessionDetails.accessToken;
+        reqheader = 'Bearer ' + accessToken;
+        i = 0
+        str = ''
+        speakerName = ''
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+
+
+            listspeakerConnected.forEach(function(speaker) {
+
+                if (speaker.name == namespeakerfromalexa) {
+                    i++;
+                    return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
+
+                        function(error, resul, body) {
+
+                            if (!error && resul.statusCode == 200) {
+                                speakerName = speaker.name
+                                if (body == 'found') {
+                                    console.log('found')
+                                    str = 'found'
+
+
+
+                                } else {
+
+                                    console.log('not found i equal one');
+
+
+                                }
+
+                            }
+
+                        });
+
+                }
+
+            })
+
+
+            if (i == 0) {
+                console.log('not found and i equal zeo')
+                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                response.send()
+
+
+            } else {
+
+                if (str = 'found') {
+                    response.say(speakerName + ' has been selected ')
+                    response.send()
+
+                } else {
+                    response.say('I was unable to select ' + speakerName + ' . Please try again later');
+                    response.send()
+                }
+            }
+
+
+
+
+
+
+        });
 
     }
 );
