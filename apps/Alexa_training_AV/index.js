@@ -801,7 +801,7 @@ app.intent("link", {
             listspeakerConnected.forEach(function(speaker) {
 
                 if (speaker.name == namespeakerfromalexa) {
-                    i++;
+
                     return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
 
                         function(error, resul, body) {
@@ -809,6 +809,7 @@ app.intent("link", {
                             if (!error && resul.statusCode == 200) {
                                 speakerName = speaker.name
                                 if (body == 'found') {
+                                    i++;
                                     console.log('found')
                                     str = 'found'
 
