@@ -267,49 +267,49 @@ app.intent('anyone', {
 
 
 app.intent('yes', {
-        "utterances": [
-            "play next",
-        ]
+    "utterances": [
+        "play next",
+    ]
 
-    },
-    function(request, response) {
-        if (request.hasSession()) {
-            var session = request.getSession()
-            var lastCommande = session.get('lastCommande')
-            var val = session.get('speaker')
-            var numSerie = session.get('speaker_numSerie')
-        }
-        if (lastCommande == 'search') {
+},
+function(request, response) {
+    if (request.hasSession()) {
+        var session = request.getSession()
+        var lastCommande = session.get('lastCommande')
+        var val = session.get('speaker')
+        var numSerie = session.get('speaker_numSerie')
+    }
+    if (lastCommande == 'search') {
 
 
-            return http.postAsync({ url: 'http://vps341573.ovh.net:5050', form: { key: numSerie } },
-                function(error, res, body) {
-                    if (!error && res.statusCode == 200) {
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050', form: { key: numSerie } },
+            function(error, res, body) {
+                if (!error && res.statusCode == 200) {
 
-                        if (body == 'found') {
+                    if (body == 'found') {
 
-                            session.set('speaker_numSerie', numSerie)
-                            response.say(val + ' has been selected ')
-                            response.send()
+                        session.set('speaker_numSerie', numSerie)
+                        response.say(val + ' has been selected ')
+                        response.send()
 
-                        } else {
-                            console.log('not found', numSerie)
-                            response.say('I was unable to select ' + val + ' . Please try again later')
-                            response.send()
-
-                        }
+                    } else {
+                        console.log('not found', numSerie)
+                        response.say('I was unable to select ' + val + ' . Please try again later')
+                        response.send()
 
                     }
 
-                });
+                }
+
+            });
 
 
 
-        }
+    }
 
-        if (lastCommande == 'control') {
+    if (lastCommande == 'control') {
 
-            return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
 
 
 
@@ -340,43 +340,48 @@ app.intent('yes', {
                 if (listspeakerConnected.length == 0) {
                     response.say('I have no allplay device detected. Please try again later !')
                     response.send()
-                }
-                if (listspeakerConnected.length == 1) {
-                    var session = request.getSession()
-                    session.set('lastCommande', "search")
-                    session.set('speaker', listspeakerConnected[0].name)
-                    session.set('speaker_numSerie', listspeakerConnected[0].num_serie)
-
-                    if (listspeakerConnected[0].linked == true) {
-                        response.say(' You have  ' + listspeakerConnected.length + ' allplay device available, ' + listspeakerConnected[0].name + ' and it is already connected')
-                        response.send()
-                    } else {
-                        response.say('You have  ' + listspeakerConnected.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
-                        response.send()
-                    }
-
                 } else {
 
-                    response.say('You have  ' + listspeakerConnected.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
-                    response.send()
 
+
+                    if (listspeakerConnected.length == 1) {
+                        var session = request.getSession()
+                        session.set('lastCommande', "search")
+                        session.set('speaker', listspeakerConnected[0].name)
+                        session.set('speaker_numSerie', listspeakerConnected[0].num_serie)
+
+                        if (listspeakerConnected[0].linked == true) {
+                            response.say(' You have  ' + listspeakerConnected.length + ' allplay device available, ' + listspeakerConnected[0].name + ' and it is already connected')
+                            response.send()
+                        } else {
+                            response.say('You have  ' + listspeakerConnected.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                            response.send()
+                        }
+
+
+                    } else {
+
+                        response.say('You have  ' + listspeakerConnected.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                        response.send()
+
+                    }
                 }
 
+            }
+
+
+
+        });
 
 
 
 
-            });
+
+}
 
 
 
-
-
-        }
-
-
-
-    }
+}
 );
 
 app.intent('next', {
