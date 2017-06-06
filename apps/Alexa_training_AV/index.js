@@ -63,10 +63,15 @@ app.intent('search', {
             }
 
             console.log('list device ', speakerListString)
-            if (listspeakerConnected.length == 0) {
+            console.log('list length is ', speakerListString.length)
+            if (speakerListString == 0) {
                 response.say('I have no allplay device detected. Please try again later !')
                 response.send()
+
             }
+
+
+
             if (listspeakerConnected.length == 1) {
                 var session = request.getSession()
                 session.set('lastCommande', "search")
@@ -81,13 +86,15 @@ app.intent('search', {
                     response.send()
                 }
 
-            } else {
+
+            }
+
+            if (speakerListString.indexOf(',') !== -1 || speakerListString.indexOf(' and ') !== -1) {
 
                 response.say('You have  ' + listspeakerConnected.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
                 response.send()
 
             }
-
 
 
 
