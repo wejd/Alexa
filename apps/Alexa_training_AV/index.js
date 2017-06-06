@@ -19,6 +19,22 @@ app.launch(function(request, response) {
 });
 
 
+
+
+app.pre = function(request, response, type) {
+    if (!request.sessionDetails.accessToken) {
+        // fail ungracefully 
+        console.log('no access token')
+        response.say('account linking is required to start using our skill ')
+
+        response.send()
+        throw "Invalid applicationId";
+
+        // `return response.fail("Invalid applicationId")` will also work 
+    }
+};
+
+
 app.error = function(exception, request, response) {
 
     response.say('Sorry an error occured ' + error.message);
@@ -145,10 +161,15 @@ app.intent('listspeaker', {
             }
 
             console.log('list device ', speakerListString)
-            if (listspeakerConnected.length == 0) {
+            console.log('list length is ', speakerListString.length)
+            if (speakerListString == 0) {
                 response.say('I have no allplay device detected. Please try again later !')
                 response.send()
+
             }
+
+
+
             if (listspeakerConnected.length == 1) {
                 var session = request.getSession()
                 session.set('lastCommande', "search")
@@ -163,13 +184,15 @@ app.intent('listspeaker', {
                     response.send()
                 }
 
-            } else {
+
+            }
+
+            if (speakerListString.indexOf(',') !== -1 || speakerListString.indexOf(' and ') !== -1) {
 
                 response.say('You have  ' + listspeakerConnected.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
                 response.send()
 
             }
-
 
 
 
