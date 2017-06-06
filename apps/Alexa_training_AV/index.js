@@ -338,36 +338,38 @@ app.intent('yes', {
 
                 console.log('list device ', speakerListString)
                 console.log('list length is ', listspeakerConnected.length)
-                if (listspeakerConnected.length == 0) {
+                if (listspeakerConnected.length == 0 || listspeakerConnected.length == null) {
                     response.say('I have no allplay device detected. Please try again later !')
                     response.send()
-                    return
-                } else {
 
-
-
-                    if (listspeakerConnected.length == 1) {
-                        var session = request.getSession()
-                        session.set('lastCommande', "search")
-                        session.set('speaker', listspeakerConnected[0].name)
-                        session.set('speaker_numSerie', listspeakerConnected[0].num_serie)
-
-                        if (listspeakerConnected[0].linked == true) {
-                            response.say(' You have  ' + listspeakerConnected.length + ' allplay device available, ' + listspeakerConnected[0].name + ' and it is already connected')
-                            response.send()
-                        } else {
-                            response.say('You have  ' + listspeakerConnected.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
-                            response.send()
-                        }
-
-
-                    } else {
-
-                        response.say('You have  ' + listspeakerConnected.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
-                        response.send()
-
-                    }
                 }
+
+
+
+                if (listspeakerConnected.length == 1) {
+                    var session = request.getSession()
+                    session.set('lastCommande', "search")
+                    session.set('speaker', listspeakerConnected[0].name)
+                    session.set('speaker_numSerie', listspeakerConnected[0].num_serie)
+
+                    if (listspeakerConnected[0].linked == true) {
+                        response.say(' You have  ' + listspeakerConnected.length + ' allplay device available, ' + listspeakerConnected[0].name + ' and it is already connected')
+                        response.send()
+                    } else {
+                        response.say('You have  ' + listspeakerConnected.length + ' allplay device available, ' + speakerListString + '. Do you want to select it! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                        response.send()
+                    }
+
+
+                }
+
+                if (listspeakerConnected.length > 1) {
+
+                    response.say('You have  ' + listspeakerConnected.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
+                    response.send()
+
+                }
+
 
 
 
