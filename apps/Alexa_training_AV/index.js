@@ -363,7 +363,7 @@ app.intent('yes', {
 
                 }
 
-                if (listspeakerConnected.length > 1) {
+                if (listspeakerConnected.length > 1 && listspeakerConnected != []) {
 
                     response.say('You have  ' + listspeakerConnected.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
                     response.send()
