@@ -63,6 +63,10 @@ app.intent('search', {
             }
 
             console.log('list device ', speakerListString)
+            if (listspeakerConnected.length == 0) {
+                response.say('I have no allplay device detected. Please try again later !')
+                response.send()
+            }
             if (listspeakerConnected.length == 1) {
                 var session = request.getSession()
                 session.set('lastCommande', "search")
@@ -134,6 +138,10 @@ app.intent('listspeaker', {
             }
 
             console.log('list device ', speakerListString)
+            if (listspeakerConnected.length == 0) {
+                response.say('I have no allplay device detected. Please try again later !')
+                response.send()
+            }
             if (listspeakerConnected.length == 1) {
                 var session = request.getSession()
                 session.set('lastCommande', "search")
@@ -329,6 +337,10 @@ app.intent('yes', {
                 }
 
                 console.log('list device ', speakerListString)
+                if (listspeakerConnected.length == 0) {
+                    response.say('I have no allplay device detected. Please try again later !')
+                    response.send()
+                }
                 if (listspeakerConnected.length == 1) {
                     var session = request.getSession()
                     session.set('lastCommande', "search")
