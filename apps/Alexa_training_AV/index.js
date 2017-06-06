@@ -817,7 +817,7 @@ app.intent("link", {
 
                                 } else {
 
-                                    console.log('not found i equal one');
+                                    console.log('unabble to linik');
 
 
                                 }
@@ -830,6 +830,9 @@ app.intent("link", {
 
             })
 
+            console.log('i is ', i)
+            console.log('str is ', str)
+            console.log('speakzrname is ', speakerName)
 
             if (i == 0) {
                 console.log('not found and i equal zeo')
@@ -838,15 +841,9 @@ app.intent("link", {
 
 
             } else {
+                response.say(namespeakerfromalexa + ' has been selected ')
+                response.send()
 
-                if (str = 'found') {
-                    response.say(namespeakerfromalexa + ' has been selected ')
-                    response.send()
-
-                } else {
-                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later');
-                    response.send()
-                }
             }
 
 
