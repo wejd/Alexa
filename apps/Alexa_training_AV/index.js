@@ -337,8 +337,8 @@ app.intent('yes', {
                 }
 
                 console.log('list device ', speakerListString)
-                console.log('list length is ', listspeakerConnected.length)
-                if (listspeakerConnected.length == 0 || listspeakerConnected.length == null) {
+                console.log('list length is ', speakerListString.length)
+                if (speakerListString == 0) {
                     response.say('I have no allplay device detected. Please try again later !')
                     response.send()
 
@@ -363,7 +363,7 @@ app.intent('yes', {
 
                 }
 
-                if (listspeakerConnected.length > 1 && listspeakerConnected != []) {
+                if (speakerListString.indexOf(',') !== -1 || speakerListString.indexOf(' and ') !== -1) {
 
                     response.say('You have  ' + listspeakerConnected.length + ' allplay devices available ' + speakerListString + ' . please choose one ! ').reprompt('sorry repeat again !').shouldEndSession(false);
                     response.send()
