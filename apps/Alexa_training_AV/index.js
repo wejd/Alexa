@@ -18,9 +18,6 @@ app.launch(function(request, response) {
     response.say('Welcome to allplay. With this skill ,you can voice control any  allplay device with your AMAZON echo or echo dot . Account linking is required . For instructions, please refer to your alexa app')
 });
 
-
-
-
 app.pre = function(request, response, type) {
     if (!request.sessionDetails.accessToken) {
         // fail ungracefully 
@@ -33,7 +30,6 @@ app.pre = function(request, response, type) {
         // `return response.fail("Invalid applicationId")` will also work 
     }
 };
-
 
 app.error = function(exception, request, response) {
 
@@ -116,7 +112,10 @@ app.intent('search', {
 
 
         });
+
+
     })
+
 
 
 
@@ -202,6 +201,7 @@ app.intent('listspeaker', {
 
 
 );
+
 app.intent('which', {
         "utterances": [
             "which device is connected",
@@ -233,7 +233,12 @@ app.intent('which', {
 
         })
 
+
+
     })
+
+
+
 
 
 app.intent('anyone', {
@@ -277,24 +282,11 @@ app.intent('anyone', {
 
 
         })
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/linktoanyone', form: { key: 'anyone' } },
-            function(error, res, body) {
-                if (!error && res.statusCode == 200) {
-
-                    response.say('Device ' + body + ' has been selected.')
-                    response.send()
 
 
-                };
 
-
-            })
 
     });
-
-
-
-
 
 app.intent('yes', {
         "utterances": [
@@ -547,7 +539,6 @@ app.intent('incr', {
     }
 );
 
-
 app.intent('decr', {
         "utterances": [
             "decrease volume ",
@@ -578,7 +569,6 @@ app.intent('decr', {
 
     }
 );
-
 
 app.intent('increase', {
         "slots": {
@@ -683,8 +673,6 @@ app.intent('pause', {
     }
 );
 
-
-
 app.intent('help', {
         "utterances": [
             "help",
@@ -698,7 +686,6 @@ app.intent('help', {
 
     }
 );
-
 
 app.intent('start', {
         "utterances": [
@@ -715,7 +702,6 @@ app.intent('start', {
 
     }
 );
-
 
 app.intent('nothing', {
         "utterances": [
@@ -772,7 +758,6 @@ app.intent('noone', {
 
     }
 );
-
 
 app.intent("link", {
         "slots": {
