@@ -337,9 +337,11 @@ app.intent('yes', {
                 }
 
                 console.log('list device ', speakerListString)
+                console.log('list length is ', listspeakerConnected.length)
                 if (listspeakerConnected.length == 0) {
                     response.say('I have no allplay device detected. Please try again later !')
                     response.send()
+                    return
                 } else {
 
 
