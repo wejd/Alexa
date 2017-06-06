@@ -267,49 +267,49 @@ app.intent('anyone', {
 
 
 app.intent('yes', {
-    "utterances": [
-        "play next",
-    ]
+        "utterances": [
+            "play next",
+        ]
 
-},
-function(request, response) {
-    if (request.hasSession()) {
-        var session = request.getSession()
-        var lastCommande = session.get('lastCommande')
-        var val = session.get('speaker')
-        var numSerie = session.get('speaker_numSerie')
-    }
-    if (lastCommande == 'search') {
+    },
+    function(request, response) {
+        if (request.hasSession()) {
+            var session = request.getSession()
+            var lastCommande = session.get('lastCommande')
+            var val = session.get('speaker')
+            var numSerie = session.get('speaker_numSerie')
+        }
+        if (lastCommande == 'search') {
 
 
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050', form: { key: numSerie } },
-            function(error, res, body) {
-                if (!error && res.statusCode == 200) {
+            return http.postAsync({ url: 'http://vps341573.ovh.net:5050', form: { key: numSerie } },
+                function(error, res, body) {
+                    if (!error && res.statusCode == 200) {
 
-                    if (body == 'found') {
+                        if (body == 'found') {
 
-                        session.set('speaker_numSerie', numSerie)
-                        response.say(val + ' has been selected ')
-                        response.send()
+                            session.set('speaker_numSerie', numSerie)
+                            response.say(val + ' has been selected ')
+                            response.send()
 
-                    } else {
-                        console.log('not found', numSerie)
-                        response.say('I was unable to select ' + val + ' . Please try again later')
-                        response.send()
+                        } else {
+                            console.log('not found', numSerie)
+                            response.say('I was unable to select ' + val + ' . Please try again later')
+                            response.send()
+
+                        }
 
                     }
 
-                }
-
-            });
+                });
 
 
 
-    }
+        }
 
-    if (lastCommande == 'control') {
+        if (lastCommande == 'control') {
 
-        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
 
 
 
@@ -367,21 +367,20 @@ function(request, response) {
                     }
                 }
 
-            }
 
 
 
-        });
+            });
 
 
 
 
 
-}
+        }
 
 
 
-}
+    }
 );
 
 app.intent('next', {
