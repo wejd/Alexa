@@ -828,14 +828,15 @@ app.intent("link", {
                                 speakerName = speaker.name
                                 if (body == 'found') {
                                     i++;
-                                    console.log('found')
+                                    console.log('found', i)
                                     str = 'found'
 
 
 
                                 } else {
                                     str = 'not found'
-                                    console.log('unabble to linik');
+
+                                    console.log('unabble to linik', str);
 
 
                                 }
@@ -885,6 +886,7 @@ app.intent("link", {
 
 
         });
+
 
     }
 );
