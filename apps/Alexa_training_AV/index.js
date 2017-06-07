@@ -851,7 +851,7 @@ app.intent("link", {
 
 
             })
-            setTimeout(function(response) {
+            setTimeout(function() {
                 console.log('i is ', i)
                 console.log('str is ', str)
                 console.log('speakzrname is ', speakerName)
