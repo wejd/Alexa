@@ -860,6 +860,7 @@ app.intent("link", {
                     response.send()
                 } else {
                     response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                    console.log('I was unable to select')
                     response.send()
                 }
 
