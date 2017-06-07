@@ -828,7 +828,7 @@ app.intent("link", {
                                 speakerName = speaker.name
                                 if (body == 'found') {
                                     i++;
-                                    console.log('found', response)
+                                    console.log('found')
                                     str = 'found'
 
 
@@ -846,6 +846,9 @@ app.intent("link", {
 
                 }
                 j++
+                console.log('i is ', i)
+                console.log('str is ', str)
+                console.log('speakzrname is ', speakerName)
                 if (str == 'found') {
                     response.say(namespeakerfromalexa + ' has been selected ')
                     response.send()
