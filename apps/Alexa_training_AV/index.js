@@ -696,7 +696,7 @@ app.intent('stop', {
                     response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                     response.send();
                 } else {
-                    response.say("ok, pause! ");
+                    response.say("ok, stop! ");
                     response.send();
                 }
 
@@ -846,30 +846,25 @@ app.intent("link", {
                         });
 
                 }
-                if (i == listspeakerConnected.length - 1) {
-                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                    response.send()
 
-                }
-                i++;
 
             })
 
-            /*  console.log('i is ', i)
-              console.log('str is ', str)
-              console.log('speakzrname is ', speakerName)
+            console.log('i is ', i)
+            console.log('str is ', str)
+            console.log('speakzrname is ', speakerName)
 
-              if (i == 0) {
-                  console.log('not found and i equal zeo')
-                  response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                  response.send()
+            if (i == 0) {
+                console.log('not found and i equal zeo')
+                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                response.send()
 
 
-              } else {
-                  response.say(namespeakerfromalexa + ' has been selected ')
-                  response.send()
+            } else {
+                response.say(namespeakerfromalexa + ' has been selected ')
+                response.send()
 
-              }*/
+            }
 
 
 
