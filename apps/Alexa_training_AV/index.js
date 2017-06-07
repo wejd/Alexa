@@ -854,8 +854,7 @@ app.intent("link", {
                     if (str == 'found') {
                         response.say(namespeakerfromalexa + ' has been selected ')
                         response.send()
-                    }
-                    if (j == listspeakerConnected.length && i == 0) {
+                    } else {
                         response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
                         response.send()
                     }
