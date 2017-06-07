@@ -673,6 +673,38 @@ app.intent('pause', {
     }
 );
 
+
+app.intent('stop', {
+        "utterances": [
+            "stop",
+        ]
+
+    },
+    function(request, response) {
+        if (request.hasSession()) {
+            var session = request.getSession()
+            console.log(session.get('name'))
+            var val = session.get('name')
+            var numSerie = session.get('speaker_numSerie')
+        }
+        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/pause', form: { key: numSerie } },
+            function(error, res, body) {
+                var obj = JSON.parse(body);
+                if (obj.status == "no") {
+                    session.set('lastCommande', "control")
+
+                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                    response.send();
+                } else {
+                    response.say("ok, pause! ");
+                    response.send();
+                }
+
+            })
+
+    }
+);
+
 app.intent('help', {
         "utterances": [
             "help",
@@ -795,7 +827,7 @@ app.intent("link", {
                                 speakerName = speaker.name
                                 if (body == 'found') {
                                     i++;
-                                    console.log('found')
+                                    console.log('found', response)
                                     str = 'found'
                                     response.say(namespeakerfromalexa + ' has been selected ')
                                     response.send()
