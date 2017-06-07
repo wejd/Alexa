@@ -810,6 +810,7 @@ app.intent("link", {
         accessToken = request.sessionDetails.accessToken;
         reqheader = 'Bearer ' + accessToken;
         i = 0
+        j = 0
         str = ''
         speakerName = ''
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
@@ -829,15 +830,13 @@ app.intent("link", {
                                     i++;
                                     console.log('found', response)
                                     str = 'found'
-                                    response.say(namespeakerfromalexa + ' has been selected ')
-                                    response.send()
+
 
 
                                 } else {
-
+                                    str = 'not found'
                                     console.log('unabble to linik');
-                                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                                    response.send()
+
 
                                 }
 
@@ -846,11 +845,22 @@ app.intent("link", {
                         });
 
                 }
+                j++
+                if (str == 'found') {
+                    response.say(namespeakerfromalexa + ' has been selected ')
+                    response.send()
+                }
+                if (j == listspeakerConnected.length && i == 0) {
+                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                    response.send()
+                }
+
+
 
 
             })
 
-            console.log('i is ', i)
+            /*console.log('i is ', i)
             console.log('str is ', str)
             console.log('speakzrname is ', speakerName)
 
@@ -865,7 +875,7 @@ app.intent("link", {
                 response.send()
 
             }
-
+*/
 
 
 
