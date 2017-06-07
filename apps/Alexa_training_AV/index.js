@@ -847,25 +847,26 @@ app.intent("link", {
 
                 }
                 j++
-                setTimeout(function() {
-                    console.log('i is ', i)
-                    console.log('str is ', str)
-                    console.log('speakzrname is ', speakerName)
-                    if (str == 'found') {
-                        response.say(namespeakerfromalexa + ' has been selected ')
-                        response.send()
-                    } else {
-                        response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                        response.send()
-                    }
-
-
-                }, 300);
-
 
 
 
             })
+            setTimeout(function() {
+                console.log('i is ', i)
+                console.log('str is ', str)
+                console.log('speakzrname is ', speakerName)
+                if (str === 'found') {
+                    response.say(namespeakerfromalexa + ' has been selected ')
+                    response.send()
+                } else {
+                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                    response.send()
+                }
+
+
+            }, 300);
+
+
 
             /*console.log('i is ', i)
             console.log('str is ', str)
