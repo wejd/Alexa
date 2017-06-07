@@ -797,13 +797,15 @@ app.intent("link", {
                                     i++;
                                     console.log('found')
                                     str = 'found'
-
+                                    response.say(namespeakerfromalexa + ' has been selected ')
+                                    response.send()
 
 
                                 } else {
 
                                     console.log('unabble to linik');
-
+                                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                                    response.send()
 
                                 }
 
@@ -812,24 +814,30 @@ app.intent("link", {
                         });
 
                 }
+                if (i == listspeakerConnected.length - 1) {
+                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                    response.send()
+
+                }
+                i++;
 
             })
 
-            console.log('i is ', i)
-            console.log('str is ', str)
-            console.log('speakzrname is ', speakerName)
+            /*  console.log('i is ', i)
+              console.log('str is ', str)
+              console.log('speakzrname is ', speakerName)
 
-            if (i == 0) {
-                console.log('not found and i equal zeo')
-                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                response.send()
+              if (i == 0) {
+                  console.log('not found and i equal zeo')
+                  response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                  response.send()
 
 
-            } else {
-                response.say(namespeakerfromalexa + ' has been selected ')
-                response.send()
+              } else {
+                  response.say(namespeakerfromalexa + ' has been selected ')
+                  response.send()
 
-            }
+              }*/
 
 
 
