@@ -862,7 +862,7 @@ app.intent("link", {
 
                         })
 
-                        if (strR === 'found') {
+                        /*     if (strR === 'found') {
                             j++
                             console.log('inside if respose')
                             response.say(namespeakerfromalexa + ' has been selected ')
@@ -875,7 +875,7 @@ app.intent("link", {
 
                             response.send()
                         }
-
+*/
 
 
 
