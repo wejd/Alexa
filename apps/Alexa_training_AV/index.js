@@ -813,6 +813,8 @@ app.intent("link", {
         i = 0
 
         speakerName = ''
+
+
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
 
 
@@ -820,7 +822,7 @@ app.intent("link", {
 
                 if (speaker.name == namespeakerfromalexa) {
                     var promise = new RSVP.Promise(function(fulfill, reject) {
-                        str = http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
+                        str = http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
 
                             function(error, resul, body) {
 
