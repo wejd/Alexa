@@ -32,7 +32,7 @@ app.pre = function(request, response, type) {
 };
 
 app.error = function(exception, request, response) {
-
+    console.log(exception)
     response.say('Sorry an error occured ');
 };
 
@@ -861,14 +861,7 @@ app.intent("link", {
                             console.log('inside if respose')
                             response.say(namespeakerfromalexa + ' has been selected ')
                             response.send()
-                        }
-                        if (sfnSelect(speaker, str, i, function(err, result) {
-                                console.log('i is ', result)
-                                return result
-
-
-
-                            }) === 'not found') {
+                        } else {
                             console.log('inside if respose')
                             response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
 
