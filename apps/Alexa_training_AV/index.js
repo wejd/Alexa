@@ -846,9 +846,22 @@ app.intent("link", {
                             });
 
                     }
-                    response.say(namespeakerfromalexa + ' has been selected ')
-                    response.send()
-                    j++
+                    setTimeout(function() {
+                        console.log('i is ', i)
+                        console.log('str is ', str)
+                        console.log('speakzrname is ', speakerName)
+                        if (str === 'found') {
+                            response.say(namespeakerfromalexa + ' has been selected ')
+                            response.send()
+                        } else {
+                            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                            console.log('I was unable to select')
+                            response.send()
+                        }
+
+
+                    }, 400);
+
 
 
 
@@ -895,8 +908,7 @@ app.intent("link", {
         });
 
 
-    }
-);
+    });
 
 
 
