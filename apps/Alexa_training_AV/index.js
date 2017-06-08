@@ -815,32 +815,34 @@ app.intent("link", {
         speakerName = ''
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
             var fnSelect = function(speaker, str, i, callback) {
-                callback(
-                    http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
 
-                        function(error, resul, body) {
+                http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
 
-                            if (!error && resul.statusCode == 200) {
-                                speakerName = speaker.name
-                                if (body == 'found') {
-                                    i++;
-                                    console.log('found', i)
-                                    return str = 'found'
+                    function(error, resul, body) {
 
-
-
-                                } else {
-                                    console.log('unabble to linik');
-                                    return str = 'not found'
+                        if (!error && resul.statusCode == 200) {
+                            speakerName = speaker.name
+                            if (body == 'found') {
+                                i++;
+                                console.log('found', i)
+                                callback(
+                                    str = 'found')
 
 
 
+                            } else {
+                                console.log('unabble to linik');
+                                callback(
+                                    str = 'not found')
 
-                                }
+
+
 
                             }
 
-                        }))
+                        }
+
+                    })
             }
 
 
@@ -849,7 +851,7 @@ app.intent("link", {
                     if (speaker.name == namespeakerfromalexa) {
                         fnSelect(speaker, str, i, function(result) {
 
-                            console.log('i is ', i)
+                            console.log('i is ', result)
                             console.log('str is ', str)
 
                             if (result === 'found') {
