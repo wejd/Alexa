@@ -814,53 +814,60 @@ app.intent("link", {
         str = ''
         speakerName = ''
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            var fnSelect = function(speaker, str, i, callback) {
+                callback(
+                    http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
+
+                        function(error, resul, body) {
+
+                            if (!error && resul.statusCode == 200) {
+                                speakerName = speaker.name
+                                if (body == 'found') {
+                                    i++;
+                                    console.log('found', i)
+                                    return str = 'found'
+
+
+
+                                } else {
+                                    console.log('unabble to linik');
+                                    return str = 'not found'
+
+
+
+
+                                }
+
+                            }
+
+                        }))
+            }
 
 
             listspeakerConnected.forEach(function(speaker) {
 
                     if (speaker.name == namespeakerfromalexa) {
+                        fnSelect(speaker, str, i, function(result) {
 
-                        var str = http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
+                            console.log('i is ', i)
+                            console.log('str is ', str)
 
-                            function(error, resul, body) {
+                            if (result === 'found') {
+                                response.say(namespeakerfromalexa + ' has been selected ')
+                                response.send()
+                            }
+                            if (result === 'not found') {
+                                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                                console.log('I was unable to select')
+                                response.send()
+                            }
+                        })
 
-                                if (!error && resul.statusCode == 200) {
-                                    speakerName = speaker.name
-                                    if (body == 'found') {
-                                        i++;
-                                        console.log('found', i)
-                                        return str = 'found'
-
-
-
-                                    } else {
-                                        console.log('unabble to linik');
-                                        return str = 'not found'
-
-
-
-
-                                    }
-
-                                }
-
-                            });
 
                     }
 
 
-                    console.log('i is ', i)
-                    console.log('str is ', str)
-                    console.log('speakzrname is ', speakerName)
-                    if (str === 'found') {
-                        response.say(namespeakerfromalexa + ' has been selected ')
-                        response.send()
-                    }
-                    if (str === 'not found') {
-                        response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                        console.log('I was unable to select')
-                        response.send()
-                    }
+
 
 
 
