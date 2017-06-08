@@ -853,8 +853,8 @@ app.intent("link", {
 
                         var strR = fnSelect(speaker, str, i, function(result) {
                             console.log('i is ', result)
-                            response.say('helknfa azlfkaz ')
-                            response.send()
+                            console.log('i is ', response)
+
 
                             return result
 
