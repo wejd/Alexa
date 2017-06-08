@@ -931,11 +931,12 @@ app.intent("link", {
 
 
                 }
+                return false
 
 
             })
 
-            return false
+
 
 
 
