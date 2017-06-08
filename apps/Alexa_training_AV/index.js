@@ -828,9 +828,9 @@ app.intent("link", {
                 console.log('speaker', speaker)
                 if (speaker.name == namespeakerfromalexa) {
 
-                    return http.postAsync({ url: 'http://vps341573.ovh.net:5050', form: { key: speaker.num_serie } },
-                        function(error, res, body) {
-                            if (!error && res.statusCode == 200) {
+                    return http.postAsync({ url: 'http://vps341573.ovh.net:5050', form: { key: speaker.num_serie } }).spread(
+                        function(error, body) {
+                            if (!error) {
 
                                 if (body == 'found') {
                                     console.log('found')
