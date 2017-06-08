@@ -332,7 +332,9 @@ app.intent('yes', {
         }
 
         if (lastCommande == 'control') {
-
+            accessToken = request.sessionDetails.accessToken;
+            console.log('accessToken  ', accessToken)
+            reqheader = 'Bearer ' + accessToken;
             return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
 
 
