@@ -902,9 +902,9 @@ app.intent("link", {
 
                     return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
 
-                        function(error, resul, body) {
+                        function(error, body) {
 
-                            if (!error && resul.statusCode == 200) {
+                            if (!error) {
                                 speakerName = speaker.name
                                 if (body == 'found') {
                                     i++;
@@ -936,7 +936,7 @@ app.intent("link", {
 
             })
 
-
+            return false
 
 
 
