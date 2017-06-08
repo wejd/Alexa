@@ -898,6 +898,8 @@ app.intent("link", {
 
                 console.log(listspeakerConnected[listspeakerConnected.indexOf({ name: namespeakerfromalexa })])
 
+            } else {
+                console.log(listspeakerConnected[listspeakerConnected.indexOf({ name: namespeakerfromalexa })])
             }
             listspeakerConnected.forEach(function(speaker) {
 
