@@ -842,7 +842,7 @@ app.intent("link", {
                                 }
 
                             });
-
+                        console.log('str returned inside rsvp ', strR)
                         fulfill(strR)
                     })
                     promise.then(function(toss) {
