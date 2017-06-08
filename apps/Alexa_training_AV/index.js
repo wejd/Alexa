@@ -853,14 +853,12 @@ app.intent("link", {
 
                             console.log('i is ', result)
                             console.log('str is ', str)
-                            response.say('hello ' + result)
-                            response.send()
+                            this.response.say('hello ' + result)
+                            this.response.send()
                         })
 
 
                     }
-
-
 
 
 
