@@ -821,25 +821,26 @@ app.intent("link", {
         if (!listspeakerConnected) {
             session.set('lastCommande', "control")
 
-            response.say(" would you like to launch discovery ? ").shouldEndSession(false);;
+            response.say("sorry i didnt get it.  would you like to launch discovery ? ").shouldEndSession(false);;
             response.send();
         } else {
             listspeakerConnected.forEach(function(speaker) {
 
                 if (speaker.name == namespeakerfromalexa) {
+
                     return http.postAsync({ url: 'http://vps341573.ovh.net:5050', form: { key: speaker.num_serie } },
                         function(error, res, body) {
                             if (!error && res.statusCode == 200) {
 
                                 if (body == 'found') {
 
-                                    session.set('speaker_numSerie', numSerie)
-                                    response.say(val + ' has been selected ')
+
+                                    response.say(namespeakerfromalexa + ' has been selected ')
                                     response.send()
 
                                 } else {
-                                    console.log('not found', numSerie)
-                                    response.say('I was unable to select ' + val + ' . Please try again later')
+
+                                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
                                     response.send()
 
                                 }
