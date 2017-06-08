@@ -853,16 +853,8 @@ app.intent("link", {
 
                             console.log('i is ', result)
                             console.log('str is ', str)
-
-                            if (result === 'found') {
-                                response.say(namespeakerfromalexa + ' has been selected ')
-                                response.send()
-                            }
-                            if (result === 'not found') {
-                                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                                console.log('I was unable to select')
-                                response.send()
-                            }
+                            response.say('hello ' + result)
+                            response.send()
                         })
 
 
