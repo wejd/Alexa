@@ -847,32 +847,37 @@ app.intent("link", {
 
 
             listspeakerConnected.forEach(function(speaker) {
-                    var strR = ''
+
                     if (speaker.name == namespeakerfromalexa) {
-                        strR = fnSelect(speaker, str, i, function(result) {
-                            console.log('i is ', result)
-                            j = 1
-                            return result
+
+                        var strR =
+                            new Promise(function(resolve, rejectt) {
+                                fnSelect(speaker, str, i, function(result) {
+                                    console.log('i is ', result)
+                                    j = 1
+                                    resolve(result)
+                                })
 
 
 
-                        })
-                        while (j == 1) {
-                            if (strR === 'found') {
-                                j++
-                                console.log('inside if respose')
-                                response.say(namespeakerfromalexa + ' has been selected ')
-                                response.send()
 
-                            } else {
-                                j++
-                                console.log('inside if respose')
-                                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                            })
 
-                                response.send()
-                            }
+                        if (strR === 'found') {
+                            j++
+                            console.log('inside if respose')
+                            response.say(namespeakerfromalexa + ' has been selected ')
+                            response.send()
 
+                        } else {
+                            j++
+                            console.log('inside if respose')
+                            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+
+                            response.send()
                         }
+
+
 
 
                     }
