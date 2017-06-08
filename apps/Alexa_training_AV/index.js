@@ -818,55 +818,55 @@ app.intent("link", {
 
             listspeakerConnected.forEach(function(speaker) {
 
-                if (speaker.name == namespeakerfromalexa) {
+                    if (speaker.name == namespeakerfromalexa) {
 
-                    http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
+                        http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
 
-                        function(error, resul, body) {
+                            function(error, resul, body) {
 
-                            if (!error && resul.statusCode == 200) {
-                                speakerName = speaker.name
-                                if (body == 'found') {
-                                    i++;
-                                    console.log('found')
-                                    str = 'found'
-                                    response.say(namespeakerfromalexa + ' has been selected ')
-                                    response.send()
+                                if (!error && resul.statusCode == 200) {
+                                    speakerName = speaker.name
+                                    if (body == 'found') {
+                                        i++;
+                                        console.log('found')
+                                        str = 'found'
+                                        response.say(namespeakerfromalexa + ' has been selected ')
+                                        response.send()
 
 
-                                } else {
+                                    } else {
 
-                                    console.log('unabble to linik');
+                                        console.log('unabble to linik');
 
-                                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                                    response.send()
+                                        response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                                        response.send()
+
+                                    }
 
                                 }
 
+                            });
+
+                    }
+
+                })
+                /*
+                            console.log('i is ', i)
+                            console.log('str is ', str)
+                            console.log('speakzrname is ', speakerName)
+
+                            if (i == 0) {
+                                console.log('not found and i equal zeo')
+                                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                                response.send()
+
+
+                            } else {
+                                response.say(namespeakerfromalexa + ' has been selected ')
+                                response.send()
+
                             }
-
-                        });
-
-                }
-
-            })
-
-            console.log('i is ', i)
-            console.log('str is ', str)
-            console.log('speakzrname is ', speakerName)
-
-            if (i == 0) {
-                console.log('not found and i equal zeo')
-                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                response.send()
-
-
-            } else {
-                response.say(namespeakerfromalexa + ' has been selected ')
-                response.send()
-
-            }
-
+                */
 
 
 
