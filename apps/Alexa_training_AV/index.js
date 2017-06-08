@@ -894,7 +894,11 @@ app.intent("link", {
         speakerName = ''
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
 
+            if (listspeakerConnected.indexOf({ name: namespeakerfromalexa }) != -1) {
 
+                console.log(listspeakerConnected[listspeakerConnected.indexOf({ name: namespeakerfromalexa })])
+
+            }
             listspeakerConnected.forEach(function(speaker) {
 
                 if (speaker.name == namespeakerfromalexa) {
@@ -918,7 +922,7 @@ app.intent("link", {
                             } else {
 
                                 console.log('unabble to linik');
-
+                                str = 'not found'
                                 response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
                                 response.send()
 
