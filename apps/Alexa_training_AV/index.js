@@ -851,12 +851,13 @@ app.intent("link", {
                     if (speaker.name == namespeakerfromalexa) {
                         strR = fnSelect(speaker, str, i, function(result) {
                             console.log('i is ', result)
+                            j = 1
                             return result
 
 
 
                         })
-                        while (strR !== '' && j == 0) {
+                        while (j == 1) {
                             if (strR === 'found') {
                                 j++
                                 console.log('inside if respose')
