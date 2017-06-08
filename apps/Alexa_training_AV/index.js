@@ -820,7 +820,7 @@ app.intent("link", {
 
                 if (speaker.name == namespeakerfromalexa) {
                     var promise = new RSVP.Promise(function(fulfill, reject) {
-                        var str = http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
+                        str = http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
 
                             function(error, resul, body) {
 
@@ -841,7 +841,7 @@ app.intent("link", {
 
                                 }
                             });
-
+                        console.log(str)
                         if (str === 'found') {
                             fulfill(str)
                         }
