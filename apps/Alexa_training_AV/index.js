@@ -849,20 +849,26 @@ app.intent("link", {
             listspeakerConnected.forEach(function(speaker) {
 
                     if (speaker.name == namespeakerfromalexa) {
-                        var strR = fnSelect(speaker, str, i, function(result) {
-                            console.log('i is ', result)
-                            return result
+
+
+                        if (fnSelect(speaker, str, i, function(result) {
+                                console.log('i is ', result)
+                                return result
 
 
 
-                        })
-                        console.log('strR', strR)
-                        if (strR === 'found') {
+                            }) === 'found') {
                             console.log('inside if respose')
                             response.say(namespeakerfromalexa + ' has been selected ')
                             response.send()
                         }
-                        if (strR === 'not found') {
+                        if (sfnSelect(speaker, str, i, function(result) {
+                                console.log('i is ', result)
+                                return result
+
+
+
+                            }) === 'not found') {
                             console.log('inside if respose')
                             response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
 
