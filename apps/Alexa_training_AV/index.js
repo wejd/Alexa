@@ -850,19 +850,22 @@ app.intent("link", {
 
                     if (speaker.name == namespeakerfromalexa) {
                         var strR = fnSelect(speaker, str, i, function(result) {
-
                             console.log('i is ', result)
-                            console.log('str is ', str)
+                            return result
+
+
 
                         })
 
                         if (strR === 'found') {
+                            console.log('inside if respose')
                             response.say(namespeakerfromalexa + ' has been selected ')
                             response.send()
                         }
                         if (strR === 'not found') {
+                            console.log('inside if respose')
                             response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                            console.log('I was unable to select')
+
                             response.send()
                         }
 
