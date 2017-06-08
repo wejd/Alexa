@@ -801,7 +801,10 @@ app.intent("link", {
         ]
     },
     function(request, response) {
-
+        fnok = function() {
+            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+            response.send()
+        }
 
 
         var namespeakerfromalexa = request.slot('NAMED');
@@ -828,23 +831,7 @@ app.intent("link", {
                                 } else {
                                     return str = 'not found'
                                 }
-                                /*if (!error && resul.statusCode == 200) {
-                                    speakerName = speaker.name
-                                    if (body == 'found') {
-                                        i++;
-                                        console.log('found')
-                                        return str = 'found'
 
-
-
-                                    } else {
-
-                                        console.log('unabble to linik');
-                                        return str = 'not found'
-
-                                    }
-
-                                }*/
 
                             });
 
@@ -853,11 +840,9 @@ app.intent("link", {
                     promise.then(function(toss) {
                         console.log('str is ', toss)
                         if (toss == 'not found') {
-                            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                            response.send()
+                            fnok()
                         } else {
-                            response.say(namespeakerfromalexa + ' selected')
-                            response.send()
+                            fnok()
                         }
                         console.log('Yay, threw a ' + toss + '.');
                     }, function(toss) {
