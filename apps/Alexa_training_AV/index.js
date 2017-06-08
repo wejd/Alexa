@@ -892,66 +892,61 @@ app.intent("link", {
         i = 0
         str = ''
         speakerName = ''
-        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
-
-            if (listspeakerConnected.indexOf({ name: namespeakerfromalexa }) != -1) {
-
-                console.log(listspeakerConnected[listspeakerConnected.indexOf({ name: namespeakerfromalexa })])
-
-            } else {
-                console.log(listspeakerConnected[listspeakerConnected.indexOf({ name: namespeakerfromalexa })])
-            }
-            listspeakerConnected.forEach(function(speaker) {
-
-                if (speaker.name == namespeakerfromalexa) {
-                    console.log('speaker nbame', namespeakerfromalexa)
-
-                    return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
-
-                        function(error, body) {
-
-
-                            speakerName = speaker.name
-                            if (body == 'found') {
-                                i++;
-                                console.log('found')
-                                str = 'found'
-
-                                response.say(namespeakerfromalexa + ' has been selected ')
-                                response.send()
-
-
-                            } else {
-
-                                console.log('unabble to linik');
-                                str = 'not found'
-                                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                                response.send()
-
-                            }
-
-
-                        });
-
-
-
-
-
-                }
-                return false;
-
-
-            })
-
-            response.say(namespeakerfromalexa + ' has been selected ')
-            response.send()
-
-
-
-
-
-            return false;
+        var listspeakerConnected1 = []
+        http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            listspeakerConnected1 = listspeakerConnected;
         });
+
+        listspeakerConnected1.forEach(function(speaker) {
+
+            if (speaker.name == namespeakerfromalexa) {
+                console.log('speaker nbame', namespeakerfromalexa)
+
+                http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
+
+                    function(error, body) {
+
+
+
+                        if (body == 'found') {
+                            i++;
+                            console.log('found')
+                            str = 'found'
+
+                            response.say(namespeakerfromalexa + ' has been selected ')
+                            response.send()
+
+
+                        } else {
+
+                            console.log('unabble to linik');
+                            str = 'not found'
+                            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                            response.send()
+
+                        }
+
+
+                    });
+
+
+
+
+
+            }
+
+
+
+        })
+        return false
+
+
+
+
+
+
+
+
 
 
     }
