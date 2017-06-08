@@ -898,33 +898,32 @@ app.intent("link", {
             listspeakerConnected.forEach(function(speaker) {
 
                 if (speaker.name == namespeakerfromalexa) {
-
+                    console.log('speaker nbame', namespeakerfromalexa)
 
                     return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
 
                         function(error, body) {
 
-                            if (!error) {
-                                speakerName = speaker.name
-                                if (body == 'found') {
-                                    i++;
-                                    console.log('found')
-                                    str = 'found'
 
-                                    response.say(namespeakerfromalexa + ' has been selected ')
-                                    response.send()
+                            speakerName = speaker.name
+                            if (body == 'found') {
+                                i++;
+                                console.log('found')
+                                str = 'found'
+
+                                response.say(namespeakerfromalexa + ' has been selected ')
+                                response.send()
 
 
-                                } else {
+                            } else {
 
-                                    console.log('unabble to linik');
+                                console.log('unabble to linik');
 
-                                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                                    response.send()
-
-                                }
+                                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                                response.send()
 
                             }
+
 
                         });
 
