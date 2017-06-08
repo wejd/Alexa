@@ -811,7 +811,7 @@ app.intent("link", {
         accessToken = request.sessionDetails.accessToken;
         reqheader = 'Bearer ' + accessToken;
         i = 0
-        str = ''
+
         speakerName = ''
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
 
@@ -851,9 +851,11 @@ app.intent("link", {
                     });
 
                     promise.then(function(toss) {
+                        console.log('helooooooo')
                         response.say(namespeakerfromalexa + ' has been selected ')
                         response.send()
                     }, function(toss) {
+                        console.log('helooooooo')
                         response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
                         response.send()
 
