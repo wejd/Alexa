@@ -53,7 +53,8 @@ app.intent('search', {
 
 
             console.log('listspeakerConnected', listspeakerConnected)
-
+            var session = request.getSession()
+            session.set('listspeakerConnected', listspeakerConnected)
             var i = 0
 
             var speakerListString = ''
@@ -138,7 +139,8 @@ app.intent('listspeaker', {
 
 
             console.log('listspeakerConnected', listspeakerConnected)
-
+            var session = request.getSession()
+            session.set('listspeakerConnected', listspeakerConnected)
             var i = 0
 
             var speakerListString = ''
@@ -337,7 +339,8 @@ app.intent('yes', {
 
 
                 console.log('listspeakerConnected', listspeakerConnected)
-
+                var session = request.getSession()
+                session.set('listspeakerConnected', listspeakerConnected)
                 var i = 0
 
                 var speakerListString = ''
@@ -790,7 +793,9 @@ app.intent('noone', {
 
     }
 );
-var RSVP = require('rsvp')
+
+
+
 app.intent("link", {
         "slots": {
             "NAMED": "AMAZON.LITERAL",
@@ -801,78 +806,53 @@ app.intent("link", {
         ]
     },
     function(request, response) {
+        var session = request.getSession()
 
 
         var namespeakerfromalexa = request.slot('NAMED');
+        var listspeakerConnected = session.get('listspeakerConnected')
 
 
-        accessToken = request.sessionDetails.accessToken;
-        reqheader = 'Bearer ' + accessToken;
         i = 0
         str = ''
         speakerName = ''
-        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+        if (listspeakerConnected.length == 0) {
+            session.set('lastCommande', "control")
 
-            listspeakerConnected.forEach(function(speaker) {
+            response.say(" would you like to launch discovery ? ").shouldEndSession(false);;
+            response.send();
+        }
 
-                if (speaker.name == namespeakerfromalexa) {
-                    var promise = new RSVP.Promise(function(fulfill, reject) {
-                        var strR = http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
+        listspeakerConnected.forEach(function(speaker) {
 
-                            function(error, resul, body) {
-                                if (resul == 'found') {
-                                    i = 1
-                                    return str = 'found'
-                                } else {
-                                    i = 2
-                                    return str = 'not found'
-                                }
+            if (speaker.name == namespeakerfromalexa) {
+                return http.postAsync({ url: 'http://vps341573.ovh.net:5050', form: { key: speaker.num_serie } },
+                    function(error, res, body) {
+                        if (!error && res.statusCode == 200) {
 
+                            if (body == 'found') {
 
-                            });
+                                session.set('speaker_numSerie', numSerie)
+                                response.say(val + ' has been selected ')
+                                response.send()
 
-                        fulfill(strR)
-                    })
-                    promise.then(function(toss) {
-                        console.log('str is ', toss)
-                        if (toss == 'not found') {
-                            console.log(namespeakerfromalexa, '   ' + i)
-                            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                            response.send()
-                        } else {
-                            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                            response.send()
+                            } else {
+                                console.log('not found', numSerie)
+                                response.say('I was unable to select ' + val + ' . Please try again later')
+                                response.send()
+
+                            }
+
                         }
-                        console.log('Yay, threw a ' + toss + '.');
-                    }, function(toss) {
-                        console.log('str is ', toss)
-                        console.log('Oh, noes, threw a ' + toss + '.');
+
                     });
-
-
-
-
-
-
-
-                }
-
-            })
-
-
-            if (i == 1) {
-                response.say(namespeakerfromalexa + ' selected')
-                response.send()
             }
-            if (i == 2) {
-                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                response.send()
-            }
+        })
 
 
 
 
-        });
+
 
     }
 );
