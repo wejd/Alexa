@@ -798,7 +798,7 @@ app.intent('noone', {
 
 
 
-app.intent("link", {
+/*app.intent("link", {
         "slots": {
             "NAMED": "AMAZON.LITERAL",
 
@@ -869,9 +869,8 @@ app.intent("link", {
     }
 );
 
+*/
 
-
-/*var RSVP = require('rsvp')
 
 app.intent("link", {
         "slots": {
@@ -892,133 +891,9 @@ app.intent("link", {
         accessToken = request.sessionDetails.accessToken;
         reqheader = 'Bearer ' + accessToken;
         i = 0
-
-        speakerName = ''
-
-
-        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
-
-
-            listspeakerConnected.forEach(function(speaker) {
-
-                if (speaker.name == namespeakerfromalexa) {
-                    var promise = new RSVP.Promise(function(fulfill, reject) {
-                        str = http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
-
-                            function(error, resul, body) {
-
-                                if (!error && resul.statusCode == 200) {
-                                    speakerName = speaker.name
-                                    if (body == 'found') {
-                                        i++;
-                                        console.log('found')
-                                        return str = 'found'
-
-
-
-                                    } else {
-
-                                        console.log('unabble to linik');
-                                        return str = 'not found'
-                                    }
-
-                                }
-                            });
-                        console.log(str)
-                        if (str === 'found') {
-                            fulfill(str)
-                        }
-                        if (str === 'not found') {
-                            reject(str)
-                        }
-                    });
-
-                    promise.then(function(toss) {
-                        console.log('helooooooo')
-                        response.say(namespeakerfromalexa + ' has been selected ')
-                        response.send()
-                    }, function(toss) {
-                        console.log('helooooooo')
-                        response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                        response.send()
-
-                    });
-
-
-
-
-
-
-                }
-
-            })
-
-
-           
-    
-
-        });
-
-    });
-*/
-
-
-
-
-
-/*app.intent("link", {
-        "slots": {
-            "NAMED": "AMAZON.LITERAL",
-
-        },
-        "utterances": [
-            "select {NAMED} "
-        ]
-    },
-    function(request, response) {
-
-
-
-        var namespeakerfromalexa = request.slot('NAMED');
-
-
-        accessToken = request.sessionDetails.accessToken;
-        reqheader = 'Bearer ' + accessToken;
-        i = 0
-        j = 0
         str = ''
         speakerName = ''
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
-            var fnSelect = function(speaker, str, i, callback) {
-
-                http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
-
-                    function(error, resul, body) {
-
-                        if (!error && resul.statusCode == 200) {
-                            speakerName = speaker.name
-                            if (body == 'found') {
-                                i++;
-                                console.log('found', i)
-                                callback(
-                                    str = 'found')
-
-
-
-                            } else {
-                                console.log('unabble to linik');
-                                callback(
-                                    str = 'not found')
-
-
-
-
-                            }
-
-                        }
-
-                    })
-            }
 
 
             listspeakerConnected.forEach(function(speaker) {
@@ -1026,54 +901,51 @@ app.intent("link", {
                 if (speaker.name == namespeakerfromalexa) {
 
 
-                    var strR = fnSelect(speaker, str, i, function(result) {
-                        console.log('i is ', result)
+                    return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
+
+                        function(error, resul, body) {
+
+                            if (!error && resul.statusCode == 200) {
+                                speakerName = speaker.name
+                                if (body == 'found') {
+                                    i++;
+                                    console.log('found')
+                                    str = 'found'
+
+                                    response.say(namespeakerfromalexa + ' has been selected ')
+                                    response.send()
 
 
+                                } else {
 
-                        return result
+                                    console.log('unabble to linik');
 
+                                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                                    response.send()
+                                }
 
+                            }
 
-                    })
-                    if (strR === 'found') {
-                        j++
-                        console.log('inside if respose')
-                        response.say(namespeakerfromalexa + ' has been selected ')
-                        return response.send()
-
-                    }
-                    if (strR === 'not found') {
-                        j++
-                        console.log('inside if respose')
-                        response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-
-                        return response.send()
-                    }
-
+                        });
 
 
                 }
-
-
-
-
-
-
-
-
-
+                return false
 
             })
 
 
 
 
+
+
         });
 
+    }
+);
 
-    });
-*/
+
+
 
 
 
