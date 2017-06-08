@@ -790,7 +790,7 @@ app.intent('noone', {
 
     }
 );
-
+var RSVP = require('rsvp')
 app.intent("link", {
         "slots": {
             "NAMED": "AMAZON.LITERAL",
@@ -818,50 +818,44 @@ app.intent("link", {
             listspeakerConnected.forEach(function(speaker) {
 
                 if (speaker.name == namespeakerfromalexa) {
+                    var promise = new RSVP.Promise(function(fulfill, reject) {
+                        var strR = http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
 
-                    var strR = http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
+                            function(error, resul, body) {
 
-                        function(error, resul, body) {
-
-                            if (!error && resul.statusCode == 200) {
-                                speakerName = speaker.name
-                                if (body == 'found') {
-                                    i++;
-                                    console.log('found')
-                                    return str = 'found'
+                                if (!error && resul.statusCode == 200) {
+                                    speakerName = speaker.name
+                                    if (body == 'found') {
+                                        i++;
+                                        console.log('found')
+                                        return str = 'found'
 
 
 
-                                } else {
+                                    } else {
 
-                                    console.log('unabble to linik');
-                                    return str = 'not found'
+                                        console.log('unabble to linik');
+                                        return str = 'not found'
+
+                                    }
 
                                 }
 
-                            }
+                            });
 
-                        });
+                        fulfill(strR)
+                    })
+                    promise.then(function(toss) {
+                        console.log('str is ', toss)
+                        console.log('Yay, threw a ' + toss + '.');
+                    }, function(toss) {
+                        console.log('str is ', toss)
+                        console.log('Oh, noes, threw a ' + toss + '.');
+                    });
 
 
-                    console.log('i is ', i)
-                    console.log('str is ', strR)
-                    console.log('speakzrname is ', speakerName)
 
-                    if (strR === 'found') {
-                        j++
-                        console.log('inside if respose')
-                        response.say(namespeakerfromalexa + ' has been selected ')
-                        return response.send()
 
-                    }
-                    if (strR === 'not found') {
-                        j++
-                        console.log('inside if respose')
-                        response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-
-                        return response.send()
-                    }
 
 
 
