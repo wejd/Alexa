@@ -818,40 +818,41 @@ app.intent("link", {
 
             listspeakerConnected.forEach(function(speaker) {
 
-                if (speaker.name == namespeakerfromalexa) {
+                    if (speaker.name == namespeakerfromalexa) {
+                        response.say(namespeakerfromalexa + ' has been selected ')
+                        response.send()
+                            /*     return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
 
-                    return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
+                                     function(error, resul, body) {
 
-                        function(error, resul, body) {
-
-                            if (!error && resul.statusCode == 200) {
-                                speakerName = speaker.name
-                                if (body == 'found') {
-                                    i++;
-                                    console.log('found', i)
-                                    str = 'found'
-
-
-
-                                } else {
-                                    str = 'not found'
-
-                                    console.log('unabble to linik', str);
-
-
-                                }
-
-                            }
-
-                        });
-
-                }
-                j++
+                                         if (!error && resul.statusCode == 200) {
+                                             speakerName = speaker.name
+                                             if (body == 'found') {
+                                                 i++;
+                                                 console.log('found', i)
+                                                 str = 'found'
 
 
 
-            })
-            setTimeout(function() {
+                                             } else {
+                                                 str = 'not found'
+
+                                                 console.log('unabble to linik', str);
+
+
+                                             }
+
+                                         }
+
+                                     });*/
+
+                    }
+                    j++
+
+
+
+                })
+                /* setTimeout(function() {
                 console.log('i is ', i)
                 console.log('str is ', str)
                 console.log('speakzrname is ', speakerName)
@@ -866,7 +867,7 @@ app.intent("link", {
 
 
             }, 600);
-
+*/
 
 
             /*console.log('i is ', i)
