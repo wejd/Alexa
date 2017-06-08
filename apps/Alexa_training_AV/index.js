@@ -821,11 +821,11 @@ app.intent("link", {
         if (!listspeakerConnected) {
             session.set('lastCommande', "control")
 
-            response.say("sorry i didnt get it.  would you like to launch discovery ? ").shouldEndSession(false);;
+            response.say("sorry ,  would you like to launch discovery ? ").shouldEndSession(false);;
             response.send();
         } else {
             listspeakerConnected.forEach(function(speaker) {
-
+                console.log('speaker', speaker)
                 if (speaker.name == namespeakerfromalexa) {
 
                     return http.postAsync({ url: 'http://vps341573.ovh.net:5050', form: { key: speaker.num_serie } },
@@ -833,13 +833,13 @@ app.intent("link", {
                             if (!error && res.statusCode == 200) {
 
                                 if (body == 'found') {
-
+                                    console.log('found')
 
                                     response.say(namespeakerfromalexa + ' has been selected ')
                                     response.send()
 
                                 } else {
-
+                                    console.log(' notfound')
                                     response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
                                     response.send()
 
