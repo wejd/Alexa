@@ -790,7 +790,99 @@ app.intent('noone', {
 
     }
 );
-var RSVP = require('rsvp')
+
+app.intent("link", {
+        "slots": {
+            "NAMED": "AMAZON.LITERAL",
+
+        },
+        "utterances": [
+            "select {NAMED} "
+        ]
+    },
+    function(request, response) {
+
+
+
+        var namespeakerfromalexa = request.slot('NAMED');
+
+
+        accessToken = request.sessionDetails.accessToken;
+        reqheader = 'Bearer ' + accessToken;
+        i = 0
+        str = ''
+        speakerName = ''
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+
+
+            listspeakerConnected.forEach(function(speaker) {
+
+                if (speaker.name == namespeakerfromalexa) {
+
+                    var strR = http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
+
+                        function(error, resul, body) {
+
+                            if (!error && resul.statusCode == 200) {
+                                speakerName = speaker.name
+                                if (body == 'found') {
+                                    i++;
+                                    console.log('found')
+                                    return str = 'found'
+
+
+
+                                } else {
+
+                                    console.log('unabble to linik');
+                                    return str = 'not found'
+
+                                }
+
+                            }
+
+                        });
+
+
+                    console.log('i is ', i)
+                    console.log('str is ', str)
+                    console.log('speakzrname is ', speakerName)
+
+                    if (strR === 'found') {
+                        j++
+                        console.log('inside if respose')
+                        response.say(namespeakerfromalexa + ' has been selected ')
+                        return response.send()
+
+                    }
+                    if (strR === 'not found') {
+                        j++
+                        console.log('inside if respose')
+                        response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+
+                        return response.send()
+                    }
+
+
+
+                }
+
+            })
+
+
+
+
+
+
+
+        });
+
+    }
+);
+
+
+
+/*var RSVP = require('rsvp')
 
 app.intent("link", {
         "slots": {
@@ -873,31 +965,18 @@ app.intent("link", {
             })
 
 
-            /*
-                        console.log('i is ', i)
-                        console.log('str is ', str)
-                        console.log('speakzrname is ', speakerName)
-
-                        if (i == 0) {
-                            console.log('not found and i equal zeo')
-                            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                            response.send()
-
-
-                        } else {
-                            response.say(namespeakerfromalexa + ' has been selected ')
-                            response.send()
-
-                        }
-            */
-
-
-
-
+           
+    
 
         });
 
     });
+*/
+
+
+
+
+
 /*app.intent("link", {
         "slots": {
             "NAMED": "AMAZON.LITERAL",
