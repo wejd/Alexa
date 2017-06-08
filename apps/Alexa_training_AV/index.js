@@ -855,7 +855,7 @@ app.intent("link", {
                                 fnSelect(speaker, str, i, function(result) {
                                     console.log('i is ', result)
                                     j = 1
-                                    resolve(result)
+                                    return resolve(result)
                                 })
 
 
