@@ -845,7 +845,7 @@ app.intent("link", {
 
 
                     console.log('i is ', i)
-                    console.log('str is ', str)
+                    console.log('str is ', strR)
                     console.log('speakzrname is ', speakerName)
 
                     if (strR === 'found') {
