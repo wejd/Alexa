@@ -819,32 +819,32 @@ app.intent("link", {
             listspeakerConnected.forEach(function(speaker) {
 
                     if (speaker.name == namespeakerfromalexa) {
-                        response.say(namespeakerfromalexa + ' has been selected ')
-                        response.send()
-                            /*     return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
 
-                                     function(error, resul, body) {
+                        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
 
-                                         if (!error && resul.statusCode == 200) {
-                                             speakerName = speaker.name
-                                             if (body == 'found') {
-                                                 i++;
-                                                 console.log('found', i)
-                                                 str = 'found'
-
-
-
-                                             } else {
-                                                 str = 'not found'
-
-                                                 console.log('unabble to linik', str);
+                            function(error, resul, body) {
+                                response.say(namespeakerfromalexa + ' has been selected ')
+                                response.send()
+                                    /* if (!error && resul.statusCode == 200) {
+                                    speakerName = speaker.name
+                                    if (body == 'found') {
+                                        i++;
+                                        console.log('found', i)
+                                        str = 'found'
 
 
-                                             }
 
-                                         }
+                                    } else {
+                                        str = 'not found'
 
-                                     });*/
+                                        console.log('unabble to linik', str);
+
+
+                                    }
+
+                                }
+*/
+                            });
 
                     }
                     j++
