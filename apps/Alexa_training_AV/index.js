@@ -820,7 +820,7 @@ app.intent("link", {
 
                     if (speaker.name == namespeakerfromalexa) {
 
-                        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
+                        var str = http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
 
                             function(error, resul, body) {
 
@@ -829,14 +829,15 @@ app.intent("link", {
                                     if (body == 'found') {
                                         i++;
                                         console.log('found', i)
-                                        str = 'found'
+                                        return str = 'found'
 
 
 
                                     } else {
-                                        str = 'not found'
-
                                         console.log('unabble to linik', str);
+                                        return str = 'not found'
+
+
 
 
                                     }
@@ -846,21 +847,21 @@ app.intent("link", {
                             });
 
                     }
-                    setTimeout(function() {
-                        console.log('i is ', i)
-                        console.log('str is ', str)
-                        console.log('speakzrname is ', speakerName)
-                        if (str === 'found') {
-                            response.say(namespeakerfromalexa + ' has been selected ')
-                            response.send()
-                        } else {
-                            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                            console.log('I was unable to select')
-                            response.send()
-                        }
+
+                    console.log('i is ', i)
+                    console.log('str is ', str)
+                    console.log('speakzrname is ', speakerName)
+                    if (str === 'found') {
+                        response.say(namespeakerfromalexa + ' has been selected ')
+                        response.send()
+                    } else {
+                        response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                        console.log('I was unable to select')
+                        response.send()
+                    }
 
 
-                    }, 100);
+
 
 
 
