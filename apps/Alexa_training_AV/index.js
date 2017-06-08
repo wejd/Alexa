@@ -847,12 +847,18 @@ app.intent("link", {
                                 }*/
 
                             });
-                        console.log('str returned inside rsvp ', fulfill(strR))
-                        console.log('str returned inside rsvp ', reject(strR))
+
                         fulfill(strR)
                     })
                     promise.then(function(toss) {
                         console.log('str is ', toss)
+                        if (toss == 'not found') {
+                            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                            response.send()
+                        } else {
+                            response.say(namespeakerfromalexa + ' selected')
+                            response.send()
+                        }
                         console.log('Yay, threw a ' + toss + '.');
                     }, function(toss) {
                         console.log('str is ', toss)
