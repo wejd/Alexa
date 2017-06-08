@@ -842,7 +842,8 @@ app.intent("link", {
                                 }
 
                             });
-                        console.log('str returned inside rsvp ', strR)
+                        console.log('str returned inside rsvp ', fulfill(strR))
+                        console.log('str returned inside rsvp ', reject(strR))
                         fulfill(strR)
                     })
                     promise.then(function(toss) {
