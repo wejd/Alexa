@@ -937,6 +937,8 @@ app.intent("link", {
 
             })
 
+            response.say(namespeakerfromalexa + ' has been selected ')
+            response.send()
 
 
 
