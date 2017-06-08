@@ -822,8 +822,13 @@ app.intent("link", {
                         var strR = http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
 
                             function(error, resul, body) {
+                                if (resul == 'found') {
 
-                                if (!error && resul.statusCode == 200) {
+                                    return str = 'found'
+                                } else {
+                                    return str = 'not found'
+                                }
+                                /*if (!error && resul.statusCode == 200) {
                                     speakerName = speaker.name
                                     if (body == 'found') {
                                         i++;
@@ -839,7 +844,7 @@ app.intent("link", {
 
                                     }
 
-                                }
+                                }*/
 
                             });
                         console.log('str returned inside rsvp ', fulfill(strR))
