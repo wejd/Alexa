@@ -818,9 +818,9 @@ app.intent("link", {
 
             listspeakerConnected.forEach(function(speaker) {
 
-                    if (speaker.name == namespeakerfromalexa) {
-
-                        http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
+                if (speaker.name == namespeakerfromalexa) {
+                    var promise = new RSVP.Promise(function(fulfill, reject) {
+                        var str = http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
 
                             function(error, resul, body) {
 
@@ -829,44 +829,63 @@ app.intent("link", {
                                     if (body == 'found') {
                                         i++;
                                         console.log('found')
-                                        str = 'found'
-                                        response.say(namespeakerfromalexa + ' has been selected ')
-                                        response.send()
+                                        return str = 'found'
+
 
 
                                     } else {
 
                                         console.log('unabble to linik');
-
-                                        response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                                        response.send()
-
+                                        return str = 'not found'
                                     }
 
                                 }
-
                             });
 
-                    }
+                        if (str === 'found') {
+                            fulfill(str)
+                        }
+                        if (str === 'not found') {
+                            reject(str)
+                        }
+                    });
 
-                })
-                /*
-                            console.log('i is ', i)
-                            console.log('str is ', str)
-                            console.log('speakzrname is ', speakerName)
+                    promise.then(function(toss) {
+                        response.say(namespeakerfromalexa + ' has been selected ')
+                        response.send()
+                    }, function(toss) {
+                        response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                        response.send()
 
-                            if (i == 0) {
-                                console.log('not found and i equal zeo')
-                                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                                response.send()
+                    });
 
 
-                            } else {
-                                response.say(namespeakerfromalexa + ' has been selected ')
-                                response.send()
 
-                            }
-                */
+
+
+
+                }
+
+            })
+
+
+            /*
+                        console.log('i is ', i)
+                        console.log('str is ', str)
+                        console.log('speakzrname is ', speakerName)
+
+                        if (i == 0) {
+                            console.log('not found and i equal zeo')
+                            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                            response.send()
+
+
+                        } else {
+                            response.say(namespeakerfromalexa + ' has been selected ')
+                            response.send()
+
+                        }
+            */
 
 
 
@@ -874,8 +893,7 @@ app.intent("link", {
 
         });
 
-    }
-);
+    });
 /*app.intent("link", {
         "slots": {
             "NAMED": "AMAZON.LITERAL",
