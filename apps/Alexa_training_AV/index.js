@@ -932,6 +932,7 @@ app.intent("link", {
 
 
                 }
+                return false;
 
 
             })
@@ -941,8 +942,9 @@ app.intent("link", {
 
 
 
-
+            return false;
         });
+
 
     }
 
