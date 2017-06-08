@@ -811,12 +811,12 @@ app.intent("link", {
 
         var namespeakerfromalexa = request.slot('NAMED');
         var listspeakerConnected = session.get('listspeakerConnected')
-
+        console.log((listspeakerConnected))
 
         i = 0
         str = ''
         speakerName = ''
-        if (listspeakerConnected.length == 0) {
+        if (!listspeakerConnected) {
             session.set('lastCommande', "control")
 
             response.say(" would you like to launch discovery ? ").shouldEndSession(false);;
