@@ -33,7 +33,7 @@ app.pre = function(request, response, type) {
 
 app.error = function(exception, request, response) {
 
-    response.say('Sorry an error occured ' + error.message);
+    response.say('Sorry an error occured ');
 };
 
 app.intent('search', {
@@ -851,7 +851,7 @@ app.intent("link", {
                     if (speaker.name == namespeakerfromalexa) {
 
 
-                        if (fnSelect(speaker, str, i, function(result) {
+                        if (fnSelect(speaker, str, i, function(err, result) {
                                 console.log('i is ', result)
                                 return result
 
@@ -862,7 +862,7 @@ app.intent("link", {
                             response.say(namespeakerfromalexa + ' has been selected ')
                             response.send()
                         }
-                        if (sfnSelect(speaker, str, i, function(result) {
+                        if (sfnSelect(speaker, str, i, function(err, result) {
                                 console.log('i is ', result)
                                 return result
 
