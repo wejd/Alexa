@@ -850,18 +850,17 @@ app.intent("link", {
 
                     if (speaker.name == namespeakerfromalexa) {
 
-                        var strR =
-                            new Promise(function(resolve, rejectt) {
-                                fnSelect(speaker, str, i, function(result) {
-                                    console.log('i is ', result)
-                                    j = 1
-                                    return resolve(result)
-                                })
+
+                        var strR = fnSelect(speaker, str, i, function(result) {
+                            console.log('i is ', result)
+                            response.say('helknfa azlfkaz ')
+                            response.send()
+
+                            return result
 
 
 
-
-                            })
+                        })
 
                         if (strR === 'found') {
                             j++
