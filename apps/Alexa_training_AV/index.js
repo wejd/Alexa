@@ -790,7 +790,7 @@ app.intent('noone', {
 
     }
 );
-
+var RSVP = require('rsvp')
 
 app.intent("link", {
         "slots": {
