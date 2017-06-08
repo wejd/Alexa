@@ -836,7 +836,7 @@ app.intent("link", {
                     promise.then(function(toss) {
                         console.log('str is ', toss)
                         if (toss == 'not found') {
-                            console.log(namespeakerfromalexa, '   ' + , i)
+                            console.log(namespeakerfromalexa, '   ' + i)
                             response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
                             response.send()
                         } else {
