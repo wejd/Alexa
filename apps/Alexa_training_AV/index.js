@@ -831,22 +831,21 @@ app.intent("link", {
                     http.postAsync({ url: 'http://vps341573.ovh.net:5050', form: { key: str } }).spread(
                         function(error, body) {
                             console.log(body)
-                            console.log(error)
-                            if (!error) {
 
-                                if (body == 'found') {
-                                    console.log('found')
-                                    str = 'found'
-                                    response.say(namespeakerfromalexa + ' has been selected ')
-                                    return response.send()
 
-                                } else {
-                                    console.log(' notfound')
-                                    str = 'not found'
-                                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                                    return response.send()
+                            if (body == 'found') {
+                                console.log('found')
+                                str = 'found'
+                                response.say(namespeakerfromalexa + ' has been selected ')
+                                return response.send()
 
-                                }
+                            } else {
+                                console.log(' notfound')
+                                str = 'not found'
+                                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                                return response.send()
+
+
 
                             }
 
