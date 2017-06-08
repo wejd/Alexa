@@ -834,12 +834,13 @@ app.intent("link", {
 
                                 if (body == 'found') {
                                     console.log('found')
-
+                                    str = 'found'
                                     response.say(namespeakerfromalexa + ' has been selected ')
                                     response.send()
 
                                 } else {
                                     console.log(' notfound')
+                                    str = 'not found'
                                     response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
                                     response.send()
 
@@ -850,6 +851,18 @@ app.intent("link", {
                         });
                 }
             })
+
+
+            if (str === 'found') {
+                console.log('final part', str)
+                response.say(namespeakerfromalexa + ' has been selected ')
+                response.send()
+            } else {
+                console.log('final part', str)
+                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                response.send()
+
+            }
 
         }
 
