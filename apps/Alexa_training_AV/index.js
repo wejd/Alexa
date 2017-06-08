@@ -900,7 +900,7 @@ app.intent("link", {
                 if (speaker.name == namespeakerfromalexa) {
 
 
-                    http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
+                    return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
 
                         function(error, resul, body) {
 
