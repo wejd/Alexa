@@ -834,7 +834,7 @@ app.intent("link", {
 
 
                                     } else {
-                                        console.log('unabble to linik', str);
+                                        console.log('unabble to linik');
                                         return str = 'not found'
 
 
@@ -848,21 +848,22 @@ app.intent("link", {
 
                     }
 
-                    setTimeout(function() {
-                        console.log('i is ', i)
-                        console.log('str is ', str)
-                        console.log('speakzrname is ', speakerName)
-                        if (str === 'found') {
-                            response.say(namespeakerfromalexa + ' has been selected ')
-                            response.send()
-                        } else {
-                            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                            console.log('I was unable to select')
-                            response.send()
-                        }
+
+                    console.log('i is ', i)
+                    console.log('str is ', str)
+                    console.log('speakzrname is ', speakerName)
+                    if (str === 'found') {
+                        response.say(namespeakerfromalexa + ' has been selected ')
+                        response.send()
+                    }
+                    if (str === 'not found') {
+                        response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                        console.log('I was unable to select')
+                        response.send()
+                    }
 
 
-                    }, 300);
+
 
 
 
