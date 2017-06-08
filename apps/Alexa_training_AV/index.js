@@ -856,7 +856,7 @@ app.intent("link", {
 
 
                         })
-
+                        console.log('strR', strR)
                         if (strR === 'found') {
                             console.log('inside if respose')
                             response.say(namespeakerfromalexa + ' has been selected ')
