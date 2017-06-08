@@ -853,16 +853,30 @@ app.intent("link", {
 
                         var strR = fnSelect(speaker, str, i, function(result) {
                             console.log('i is ', result)
-                            response.say('hello')
-                            return response.send();
 
 
-                            /*return result*/
+
+                            return result
 
 
 
                         })
 
+                        setTimeout(function() {
+                            if (strR === 'found') {
+                                j++
+                                console.log('inside if respose')
+                                response.say(namespeakerfromalexa + ' has been selected ')
+                                response.send()
+
+                            } else {
+                                j++
+                                console.log('inside if respose')
+                                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+
+                                response.send()
+                            }
+                        }, 600);
                         /*     if (strR === 'found') {
                             j++
                             console.log('inside if respose')
