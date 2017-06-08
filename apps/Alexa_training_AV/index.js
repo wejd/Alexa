@@ -830,7 +830,8 @@ app.intent("link", {
                     str = speaker.num_serie
                     http.postAsync({ url: 'http://vps341573.ovh.net:5050', form: { key: str } }).spread(
                         function(error, body) {
-
+                            console.log(body)
+                            console.log(error)
                             if (!error) {
 
                                 if (body == 'found') {
