@@ -791,7 +791,89 @@ app.intent('noone', {
     }
 );
 
+
 app.intent("link", {
+        "slots": {
+            "NAMED": "AMAZON.LITERAL",
+
+        },
+        "utterances": [
+            "select {NAMED} "
+        ]
+    },
+    function(request, response) {
+
+
+
+        var namespeakerfromalexa = request.slot('NAMED');
+
+
+        accessToken = request.sessionDetails.accessToken;
+        reqheader = 'Bearer ' + accessToken;
+        i = 0
+        str = ''
+        speakerName = ''
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+
+
+            listspeakerConnected.forEach(function(speaker) {
+
+                if (speaker.name == namespeakerfromalexa) {
+
+                    return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } },
+
+                        function(error, resul, body) {
+
+                            if (!error && resul.statusCode == 200) {
+                                speakerName = speaker.name
+                                if (body == 'found') {
+                                    i++;
+                                    console.log('found')
+                                    str = 'found'
+
+
+
+                                } else {
+
+                                    console.log('unabble to linik');
+
+
+                                }
+
+                            }
+
+                        });
+
+                }
+
+            })
+
+            console.log('i is ', i)
+            console.log('str is ', str)
+            console.log('speakzrname is ', speakerName)
+
+            if (i == 0) {
+                console.log('not found and i equal zeo')
+                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                response.send()
+
+
+            } else {
+                response.say(namespeakerfromalexa + ' has been selected ')
+                response.send()
+
+            }
+
+
+
+
+
+
+        });
+
+    }
+);
+/*app.intent("link", {
         "slots": {
             "NAMED": "AMAZON.LITERAL",
 
@@ -848,108 +930,48 @@ app.intent("link", {
 
             listspeakerConnected.forEach(function(speaker) {
 
-                    if (speaker.name == namespeakerfromalexa) {
+                if (speaker.name == namespeakerfromalexa) {
 
 
-                        var strR = fnSelect(speaker, str, i, function(result) {
-                            console.log('i is ', result)
-
-
-
-                            return result
+                    var strR = fnSelect(speaker, str, i, function(result) {
+                        console.log('i is ', result)
 
 
 
-                        })
-                        setInterval(function() {
-                            if (j === 0) {
-                                if (strR === 'found') {
-                                    j++
-                                    console.log('inside if respose')
-                                    response.say(namespeakerfromalexa + ' has been selected ')
-                                    return response.send()
-
-                                }
-                                if (strR === 'not found') {
-                                    j++
-                                    console.log('inside if respose')
-                                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-
-                                    return response.send()
-                                }
-
-
-                            }
-
-                        }, 300)
-
-                        /*  setTimeout(function() {
-
-                          }, 400);*/
-                        /*     if (strR === 'found') {
-                            j++
-                            console.log('inside if respose')
-                            response.say(namespeakerfromalexa + ' has been selected ')
-                            response.send()
-
-                        } else {
-                            j++
-                            console.log('inside if respose')
-                            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-
-                            response.send()
-                        }
-*/
+                        return result
 
 
 
+                    })
+                    if (strR === 'found') {
+                        j++
+                        console.log('inside if respose')
+                        response.say(namespeakerfromalexa + ' has been selected ')
+                        return response.send()
+
+                    }
+                    if (strR === 'not found') {
+                        j++
+                        console.log('inside if respose')
+                        response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+
+                        return response.send()
                     }
 
 
 
-
-
-
-
-
-
-
-                })
-                /* setTimeout(function() {
-                console.log('i is ', i)
-                console.log('str is ', str)
-                console.log('speakzrname is ', speakerName)
-                if (str === 'found') {
-                    response.say(namespeakerfromalexa + ' has been selected ')
-                    response.send()
-                } else {
-                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                    console.log('I was unable to select')
-                    response.send()
                 }
 
 
-            }, 600);
-*/
 
 
-            /*console.log('i is ', i)
-            console.log('str is ', str)
-            console.log('speakzrname is ', speakerName)
-
-            if (i == 0) {
-                console.log('not found and i equal zeo')
-                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-                response.send()
 
 
-            } else {
-                response.say(namespeakerfromalexa + ' has been selected ')
-                response.send()
 
-            }
-*/
 
+
+
+            })
 
 
 
@@ -958,7 +980,7 @@ app.intent("link", {
 
 
     });
-
+*/
 
 
 
