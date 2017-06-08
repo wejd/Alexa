@@ -851,7 +851,7 @@ app.intent("link", {
                     if (speaker.name == namespeakerfromalexa) {
 
 
-                        if (fnSelect(speaker, str, i, function(err, result) {
+                        if (fnSelect(speaker, str, i, function(result) {
                                 console.log('i is ', result)
                                 return result
 
