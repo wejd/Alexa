@@ -856,7 +856,7 @@ app.intent("link", {
 
 
                         })
-                        while (strR != '' && j == 0) {
+                        while (strR !== '' && j == 0) {
                             if (strR === 'found') {
                                 j++
                                 console.log('inside if respose')
