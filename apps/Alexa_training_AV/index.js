@@ -850,8 +850,14 @@ app.intent("link", {
                     });
 
 
-
-
+                    if (i == 1) {
+                        response.say(namespeakerfromalexa + ' selected')
+                        response.send()
+                    }
+                    if (i == 2) {
+                        response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                        response.send()
+                    }
 
 
 
