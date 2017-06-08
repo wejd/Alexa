@@ -861,22 +861,31 @@ app.intent("link", {
 
 
                         })
+                        setInterval(function() {
+                            if (j === 0) {
+                                if (strR === 'found') {
+                                    j++
+                                    console.log('inside if respose')
+                                    response.say(namespeakerfromalexa + ' has been selected ')
+                                    return response.send()
 
-                        setTimeout(function() {
-                            if (strR === 'found') {
-                                j++
-                                console.log('inside if respose')
-                                response.say(namespeakerfromalexa + ' has been selected ')
-                                response.send()
+                                }
+                                if (strR === 'not found') {
+                                    j++
+                                    console.log('inside if respose')
+                                    response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
 
-                            } else {
-                                j++
-                                console.log('inside if respose')
-                                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                                    return response.send()
+                                }
 
-                                response.send()
+
                             }
-                        }, 600);
+
+                        }, 300)
+
+                        /*  setTimeout(function() {
+
+                          }, 400);*/
                         /*     if (strR === 'found') {
                             j++
                             console.log('inside if respose')
