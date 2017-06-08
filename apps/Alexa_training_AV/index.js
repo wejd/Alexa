@@ -801,10 +801,6 @@ app.intent("link", {
         ]
     },
     function(request, response) {
-        fnok = function() {
-            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
-            response.send()
-        }
 
 
         var namespeakerfromalexa = request.slot('NAMED');
@@ -816,7 +812,6 @@ app.intent("link", {
         str = ''
         speakerName = ''
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
-
 
             listspeakerConnected.forEach(function(speaker) {
 
@@ -840,15 +835,19 @@ app.intent("link", {
                     promise.then(function(toss) {
                         console.log('str is ', toss)
                         if (toss == 'not found') {
-                            fnok()
+                            console.log(namespeakerfromalexa)
+                            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                            response.send()
                         } else {
-                            fnok()
+                            response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                            response.send()
                         }
                         console.log('Yay, threw a ' + toss + '.');
                     }, function(toss) {
                         console.log('str is ', toss)
                         console.log('Oh, noes, threw a ' + toss + '.');
                     });
+
 
 
 
