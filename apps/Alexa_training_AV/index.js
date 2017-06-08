@@ -914,7 +914,7 @@ app.intent("link", {
 
                                     response.say(namespeakerfromalexa + ' has been selected ')
                                     response.send()
-                                    return false
+
 
                                 } else {
 
@@ -922,7 +922,7 @@ app.intent("link", {
 
                                     response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
                                     response.send()
-                                    return false
+
                                 }
 
                             }
@@ -939,6 +939,7 @@ app.intent("link", {
 
 
 
+            return false
 
         });
 
