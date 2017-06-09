@@ -502,7 +502,7 @@ app.intent('play', {
 
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/playtrack', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
             console.log(listspeakerConnected)
-            if (listspeakerConnected.status == 'found') {
+            if (listspeakerConnected.result == 'found') {
 
                 response.say("ok , play!!! ");
                 response.send();
