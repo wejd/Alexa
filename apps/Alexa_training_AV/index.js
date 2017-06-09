@@ -634,26 +634,21 @@ app.intent('pause', {
 
     },
     function(request, response) {
-        if (request.hasSession()) {
-            var session = request.getSession()
-            console.log(session.get('name'))
-            var val = session.get('name')
-            var numSerie = session.get('speaker_numSerie')
-        }
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/pause', form: { key: numSerie } },
-            function(error, res, body) {
-                var obj = JSON.parse(body);
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
+        accessToken = request.sessionDetails.accessToken;
+        reqheader = 'Bearer ' + accessToken;
 
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok, pause! ");
-                    response.send();
-                }
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/pause', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            console.log(listspeakerConnected)
+            if (listspeakerConnected.result == 'found') {
 
-            })
+                response.say("ok , pause!!! ");
+                response.send();
+            } else {
+                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                response.send();
+            }
+
+        })
 
     }
 );
@@ -666,26 +661,21 @@ app.intent('stop', {
 
     },
     function(request, response) {
-        if (request.hasSession()) {
-            var session = request.getSession()
-            console.log(session.get('name'))
-            var val = session.get('name')
-            var numSerie = session.get('speaker_numSerie')
-        }
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/pause', form: { key: numSerie } },
-            function(error, res, body) {
-                var obj = JSON.parse(body);
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
+        accessToken = request.sessionDetails.accessToken;
+        reqheader = 'Bearer ' + accessToken;
 
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok, stop! ");
-                    response.send();
-                }
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/pause', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            console.log(listspeakerConnected)
+            if (listspeakerConnected.result == 'found') {
 
-            })
+                response.say("ok ,stop!!! ");
+                response.send();
+            } else {
+                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                response.send();
+            }
+
+        })
 
     }
 );
