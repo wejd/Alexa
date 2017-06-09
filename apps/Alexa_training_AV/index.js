@@ -255,32 +255,23 @@ app.intent('anyone', {
         console.log('accessToken  ', accessToken)
         reqheader = 'Bearer ' + accessToken;
 
-        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/linktoanyone', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
             console.log(listspeakerConnected)
-            if (listspeakerConnected[0].linked) {
-                response.say('device ' + listspeakerConnected[0].name + ' is already selected')
+
+
+            console.log(listspeakerConnected)
+            if (listspeakerConnected.result == 'found') {
+                var session = request.getSession()
+                session.set('speaker_numSerie', listspeakerConnected)
+                response.say(namespeakerfromalexa + ' has been selected ')
+
+                response.send()
             } else {
-                return http.postAsync({ url: 'http://vps341573.ovh.net:5050', form: { key: listspeakerConnected[0].num_serie } },
-                    function(error, res, body) {
-                        if (!error && res.statusCode == 200) {
-
-                            if (body == 'found') {
-
-                                session.set('speaker_numSerie', listspeakerConnected[0].num_serie)
-                                response.say(val + ' has been selected ')
-                                response.send()
-
-                            } else {
-                                console.log('not found', numSerie)
-                                response.say('I was unable to select ' + val + ' . Please try again later')
-                                response.send()
-
-                            }
-
-                        }
-
-                    });
+                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                response.send()
             }
+
+
 
 
         })
