@@ -491,7 +491,7 @@ app.intent('play', {
     function(request, response) {
         if (request.hasSession()) {
             var session = request.getSession()
-            console.log(session.get('name'))
+            console.log(session)
             var val = session.get('name')
             var numSerie = session.get('speaker_numSerie')
         }
