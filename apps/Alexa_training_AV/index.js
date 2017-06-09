@@ -607,26 +607,22 @@ app.intent('decrease', {
     },
     function(request, response) {
         var valueToDecrease = request.slot('number')
-        if (request.hasSession()) {
-            var session = request.getSession()
-            console.log(session.get('name'))
-            var val = session.get('name')
-            var numSerie = session.get('speaker_numSerie')
-        }
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/decreasevolume', form: { key: numSerie, nb: valueToDecrease } },
-            function(error, res, body) {
-                var obj = JSON.parse(body);
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
 
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok , decrease by " + valueToDecrease);
-                    response.send();
-                }
+        accessToken = request.sessionDetails.accessToken;
+        reqheader = 'Bearer ' + accessToken;
 
-            })
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/decreasevolume', headers: { 'Authorization': reqheader }, form: { key: valueToDecrease }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            console.log(listspeakerConnected)
+            if (listspeakerConnected.result == 'found') {
+
+                response.say("ok , decrease by  " + valueToDecrease);
+                response.send();
+            } else {
+                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                response.send();
+            }
+
+        })
 
     }
 );
