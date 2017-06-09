@@ -828,7 +828,10 @@ app.intent("link", {
 
             console.log(listspeakerConnected)
             if (listspeakerConnected.result == 'found') {
+                var session = request.getSession()
+                session.set('speaker_numSerie', listspeakerConnected)
                 response.say(namespeakerfromalexa + ' has been selected ')
+
                 response.send()
             } else {
                 response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
