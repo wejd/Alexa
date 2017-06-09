@@ -497,6 +497,8 @@ app.intent('play', {
             console.log('nume serfue', numSerie)
             console.log('sessiion name ', val)
         }
+        accessToken = request.sessionDetails.accessToken;
+        reqheader = 'Bearer ' + accessToken;
 
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/playtrack', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
             console.log(listspeakerConnected)
@@ -528,6 +530,7 @@ app.intent('incr', {
             var val = session.get('name')
             var numSerie = session.get('speaker_numSerie')
         }
+
         return http.postAsync({ url: 'http://vps341573.ovh.net:5050/incrvolume', form: { key: numSerie } },
             function(error, res, body) {
                 var obj = JSON.parse(body);
