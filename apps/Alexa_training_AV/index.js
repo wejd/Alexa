@@ -491,9 +491,11 @@ app.intent('play', {
     function(request, response) {
         if (request.hasSession()) {
             var session = request.getSession()
-            console.log(session)
+
             var val = session.get('name')
             var numSerie = session.get('speaker_numSerie')
+            console.log('nume serfue', numSerie)
+            console.log('sessiion name ', name)
         }
         return http.postAsync({ url: 'http://vps341573.ovh.net:5050/playtrack', form: { key: numSerie } },
             function(error, res, body) {
