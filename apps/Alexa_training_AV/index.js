@@ -571,26 +571,26 @@ app.intent('increase', {
     },
     function(request, response) {
         var valueToIncrease = request.slot('number')
-        if (request.hasSession()) {
-            var session = request.getSession()
-            console.log(session.get('name'))
-            var val = session.get('name')
-            var numSerie = session.get('speaker_numSerie')
-        }
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/increasevolume', form: { key: numSerie, nb: valueToIncrease } },
-            function(error, res, body) {
-                var obj = JSON.parse(body);
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
 
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok , increase by  " + valueToIncrease);
-                    response.send();
-                }
 
-            })
+        accessToken = request.sessionDetails.accessToken;
+        reqheader = 'Bearer ' + accessToken;
+
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/increasevolume', headers: { 'Authorization': reqheader }, form: { key: valueToIncrease }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            console.log(listspeakerConnected)
+            if (listspeakerConnected.result == 'found') {
+
+                response.say("ok , increase by  " + valueToIncrease);
+                response.send();
+            } else {
+                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                response.send();
+            }
+
+        })
+
+
+
 
     }
 );
