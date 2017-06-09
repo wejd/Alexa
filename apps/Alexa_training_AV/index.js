@@ -263,11 +263,11 @@ app.intent('anyone', {
             if (listspeakerConnected.result == 'found') {
                 var session = request.getSession()
                 session.set('speaker_numSerie', listspeakerConnected)
-                response.say(namespeakerfromalexa + ' has been selected ')
+                response.say(listspeakerConnected.name + ' has been selected ')
 
                 response.send()
             } else {
-                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                response.say('I was unable to select ' + listspeakerConnected.name + ' . Please try again later')
                 response.send()
             }
 
