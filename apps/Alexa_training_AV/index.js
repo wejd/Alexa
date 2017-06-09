@@ -497,20 +497,31 @@ app.intent('play', {
             console.log('nume serfue', numSerie)
             console.log('sessiion name ', val)
         }
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/playtrack', form: { key: numSerie } },
-            function(error, res, body) {
-                var obj = JSON.parse(body);
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
 
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok , play!!! ");
-                    response.send();
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/speakers', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            console.log(listspeakerConnected)
+            listspeakerConnected.forEach(function(speaker) {
+                if (speaker.linked = true) {
+                    http.postAsync({ url: 'http://vps341573.ovh.net:5050/playtrack', form: { key: numSerie } },
+                        function(error, res, body) {
+                            var obj = JSON.parse(body);
+                            if (obj.status == "no") {
+                                session.set('lastCommande', "control")
+
+                                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                                response.send();
+                            } else {
+                                response.say("ok , play!!! ");
+                                response.send();
+                            }
+
+                        })
                 }
 
             })
+
+        })
+
 
     }
 );
