@@ -981,7 +981,14 @@ app.intent("link", {
 
 
             console.log(listspeakerConnected)
-            response.say(listspeakerConnected)
+            if (listspeakerConnected.result == 'found') {
+                response.say(namespeakerfromalexa + ' has been selected ')
+                response.send()
+            } else {
+                response.say('I was unable to select ' + namespeakerfromalexa + ' . Please try again later')
+                response.send()
+            }
+
 
 
 
