@@ -462,7 +462,7 @@ app.intent('prev', {
             console.log(listspeakerConnected)
             if (listspeakerConnected.result == 'found') {
 
-                response.say("ok , play next!!! ");
+                response.say("ok , play previous!!! ");
                 response.send();
             } else {
                 response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
@@ -511,27 +511,23 @@ app.intent('incr', {
 
     },
     function(request, response) {
-        if (request.hasSession()) {
-            var session = request.getSession()
-            console.log(session.get('name'))
-            var val = session.get('name')
-            var numSerie = session.get('speaker_numSerie')
-        }
 
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/incrvolume', form: { key: numSerie } },
-            function(error, res, body) {
-                var obj = JSON.parse(body);
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
+        accessToken = request.sessionDetails.accessToken;
+        reqheader = 'Bearer ' + accessToken;
 
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok , increase!!! ");
-                    response.send();
-                }
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/incrvolume', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            console.log(listspeakerConnected)
+            if (listspeakerConnected.result == 'found') {
 
-            })
+                response.say("ok , increase!!! ");
+                response.send();
+            } else {
+                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                response.send();
+            }
+
+        })
+
 
     }
 );
@@ -543,26 +539,22 @@ app.intent('decr', {
 
     },
     function(request, response) {
-        if (request.hasSession()) {
-            var session = request.getSession()
-            console.log(session.get('name'))
-            var val = session.get('name')
-            var numSerie = session.get('speaker_numSerie')
-        }
-        return http.postAsync({ url: 'http://vps341573.ovh.net:5050/decrevolume', form: { key: numSerie } },
-            function(error, res, body) {
-                var obj = JSON.parse(body);
-                if (obj.status == "no") {
-                    session.set('lastCommande', "control")
+        accessToken = request.sessionDetails.accessToken;
+        reqheader = 'Bearer ' + accessToken;
 
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                } else {
-                    response.say("ok , decrease !!! ");
-                    response.send();
-                }
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/decrevolume', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            console.log(listspeakerConnected)
+            if (listspeakerConnected.result == 'found') {
 
-            })
+                response.say("ok , decrease!!! ");
+                response.send();
+            } else {
+                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                response.send();
+            }
+
+        })
+
 
     }
 );
