@@ -871,7 +871,7 @@ app.intent('noone', {
 */
 
 
-app.intent("link", {
+/*app.intent("link", {
         "slots": {
             "NAMED": "AMAZON.LITERAL",
 
@@ -900,7 +900,7 @@ app.intent("link", {
                 if (speaker.name == namespeakerfromalexa) {
                     console.log('speaker nbame', namespeakerfromalexa)
 
-                    return http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
+                    http.postAsync({ url: 'http://vps341573.ovh.net:5050/', json: true, form: { key: speaker.num_serie } }).spread(
 
                         function(error, body) {
 
@@ -936,7 +936,7 @@ app.intent("link", {
 
 
             })
-
+            console.log('third party')
             response.say(namespeakerfromalexa + ' has been selected ')
             response.send()
 
@@ -952,6 +952,45 @@ app.intent("link", {
 
 );
 
+*/
+
+app.intent("link", {
+        "slots": {
+            "NAMED": "AMAZON.LITERAL",
+
+        },
+        "utterances": [
+            "select {NAMED} "
+        ]
+    },
+    function(request, response) {
+
+
+
+        var namespeakerfromalexa = request.slot('NAMED');
+
+
+        accessToken = request.sessionDetails.accessToken;
+        reqheader = 'Bearer ' + accessToken;
+        i = 0
+        str = ''
+        speakerName = ''
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/linkspeaker', headers: { 'Authorization': reqheader }, json: true, form: { key: namespeakerfromalexa } }).spread(function(statusCodesError, listspeakerConnected) {
+
+
+
+
+            console.log(listspeakerConnected)
+            response.say(listspeakerConnected)
+
+
+
+        });
+
+
+    }
+
+);
 
 
 
