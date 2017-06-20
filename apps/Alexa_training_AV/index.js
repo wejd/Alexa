@@ -91,7 +91,7 @@ app.intent('search', {
                 session.set('speaker', listspeakerConnected[0].name)
                 session.set('speaker_numSerie', listspeakerConnected[0].num_serie)
 
-                if (listspeakerConnected[0].linked == true) {
+                if (listspeakerConnected[0].selected == true) {
                     response.say(' You have  ' + listspeakerConnected.length + ' allplay device available, ' + listspeakerConnected[0].name + ' and it is already connected')
                     response.send()
                 } else {
@@ -177,7 +177,7 @@ app.intent('listspeaker', {
                 session.set('speaker', listspeakerConnected[0].name)
                 session.set('speaker_numSerie', listspeakerConnected[0].num_serie)
 
-                if (listspeakerConnected[0].linked == true) {
+                if (listspeakerConnected[0].selected == true) {
                     response.say(' You have  ' + listspeakerConnected.length + ' allplay device available, ' + listspeakerConnected[0].name + ' and it is already connected')
                     response.send()
                 } else {
@@ -220,7 +220,7 @@ app.intent('which', {
             console.log(listspeakerConnected)
             i = 0
             listspeakerConnected.forEach(function(speaker) {
-                if (speaker.linked == true) {
+                if (speaker.selected == true) {
 
                     i++
                     response.say('the Device ' + speaker.name + ' is selected')
@@ -370,7 +370,7 @@ app.intent('yes', {
                     session.set('speaker', listspeakerConnected[0].name)
                     session.set('speaker_numSerie', listspeakerConnected[0].num_serie)
 
-                    if (listspeakerConnected[0].linked == true) {
+                    if (listspeakerConnected[0].selected == true) {
                         response.say(' You have  ' + listspeakerConnected.length + ' allplay device available, ' + listspeakerConnected[0].name + ' and it is already connected')
                         response.send()
                     } else {
