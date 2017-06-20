@@ -423,6 +423,7 @@ app.intent('next', {
                 response.say("ok , play next!!! ");
                 response.send();
             } else {
+                var session = request.getSession()
                 session.set('lastCommande', "control")
                 response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                 response.send();
@@ -457,6 +458,7 @@ app.intent('prev', {
                 response.say("ok , play previous!!! ");
                 response.send();
             } else {
+                var session = request.getSession()
                 session.set('lastCommande', "control")
                 response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                 response.send();
@@ -487,6 +489,7 @@ app.intent('play', {
                 response.say("ok , play!!! ");
                 response.send();
             } else {
+                var session = request.getSession()
                 session.set('lastCommande', "control")
                 response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                 response.send();
@@ -516,6 +519,7 @@ app.intent('incr', {
                 response.say("ok , increase!!! ");
                 response.send();
             } else {
+                var session = request.getSession()
                 session.set('lastCommande', "control")
                 response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                 response.send();
@@ -544,6 +548,7 @@ app.intent('decr', {
                 response.say("ok , decrease!!! ");
                 response.send();
             } else {
+                var session = request.getSession()
                 session.set('lastCommande', "control")
                 response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                 response.send();
@@ -579,6 +584,7 @@ app.intent('increase', {
                 response.say("ok , increase by  " + valueToIncrease);
                 response.send();
             } else {
+                var session = request.getSession()
                 session.set('lastCommande', "control")
                 response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                 response.send();
@@ -615,6 +621,7 @@ app.intent('decrease', {
                 response.say("ok , decrease by  " + valueToDecrease);
                 response.send();
             } else {
+                var session = request.getSession()
                 session.set('lastCommande', "control")
 
                 response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
@@ -643,6 +650,7 @@ app.intent('pause', {
                 response.say("ok , pause!!! ");
                 response.send();
             } else {
+                var session = request.getSession()
                 session.set('lastCommande', "control")
                 response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                 response.send();
@@ -671,6 +679,7 @@ app.intent('stop', {
                 response.say("ok ,stop!!! ");
                 response.send();
             } else {
+                var session = request.getSession()
                 session.set('lastCommande', "control")
                 response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
                 response.send();
