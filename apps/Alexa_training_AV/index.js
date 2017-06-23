@@ -790,7 +790,7 @@ app.intent('whatisplaying', {
 
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/whatisplaying', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
             console.log(listspeakerConnected)
-            response.say(istspeakerConnected+ " is playing");
+            response.say(listspeakerConnected+ " is playing");
                 response.send();
 
         })
