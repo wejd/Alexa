@@ -778,6 +778,27 @@ app.intent('noone', {
 
 
 
+app.intent('whatisplaying', {
+        "utterances": [
+            "what is playing",
+        ]
+
+    },
+    function(request, response) {
+        accessToken = request.sessionDetails.accessToken;
+        reqheader = 'Bearer ' + accessToken;
+
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/whatisplaying', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            console.log(listspeakerConnected)
+            response.say(istspeakerConnected+ " is playing");
+                response.send();
+
+        })
+
+    }
+);
+
+
 
 
 app.intent("link", {
