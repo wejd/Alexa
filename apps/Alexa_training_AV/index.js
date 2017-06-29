@@ -664,6 +664,28 @@ app.intent('pause', {
     }
 );
 
+app.intent('userconnected', {
+        "utterances": [
+            "which user account is actif?",
+        ]
+
+    },
+    function(request, response) {
+        accessToken = request.sessionDetails.accessToken;
+        reqheader = 'Bearer ' + accessToken;
+
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/pause', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+            console.log(listspeakerConnected)
+            username = listspeakerConnected
+            response.say("Your active account is " + username);
+            response.send();
+
+
+        })
+
+    }
+);
+
 
 app.intent('stop', {
         "utterances": [
