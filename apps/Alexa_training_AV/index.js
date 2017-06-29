@@ -15,14 +15,14 @@ var getlistspeakerperuser = function(req, res, callback) {
 
 app.launch(function(request, response) {
     console.log(request)
-    response.say('Welcome to allplay. With this skill ,you can voice control any  allplay device with your AMAZON echo or echo dot . Account linking is required . For instructions, please refer to your alexa app')
+    response.say('Welcome to allplay. With this skill ,you can voice control any  allplay device with your AMAZON echo,  echo dot or echo show . Account linking is required . For instructions, please refer to your alexa app')
 });
 
 app.pre = function(request, response, type) {
     if (!request.sessionDetails.accessToken) {
         // fail ungracefully 
         console.log('no access token')
-        response.say('account linking is required to start using our skill ')
+        response.say('account linking is required to start using our skill.  ')
 
         response.send()
         throw "Invalid applicationId";
@@ -425,8 +425,14 @@ app.intent('next', {
             } else {
                 var session = request.getSession()
                 session.set('lastCommande', "control")
-                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                response.send();
+                if (listspeakerConnected.name) {
+                    response.say(listspeakerConnected.name +" Is  offline. please check if it is powered on and connected to internet").shouldEndSession(true);;
+                    response.send();
+                } else {
+                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                    response.send();
+                }
+
             }
 
         })
@@ -790,8 +796,8 @@ app.intent('whatisplaying', {
 
         return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/whatisplaying', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
             console.log(listspeakerConnected)
-            response.say(listspeakerConnected.result+ " is playing");
-                response.send();
+            response.say(listspeakerConnected.result + " is playing");
+            response.send();
 
         })
 
