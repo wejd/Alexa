@@ -674,7 +674,7 @@ app.intent('userconnected', {
         accessToken = request.sessionDetails.accessToken;
         reqheader = 'Bearer ' + accessToken;
 
-        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/pause', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
+        return http.getAsync({ url: 'https://oauth20.herokuapp.com/api/getusernamelinked', headers: { 'Authorization': reqheader }, json: true }).spread(function(statusCodesError, listspeakerConnected) {
             console.log(listspeakerConnected)
             username = listspeakerConnected
             response.say("Your active account is " + username);
