@@ -425,13 +425,10 @@ app.intent('next', {
             } else {
                 var session = request.getSession()
                 session.set('lastCommande', "control")
-                if (listspeakerConnected.name) {
-                    response.say(listspeakerConnected.name +" Is  offline. please check if it is powered on and connected to internet").shouldEndSession(true);;
-                    response.send();
-                } else {
-                    response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
-                    response.send();
-                }
+
+                response.say(" Your device  Is  offline. please check if it is powered on and connected to internet").shouldEndSession(true);;
+                response.send();
+
 
             }
 
@@ -466,7 +463,7 @@ app.intent('prev', {
             } else {
                 var session = request.getSession()
                 session.set('lastCommande', "control")
-                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                response.say(" Your device  Is  offline. please check if it is powered on and connected to internet").shouldEndSession(true);;
                 response.send();
             }
 
@@ -497,7 +494,7 @@ app.intent('play', {
             } else {
                 var session = request.getSession()
                 session.set('lastCommande', "control")
-                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                response.say(" Your device  Is  offline. please check if it is powered on and connected to internet").shouldEndSession(true);;
                 response.send();
             }
 
@@ -527,7 +524,7 @@ app.intent('incr', {
             } else {
                 var session = request.getSession()
                 session.set('lastCommande', "control")
-                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                response.say(" Your device  Is  offline. please check if it is powered on and connected to internet").shouldEndSession(true);;
                 response.send();
             }
 
@@ -556,7 +553,7 @@ app.intent('decr', {
             } else {
                 var session = request.getSession()
                 session.set('lastCommande', "control")
-                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                response.say(" Your device  Is  offline. please check if it is powered on and connected to internet").shouldEndSession(true);;
                 response.send();
             }
 
@@ -592,7 +589,7 @@ app.intent('increase', {
             } else {
                 var session = request.getSession()
                 session.set('lastCommande', "control")
-                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                response.say(" Your device  Is  offline. please check if it is powered on and connected to internet").shouldEndSession(true);;
                 response.send();
             }
 
@@ -630,7 +627,7 @@ app.intent('decrease', {
                 var session = request.getSession()
                 session.set('lastCommande', "control")
 
-                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                response.say(" Your device  Is  offline. please check if it is powered on and connected to internet").shouldEndSession(true);;
                 response.send();
             }
 
@@ -658,7 +655,7 @@ app.intent('pause', {
             } else {
                 var session = request.getSession()
                 session.set('lastCommande', "control")
-                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                response.say(" Your device  Is  offline. please check if it is powered on and connected to internet").shouldEndSession(true);;
                 response.send();
             }
 
@@ -687,7 +684,7 @@ app.intent('stop', {
             } else {
                 var session = request.getSession()
                 session.set('lastCommande', "control")
-                response.say("I have no allplay device selected. would you like to launch discovery ? ").shouldEndSession(false);;
+                response.say(" Your device  Is  offline. please check if it is powered on and connected to internet").shouldEndSession(true);;
                 response.send();
             }
 
