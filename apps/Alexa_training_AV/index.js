@@ -22,7 +22,7 @@ app.pre = function(request, response, type) {
     if (!request.sessionDetails.accessToken) {
         // fail ungracefully 
         console.log('no access token')
-        response.say('account linking is required to start using our skill.  ')
+        response.say('Hi, AllPlay skill  requires account linking with Amazon Alexa. To set up voice control for your AllPlay product, few steps are required. Use AllPlay mobile app to create your user account, then link it to your Amazon by accessing account linking section within Alexa app or web portal. Your AllPlay app is then ready to set which of your devices you want to control with voice. For detailed instructions, visit our online help area.  ')
 
         response.send()
         throw "Invalid applicationId";
@@ -723,7 +723,7 @@ app.intent('help', {
     },
 
     function(request, response) {
-        response.say(' you can start by asking . Alexa ask allplay to list devices! to search device connected . and then select the device by saying . Alexa link to device you want to select. once selected you can voice control your device')
+        response.say('Hi, with Allplay skill, use Alexa to control music on compatible wireless speakers using AllPlay technology. Load some music into your product and start playing songs by saying Alexa, ask AllPlay to Play, then navigate inside your playlist by saying Alexa, Ask AllPlay to play next or Alexa, Ask AllPlay to play previous. You can also adjust product volume by saying  ,Alexa, Ask AllPlay to increase or decrease the volume. ')
         response.send()
 
     }
