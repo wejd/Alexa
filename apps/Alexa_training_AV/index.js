@@ -25,7 +25,7 @@ app.pre = function(request, response, type) {
         response.say('Hi, AllPlay skill  requires account linking with Amazon Alexa. To set up voice control for your AllPlay product, few steps are required. Use AllPlay mobile app to create your user account, then link it to your Amazon by accessing account linking section within Alexa app or web portal. Your AllPlay app is then ready to set which of your devices you want to control with voice. For detailed instructions, visit our online help area.  ')
 
         response.send()
-        throw "Invalid applicationId";
+        //throw "Invalid applicationId";
 
         // `return response.fail("Invalid applicationId")` will also work 
     }
