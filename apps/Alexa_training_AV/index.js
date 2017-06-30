@@ -723,7 +723,7 @@ app.intent('help', {
     },
 
     function(request, response) {
-        response.say('Hi, with Allplay skill, use Alexa to control music on compatible wireless speakers using AllPlay technology. Load some music into your product and start playing songs by saying Alexa, ask AllPlay to Play, then navigate inside your playlist by saying Alexa, Ask AllPlay to play next or Alexa, Ask AllPlay to play previous. You can also adjust product volume by saying  ,Alexa, Ask AllPlay to increase or decrease the volume. ')
+        response.say(' with Allplay skill, use Alexa to control music on compatible wireless speakers using AllPlay technology. Load some music into your product and start playing songs by saying Alexa, ask AllPlay to Play, then navigate inside your playlist by saying Alexa, Ask AllPlay to play next or Alexa, Ask AllPlay to play previous. You can also adjust product volume by saying  ,Alexa, Ask AllPlay to increase or decrease the volume. ')
         response.send()
 
     }
